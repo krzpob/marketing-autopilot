@@ -1,0 +1,18 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: competitor-agent
+          uri: http://competitor-agent:8080
+          predicates:
+            - Path=/api/competitor/**
+          filters:
+            - StripPrefix=2
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 10
+                redis-rate-limiter.burstCapacity: 20
+            - name: CircuitBreaker
+              args:
+                name: competitor-agent-cb
+                fallbackUri: forward:/fallback/competitor   

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+         https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>pl.autopilot</groupId>
+    <artifactId>marketing-autopilot</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>api-gateway</artifactId>
+
+  <dependencies>
+
+    <!-- ── Moduł wspólny ──────────────────────────────────────────── -->
+    <dependency>
+      <groupId>pl.autopilot</groupId>
+      <artifactId>common</artifactId>
+    </dependency>
+
+    <!-- ── Spring Cloud Gateway ───────────────────────────────────── -->
+    <!--
+      Zawiera już: spring-boot-starter-webflux, reactor-netty, spring-cloud-gateway-server.
+      WAŻNE: NIE dodawaj spring-boot-starter-web — konflikt WebFlux vs MVC
+             powoduje błąd startu: "Spring MVC found on classpath..."
+    -->
+    <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-gateway</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-actuator</artifactId>
+    </dependency>
+
+    <!-- ── Bezpieczeństwo ─────────────────────────────────────────── -->
+    <!--
+      Resource Server: Gateway waliduje JWT z Keycloak (nie wystawia tokenów).
+      Tokeny wystawia Keycloak → klient → Gateway weryfikuje podpis → przekazuje
+      dalej nagłówek Authorization do serwisów downstream.
+    -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+    </dependency>
+
+    <!-- ── Redis Reactive — wymagany przez RequestRateLimiter filter ─ -->
+    <!--
+      Spring Cloud Gateway wbudowany filtr RequestRateLimiter używa
+      ReactiveRedisTemplate — wymaga reaktywnego drivera (Lettuce reactive).
+      Zwykły spring-boot-starter-data-redis nie wystarczy.
+    -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-data-redis-reactive</artifactId>
+    </dependency>
+
+    <!-- ── Circuit Breaker reaktywny ─────────────────────────────── -->
+    <!--
+      Gateway działa na Project Reactor — potrzebuje reaktywnej wersji
+      Resilience4j. Zwykły resilience4j-spring-boot3 (blokujący) tu
+      nie zadziała poprawnie w filtrach Gateway.
+    -->
+    <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-circuitbreaker-reactor-resilience4j</artifactId>
+    </dependency>
+
+    <!-- ── Observability ─────────────────────────────────────────── -->
+    <dependency>
+      <groupId>io.micrometer</groupId>
+      <artifactId>micrometer-registry-prometheus</artifactId>
+    </dependency>
+    <!-- Tracing: każde żądanie wchodzące do Gateway dostaje trace-id,
+         propagowany przez Kafka do competitor-agent (W3C TraceContext) -->
+    <dependency>
+      <groupId>io.micrometer</groupId>
+      <artifactId>micrometer-tracing-bridge-otel</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.opentelemetry</groupId>
+      <artifactId>opentelemetry-exporter-otlp</artifactId>
+    </dependency>
+
+    <!-- ── Testy ─────────────────────────────────────────────────── -->
+    <!-- reactor-test: StepVerifier do testowania reaktywnych łańcuchów -->
+    <dependency>
+      <groupId>io.projectreactor</groupId>
+      <artifactId>reactor-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <!-- Mockowanie JWT / SecurityContext w testach Gateway -->
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <!-- WireMock: stubuje downstream serwisy (competitor-agent, analytics) -->
+    <dependency>
+      <groupId>org.wiremock</groupId>
+      <artifactId>wiremock-standalone</artifactId>
+      <version>3.9.2</version>
+      <scope>test</scope>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <configuration>
+          <excludes>
+            <exclude>
+              <groupId>org.projectlombok</groupId>
+              <artifactId>lombok</artifactId>
+            </exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>
