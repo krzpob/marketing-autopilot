@@ -8,7 +8,7 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>3.4.1</version>
+    <version>4.0.6</version>
     <relativePath/>
   </parent>
 
@@ -26,8 +26,8 @@
 
   <properties>
     <java.version>21</java.version>
-    <spring-cloud.version>2024.0.0</spring-cloud.version>
-    <langchain4j.version>0.36.2</langchain4j.version>
+    <spring-cloud.version>2025.1.1</spring-cloud.version>
+    <langchain4j.version>1.0.0</langchain4j.version>
     <mapstruct.version>1.6.3</mapstruct.version>
     <testcontainers.version>1.20.4</testcontainers.version>
     <avro.version>1.11.4</avro.version>
@@ -84,6 +84,13 @@
         <groupId>org.apache.avro</groupId>
         <artifactId>avro</artifactId>
         <version>${avro.version}</version>
+      </dependency>
+
+      <!-- Resilience4j Spring Boot 4 -->
+      <dependency>
+        <groupId>io.github.resilience4j</groupId>
+        <artifactId>resilience4j-spring-boot4</artifactId>
+        <version>2.4.0</version>
       </dependency>
 
     </dependencies>
