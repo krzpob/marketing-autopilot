@@ -1,0 +1,43 @@
+# Profil: ./mvnw spring-boot:run -Dspring-boot.run.profiles=dev
+# Lub: SPRING_PROFILES_ACTIVE=dev
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/marketing_autopilot
+    username: app
+    password: devpassword       # wartość z .env dla Docker Compose
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: false             # Zmień na true gdy debugujesz konkretne query
+
+  kafka:
+    bootstrap-servers: localhost:9094   # port zewnętrzny z docker-compose.override.yml
+  data:
+    mongodb:
+      uri: mongodb://app:devpassword@localhost:27017/autopilot_agents?authSource=admin
+
+langchain4j:
+  open-ai:
+    chat-model:
+      log-requests: true        # loguj prompty w dev
+      log-responses: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"            # wszystkie endpointy actuatora w dev
+
+logging:
+  level:
+    pl.autopilot: DEBUG
+    org.springframework.kafka: INFO
+    dev.langchain4j: DEBUG      # widać tool-call flow agenta
+    org.hibernate.SQL: INFO
+
+# Dev: użyj zmiennych z .env lub wpisz tutaj (NIE commituj kluczy!)
+app:
+  agent:
+    analysis-batch-size: 5      # mniejsze batche w dev = szybszy feedback
