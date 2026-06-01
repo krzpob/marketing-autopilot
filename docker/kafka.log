@@ -1,0 +1,1282 @@
+autopilot-kafka  | ===> User
+autopilot-kafka  | uid=1000(appuser) gid=1000(appuser) groups=1000(appuser)
+autopilot-kafka  | ===> Setting default values of environment variables if not already set.
+autopilot-kafka  | ===> Configuring ...
+autopilot-kafka  | Running in KRaft mode...
+autopilot-kafka  | ===> Launching ... 
+autopilot-kafka  | ===> Using provided cluster id MkU3OEVBNTcwNTJENDM2Qg ...
+autopilot-kafka  | [2026-05-31 19:47:11,181] INFO Registered `kafka:type=kafka.Log4jController` MBean (kafka.utils.Log4jControllerRegistration$)
+autopilot-kafka  | [2026-05-31 19:47:11,246] INFO Registered signal handlers for TERM, INT, HUP (org.apache.kafka.common.utils.LoggingSignalHandler)
+autopilot-kafka  | [2026-05-31 19:47:11,246] INFO [ControllerServer id=1] Starting controller (kafka.server.ControllerServer)
+autopilot-kafka  | [2026-05-31 19:47:11,321] INFO Updated connection-accept-rate max connection creation rate to 2147483647 (kafka.network.ConnectionQuotas)
+autopilot-kafka  | [2026-05-31 19:47:11,342] INFO [SocketServer listenerType=CONTROLLER, nodeId=1] Created data-plane acceptor and processors for endpoint : ListenerName(CONTROLLER) (kafka.network.SocketServer)
+autopilot-kafka  | [2026-05-31 19:47:11,344] INFO authorizerStart completed for endpoint CONTROLLER. Endpoint is now READY. (org.apache.kafka.server.network.EndpointReadyFutures)
+autopilot-kafka  | [2026-05-31 19:47:11,345] INFO [SharedServer id=1] Starting SharedServer (kafka.server.SharedServer)
+autopilot-kafka  | [2026-05-31 19:47:11,364] INFO [LogLoader partition=__cluster_metadata-0, dir=/tmp/kafka-logs] Loading producer state till offset 0 (org.apache.kafka.storage.internals.log.UnifiedLog)
+autopilot-kafka  | [2026-05-31 19:47:11,365] INFO [LogLoader partition=__cluster_metadata-0, dir=/tmp/kafka-logs] Reloading from producer snapshot and rebuilding producer state from offset 0 (org.apache.kafka.storage.internals.log.UnifiedLog)
+autopilot-kafka  | [2026-05-31 19:47:11,365] INFO [LogLoader partition=__cluster_metadata-0, dir=/tmp/kafka-logs] Producer state recovery took 0ms for snapshot load and 0ms for segment recovery from offset 0 (org.apache.kafka.storage.internals.log.UnifiedLog)
+autopilot-kafka  | [2026-05-31 19:47:11,370] INFO Initialized snapshots with IDs SortedSet() from /tmp/kafka-logs/__cluster_metadata-0 (kafka.raft.KafkaMetadataLog$)
+autopilot-kafka  | [2026-05-31 19:47:11,373] INFO [raft-expiration-reaper]: Starting (org.apache.kafka.raft.TimingWheelExpirationService$ExpiredOperationReaper)
+autopilot-kafka  | [2026-05-31 19:47:11,376] INFO [RaftManager id=1] Reading KRaft snapshot and log as part of the initialization (org.apache.kafka.raft.KafkaRaftClient)
+autopilot-kafka  | [2026-05-31 19:47:11,377] INFO [RaftManager id=1] Starting voters are VoterSet(voters={1=VoterNode(voterKey=ReplicaKey(id=1, directoryId=<undefined>), listeners=Endpoints(endpoints={ListenerName(CONTROLLER)=kafka/<unresolved>:9093}), supportedKRaftVersion=SupportedVersionRange[min_version:0, max_version:0])}) (org.apache.kafka.raft.KafkaRaftClient)
+autopilot-kafka  | [2026-05-31 19:47:11,380] INFO [RaftManager id=1] Starting request manager with static voters: [kafka:9093 (id: 1 rack: null isFenced: false)] (org.apache.kafka.raft.KafkaRaftClient)
+autopilot-kafka  | [2026-05-31 19:47:11,381] INFO [RaftManager id=1] Attempting durable transition to UnattachedState(epoch=0, leaderId=OptionalInt.empty, votedKey=Optional.empty, voters=[1], electionTimeoutMs=1256, highWatermark=Optional.empty) from null (org.apache.kafka.raft.QuorumState)
+autopilot-kafka  | [2026-05-31 19:47:11,387] INFO [RaftManager id=1] Completed transition to UnattachedState(epoch=0, leaderId=OptionalInt.empty, votedKey=Optional.empty, voters=[1], electionTimeoutMs=1256, highWatermark=Optional.empty) from null (org.apache.kafka.raft.QuorumState)
+autopilot-kafka  | [2026-05-31 19:47:11,391] INFO [RaftManager id=1] Completed transition to ProspectiveState(epoch=0, leaderId=OptionalInt.empty, votedKey=Optional.empty, epochElection=EpochElection[voterStates={1=VoterState(replicaKey=ReplicaKey(id=1, directoryId=<undefined>), state=GRANTED)}], electionTimeoutMs=1544, highWatermark=Optional.empty) from UnattachedState(epoch=0, leaderId=OptionalInt.empty, votedKey=Optional.empty, voters=[1], electionTimeoutMs=1256, highWatermark=Optional.empty) (org.apache.kafka.raft.QuorumState)
+autopilot-kafka  | [2026-05-31 19:47:11,391] INFO [RaftManager id=1] Attempting durable transition to CandidateState(localId=1, localDirectoryId=rPfM8ZKaV5SvY0Lp2fwoMg, epoch=1, epochElection=EpochElection[voterStates={1=VoterState(replicaKey=ReplicaKey(id=1, directoryId=<undefined>), state=GRANTED)}], highWatermark=Optional.empty, electionTimeoutMs=1965) from ProspectiveState(epoch=0, leaderId=OptionalInt.empty, votedKey=Optional.empty, epochElection=EpochElection[voterStates={1=VoterState(replicaKey=ReplicaKey(id=1, directoryId=<undefined>), state=GRANTED)}], electionTimeoutMs=1544, highWatermark=Optional.empty) (org.apache.kafka.raft.QuorumState)
+autopilot-kafka  | [2026-05-31 19:47:11,394] INFO [RaftManager id=1] Completed transition to CandidateState(localId=1, localDirectoryId=rPfM8ZKaV5SvY0Lp2fwoMg, epoch=1, epochElection=EpochElection[voterStates={1=VoterState(replicaKey=ReplicaKey(id=1, directoryId=<undefined>), state=GRANTED)}], highWatermark=Optional.empty, electionTimeoutMs=1965) from ProspectiveState(epoch=0, leaderId=OptionalInt.empty, votedKey=Optional.empty, epochElection=EpochElection[voterStates={1=VoterState(replicaKey=ReplicaKey(id=1, directoryId=<undefined>), state=GRANTED)}], electionTimeoutMs=1544, highWatermark=Optional.empty) (org.apache.kafka.raft.QuorumState)
+autopilot-kafka  | [2026-05-31 19:47:11,395] INFO [RaftManager id=1] Attempting durable transition to Leader(localVoterNode=VoterNode(voterKey=ReplicaKey(id=1, directoryId=rPfM8ZKaV5SvY0Lp2fwoMg), listeners=Endpoints(endpoints={ListenerName(CONTROLLER)=kafka/<unresolved>:9093}), supportedKRaftVersion=SupportedVersionRange[min_version:0, max_version:1]), epoch=1, epochStartOffset=0, highWatermark=Optional.empty, voterStates={1=ReplicaState(replicaKey=ReplicaKey(id=1, directoryId=<undefined>), endOffset=Optional.empty, lastFetchTimestamp=-1, lastCaughtUpTimestamp=-1, hasAcknowledgedLeader=true)}) from CandidateState(localId=1, localDirectoryId=rPfM8ZKaV5SvY0Lp2fwoMg, epoch=1, epochElection=EpochElection[voterStates={1=VoterState(replicaKey=ReplicaKey(id=1, directoryId=<undefined>), state=GRANTED)}], highWatermark=Optional.empty, electionTimeoutMs=1965) (org.apache.kafka.raft.QuorumState)
+autopilot-kafka  | [2026-05-31 19:47:11,397] INFO [RaftManager id=1] Completed transition to Leader(localVoterNode=VoterNode(voterKey=ReplicaKey(id=1, directoryId=rPfM8ZKaV5SvY0Lp2fwoMg), listeners=Endpoints(endpoints={ListenerName(CONTROLLER)=kafka/<unresolved>:9093}), supportedKRaftVersion=SupportedVersionRange[min_version:0, max_version:1]), epoch=1, epochStartOffset=0, highWatermark=Optional.empty, voterStates={1=ReplicaState(replicaKey=ReplicaKey(id=1, directoryId=<undefined>), endOffset=Optional.empty, lastFetchTimestamp=-1, lastCaughtUpTimestamp=-1, hasAcknowledgedLeader=true)}) from CandidateState(localId=1, localDirectoryId=rPfM8ZKaV5SvY0Lp2fwoMg, epoch=1, epochElection=EpochElection[voterStates={1=VoterState(replicaKey=ReplicaKey(id=1, directoryId=<undefined>), state=GRANTED)}], highWatermark=Optional.empty, electionTimeoutMs=1965) (org.apache.kafka.raft.QuorumState)
+autopilot-kafka  | [2026-05-31 19:47:11,402] INFO [kafka-1-raft-outbound-request-thread]: Starting (org.apache.kafka.raft.KafkaNetworkChannel$SendThread)
+autopilot-kafka  | [2026-05-31 19:47:11,402] INFO [kafka-1-raft-io-thread]: Starting (org.apache.kafka.raft.KafkaRaftClientDriver)
+autopilot-kafka  | [2026-05-31 19:47:11,407] INFO [RaftManager id=1] High watermark set to LogOffsetMetadata(offset=1, metadata=Optional[(segmentBaseOffset=0,relativePositionInSegment=91)]) for the first time for epoch 1 based on indexOfHw 0 and voters [ReplicaState(replicaKey=ReplicaKey(id=1, directoryId=<undefined>), endOffset=Optional[LogOffsetMetadata(offset=1, metadata=Optional[(segmentBaseOffset=0,relativePositionInSegment=91)])], lastFetchTimestamp=-1, lastCaughtUpTimestamp=-1, hasAcknowledgedLeader=true)] (org.apache.kafka.raft.LeaderState)
+autopilot-kafka  | [2026-05-31 19:47:11,407] INFO [MetadataLoader id=1] initializeNewPublishers: The loader is still catching up because we have loaded up to offset -1, but the high water mark is 1 (org.apache.kafka.image.loader.MetadataLoader)
+autopilot-kafka  | [2026-05-31 19:47:11,407] INFO [ControllerServer id=1] Waiting for controller quorum voters future (kafka.server.ControllerServer)
+autopilot-kafka  | [2026-05-31 19:47:11,407] INFO [ControllerServer id=1] Finished waiting for controller quorum voters future (kafka.server.ControllerServer)
+autopilot-kafka  | [2026-05-31 19:47:11,410] INFO [RaftManager id=1] Registered the listener org.apache.kafka.image.loader.MetadataLoader@1552730230 (org.apache.kafka.raft.KafkaRaftClient)
+autopilot-kafka  | [2026-05-31 19:47:11,411] INFO [RaftManager id=1] Setting the next offset of org.apache.kafka.image.loader.MetadataLoader@1552730230 to 0 since there are no snapshots (org.apache.kafka.raft.KafkaRaftClient)
+autopilot-kafka  | [2026-05-31 19:47:11,412] INFO [MetadataLoader id=1] maybePublishMetadata(LOG_DELTA): The loader is still catching up because we have not loaded a controller record as of offset 0 and high water mark is 1 (org.apache.kafka.image.loader.MetadataLoader)
+autopilot-kafka  | [2026-05-31 19:47:11,413] INFO [controller-1-ThrottledChannelReaper-Fetch]: Starting (org.apache.kafka.server.quota.ClientQuotaManager$ThrottledChannelReaper)
+autopilot-kafka  | [2026-05-31 19:47:11,413] INFO [RaftManager id=1] Registered the listener org.apache.kafka.controller.QuorumController$QuorumMetaLogListener@879616965 (org.apache.kafka.raft.KafkaRaftClient)
+autopilot-kafka  | [2026-05-31 19:47:11,413] INFO [RaftManager id=1] Setting the next offset of org.apache.kafka.controller.QuorumController$QuorumMetaLogListener@879616965 to 0 since there are no snapshots (org.apache.kafka.raft.KafkaRaftClient)
+autopilot-kafka  | [2026-05-31 19:47:11,413] INFO [controller-1-ThrottledChannelReaper-Produce]: Starting (org.apache.kafka.server.quota.ClientQuotaManager$ThrottledChannelReaper)
+autopilot-kafka  | [2026-05-31 19:47:11,414] INFO [controller-1-ThrottledChannelReaper-Request]: Starting (org.apache.kafka.server.quota.ClientQuotaManager$ThrottledChannelReaper)
+autopilot-kafka  | [2026-05-31 19:47:11,414] INFO [controller-1-ThrottledChannelReaper-ControllerMutation]: Starting (org.apache.kafka.server.quota.ClientQuotaManager$ThrottledChannelReaper)
+autopilot-kafka  | [2026-05-31 19:47:11,416] INFO [ExpirationReaper-1-AlterAcls]: Starting (org.apache.kafka.server.purgatory.DelayedOperationPurgatory$ExpiredOperationReaper)
+autopilot-kafka  | [2026-05-31 19:47:11,420] INFO [ControllerServer id=1] Waiting for the controller metadata publishers to be installed (kafka.server.ControllerServer)
+autopilot-kafka  | [2026-05-31 19:47:11,421] INFO [MetadataLoader id=1] initializeNewPublishers: The loader is still catching up because we have not loaded a controller record as of offset 0 and high water mark is 1 (org.apache.kafka.image.loader.MetadataLoader)
+autopilot-kafka  | [2026-05-31 19:47:11,421] INFO [ControllerServer id=1] Finished waiting for the controller metadata publishers to be installed (kafka.server.ControllerServer)
+autopilot-kafka  | [2026-05-31 19:47:11,421] INFO [SocketServer listenerType=CONTROLLER, nodeId=1] Enabling request processing. (kafka.network.SocketServer)
+autopilot-kafka  | [2026-05-31 19:47:11,422] INFO Awaiting socket connections on 0.0.0.0:9093. (kafka.network.DataPlaneAcceptor)
+autopilot-kafka  | [2026-05-31 19:47:11,425] INFO [ControllerServer id=1] Waiting for all of the authorizer futures to be completed (kafka.server.ControllerServer)
+autopilot-kafka  | [2026-05-31 19:47:11,425] INFO [ControllerServer id=1] Finished waiting for all of the authorizer futures to be completed (kafka.server.ControllerServer)
+autopilot-kafka  | [2026-05-31 19:47:11,425] INFO [ControllerServer id=1] Waiting for all of the SocketServer Acceptors to be started (kafka.server.ControllerServer)
+autopilot-kafka  | [2026-05-31 19:47:11,425] INFO [ControllerServer id=1] Finished waiting for all of the SocketServer Acceptors to be started (kafka.server.ControllerServer)
+autopilot-kafka  | [2026-05-31 19:47:11,425] INFO [controller-1-to-controller-registration-channel-manager]: Starting (kafka.server.NodeToControllerRequestThread)
+autopilot-kafka  | [2026-05-31 19:47:11,425] INFO [ControllerRegistrationManager id=1 incarnation=XEXDLEobSa2Gyerx0ooF1g] initialized channel manager. (kafka.server.ControllerRegistrationManager)
+autopilot-kafka  | [2026-05-31 19:47:11,426] INFO [BrokerServer id=1] Transition from SHUTDOWN to STARTING (kafka.server.BrokerServer)
+autopilot-kafka  | [2026-05-31 19:47:11,426] INFO [ControllerRegistrationManager id=1 incarnation=XEXDLEobSa2Gyerx0ooF1g] maybeSendControllerRegistration: cannot register yet because the metadata.version is not known yet. (kafka.server.ControllerRegistrationManager)
+autopilot-kafka  | [2026-05-31 19:47:11,426] INFO [BrokerServer id=1] Starting broker (kafka.server.BrokerServer)
+autopilot-kafka  | [2026-05-31 19:47:11,426] INFO [controller-1-to-controller-registration-channel-manager]: Recorded new KRaft controller, from now on will use node kafka:9093 (id: 1 rack: null isFenced: false) (kafka.server.NodeToControllerRequestThread)
+autopilot-kafka  | [2026-05-31 19:47:11,429] INFO [broker-1-ThrottledChannelReaper-Fetch]: Starting (org.apache.kafka.server.quota.ClientQuotaManager$ThrottledChannelReaper)
+autopilot-kafka  | [2026-05-31 19:47:11,429] INFO [broker-1-ThrottledChannelReaper-Produce]: Starting (org.apache.kafka.server.quota.ClientQuotaManager$ThrottledChannelReaper)
+autopilot-kafka  | [2026-05-31 19:47:11,429] INFO [broker-1-ThrottledChannelReaper-Request]: Starting (org.apache.kafka.server.quota.ClientQuotaManager$ThrottledChannelReaper)
+autopilot-kafka  | [2026-05-31 19:47:11,429] INFO [broker-1-ThrottledChannelReaper-ControllerMutation]: Starting (org.apache.kafka.server.quota.ClientQuotaManager$ThrottledChannelReaper)
+autopilot-kafka  | [2026-05-31 19:47:11,433] INFO [BrokerServer id=1] Waiting for controller quorum voters future (kafka.server.BrokerServer)
+autopilot-kafka  | [2026-05-31 19:47:11,433] INFO [BrokerServer id=1] Finished waiting for controller quorum voters future (kafka.server.BrokerServer)
+autopilot-kafka  | [2026-05-31 19:47:11,434] INFO [broker-1-to-controller-forwarding-channel-manager]: Starting (kafka.server.NodeToControllerRequestThread)
+autopilot-kafka  | [2026-05-31 19:47:11,434] INFO [broker-1-to-controller-forwarding-channel-manager]: Recorded new KRaft controller, from now on will use node kafka:9093 (id: 1 rack: null isFenced: false) (kafka.server.NodeToControllerRequestThread)
+autopilot-kafka  | [2026-05-31 19:47:11,436] INFO [client-metrics-reaper]: Starting (org.apache.kafka.server.util.timer.SystemTimerReaper$Reaper)
+autopilot-kafka  | [2026-05-31 19:47:11,444] INFO [MetadataLoader id=1] maybePublishMetadata(LOG_DELTA): The loader finished catching up to the current high water mark of 10 (org.apache.kafka.image.loader.MetadataLoader)
+autopilot-kafka  | [2026-05-31 19:47:11,446] INFO [MetadataLoader id=1] InitializeNewPublishers: initializing SnapshotGenerator with a snapshot at offset 9 (org.apache.kafka.image.loader.MetadataLoader)
+autopilot-kafka  | [2026-05-31 19:47:11,451] INFO [MetadataLoader id=1] InitializeNewPublishers: initializing KRaftMetadataCachePublisher with a snapshot at offset 9 (org.apache.kafka.image.loader.MetadataLoader)
+autopilot-kafka  | [2026-05-31 19:47:11,452] INFO [MetadataLoader id=1] InitializeNewPublishers: initializing FeaturesPublisher with a snapshot at offset 9 (org.apache.kafka.image.loader.MetadataLoader)
+autopilot-kafka  | [2026-05-31 19:47:11,456] INFO [ControllerServer id=1] Loaded new metadata FinalizedFeatures[metadataVersion=4.2-IV1, finalizedFeatures={group.version=1, streams.version=1, transaction.version=2, eligible.leader.replicas.version=1, share.version=1, metadata.version=29}, finalizedFeaturesEpoch=9]. (org.apache.kafka.metadata.publisher.FeaturesPublisher)
+autopilot-kafka  | [2026-05-31 19:47:11,456] INFO [MetadataLoader id=1] InitializeNewPublishers: initializing ControllerRegistrationsPublisher with a snapshot at offset 9 (org.apache.kafka.image.loader.MetadataLoader)
+autopilot-kafka  | [2026-05-31 19:47:11,456] INFO [MetadataLoader id=1] InitializeNewPublishers: initializing ControllerRegistrationManager with a snapshot at offset 9 (org.apache.kafka.image.loader.MetadataLoader)
+autopilot-kafka  | [2026-05-31 19:47:11,456] INFO [MetadataLoader id=1] InitializeNewPublishers: initializing DynamicConfigPublisher controller id=1 with a snapshot at offset 9 (org.apache.kafka.image.loader.MetadataLoader)
+autopilot-kafka  | [2026-05-31 19:47:11,461] INFO [DynamicConfigPublisher controller id=1] Updating cluster configuration : min.insync.replicas -> 1 (kafka.server.metadata.DynamicConfigPublisher)
+autopilot-kafka  | [2026-05-31 19:47:11,462] INFO Updated connection-accept-rate max connection creation rate to 2147483647 (kafka.network.ConnectionQuotas)
+autopilot-kafka  | [2026-05-31 19:47:11,465] INFO KafkaConfig values: 
+autopilot-kafka  | 	add.partitions.to.txn.retry.backoff.max.ms = 100
+autopilot-kafka  | 	add.partitions.to.txn.retry.backoff.ms = 20
+autopilot-kafka  | 	advertised.listeners = [INTERNAL://kafka:9092, EXTERNAL://localhost:9094]
+autopilot-kafka  | 	alter.config.policy.class.name = null
+autopilot-kafka  | 	alter.log.dirs.replication.quota.window.num = 11
+autopilot-kafka  | 	alter.log.dirs.replication.quota.window.size.seconds = 1
+autopilot-kafka  | 	authorizer.class.name = 
+autopilot-kafka  | 	auto.create.topics.enable = false
+autopilot-kafka  | 	auto.leader.rebalance.enable = true
+autopilot-kafka  | 	background.threads = 10
+autopilot-kafka  | 	broker.heartbeat.interval.ms = 2000
+autopilot-kafka  | 	broker.id = 1
+autopilot-kafka  | 	broker.rack = null
+autopilot-kafka  | 	broker.session.timeout.ms = 9000
+autopilot-kafka  | 	client.quota.callback.class = null
+autopilot-kafka  | 	compression.gzip.level = -1
+autopilot-kafka  | 	compression.lz4.level = 9
+autopilot-kafka  | 	compression.type = producer
+autopilot-kafka  | 	compression.zstd.level = 3
+autopilot-kafka  | 	config.providers = []
+autopilot-kafka  | 	connection.failed.authentication.delay.ms = 100
+autopilot-kafka  | 	connections.max.idle.ms = 600000
+autopilot-kafka  | 	connections.max.reauth.ms = 0
+autopilot-kafka  | 	controlled.shutdown.enable = true
+autopilot-kafka  | 	controller.listener.names = [CONTROLLER]
+autopilot-kafka  | 	controller.performance.always.log.threshold.ms = 2000
+autopilot-kafka  | 	controller.performance.sample.period.ms = 60000
+autopilot-kafka  | 	controller.quorum.append.linger.ms = 25
+autopilot-kafka  | 	controller.quorum.auto.join.enable = false
+autopilot-kafka  | 	controller.quorum.bootstrap.servers = []
+autopilot-kafka  | 	controller.quorum.election.backoff.max.ms = 1000
+autopilot-kafka  | 	controller.quorum.election.timeout.ms = 1000
+autopilot-kafka  | 	controller.quorum.fetch.timeout.ms = 2000
+autopilot-kafka  | 	controller.quorum.request.timeout.ms = 2000
+autopilot-kafka  | 	controller.quorum.retry.backoff.ms = 20
+autopilot-kafka  | 	controller.quorum.voters = [1@kafka:9093]
+autopilot-kafka  | 	controller.quota.window.num = 11
+autopilot-kafka  | 	controller.quota.window.size.seconds = 1
+autopilot-kafka  | 	controller.socket.timeout.ms = 30000
+autopilot-kafka  | 	create.topic.policy.class.name = null
+autopilot-kafka  | 	default.replication.factor = 1
+autopilot-kafka  | 	delegation.token.expiry.check.interval.ms = 3600000
+autopilot-kafka  | 	delegation.token.expiry.time.ms = 86400000
+autopilot-kafka  | 	delegation.token.max.lifetime.ms = 604800000
+autopilot-kafka  | 	delegation.token.secret.key = null
+autopilot-kafka  | 	delete.records.purgatory.purge.interval.requests = 1
+autopilot-kafka  | 	delete.topic.enable = true
+autopilot-kafka  | 	early.start.listeners = null
+autopilot-kafka  | 	fetch.max.bytes = 57671680
+autopilot-kafka  | 	fetch.purgatory.purge.interval.requests = 1000
+autopilot-kafka  | 	group.consumer.assignors = [uniform, range]
+autopilot-kafka  | 	group.consumer.heartbeat.interval.ms = 5000
+autopilot-kafka  | 	group.consumer.max.heartbeat.interval.ms = 15000
+autopilot-kafka  | 	group.consumer.max.session.timeout.ms = 60000
+autopilot-kafka  | 	group.consumer.max.size = 2147483647
+autopilot-kafka  | 	group.consumer.migration.policy = bidirectional
+autopilot-kafka  | 	group.consumer.min.heartbeat.interval.ms = 5000
+autopilot-kafka  | 	group.consumer.min.session.timeout.ms = 45000
+autopilot-kafka  | 	group.consumer.regex.refresh.interval.ms = 600000
+autopilot-kafka  | 	group.consumer.session.timeout.ms = 45000
+autopilot-kafka  | 	group.coordinator.append.linger.ms = -1
+autopilot-kafka  | 	group.coordinator.rebalance.protocols = [classic, consumer, streams]
+autopilot-kafka  | 	group.coordinator.threads = 4
+autopilot-kafka  | 	group.initial.rebalance.delay.ms = 0
+autopilot-kafka  | 	group.max.session.timeout.ms = 1800000
+autopilot-kafka  | 	group.max.size = 2147483647
+autopilot-kafka  | 	group.min.session.timeout.ms = 6000
+autopilot-kafka  | 	group.share.assignors = [simple]
+autopilot-kafka  | 	group.share.delivery.count.limit = 5
+autopilot-kafka  | 	group.share.enable = false
+autopilot-kafka  | 	group.share.heartbeat.interval.ms = 5000
+autopilot-kafka  | 	group.share.initialize.retry.interval.ms = 30000
+autopilot-kafka  | 	group.share.max.heartbeat.interval.ms = 15000
+autopilot-kafka  | 	group.share.max.record.lock.duration.ms = 60000
+autopilot-kafka  | 	group.share.max.session.timeout.ms = 60000
+autopilot-kafka  | 	group.share.max.share.sessions = 2000
+autopilot-kafka  | 	group.share.max.size = 200
+autopilot-kafka  | 	group.share.min.heartbeat.interval.ms = 5000
+autopilot-kafka  | 	group.share.min.record.lock.duration.ms = 15000
+autopilot-kafka  | 	group.share.min.session.timeout.ms = 45000
+autopilot-kafka  | 	group.share.partition.max.record.locks = 2000
+autopilot-kafka  | 	group.share.persister.class.name = org.apache.kafka.server.share.persister.DefaultStatePersister
+autopilot-kafka  | 	group.share.record.lock.duration.ms = 30000
+autopilot-kafka  | 	group.share.session.timeout.ms = 45000
+autopilot-kafka  | 	group.streams.heartbeat.interval.ms = 5000
+autopilot-kafka  | 	group.streams.initial.rebalance.delay.ms = 3000
+autopilot-kafka  | 	group.streams.max.heartbeat.interval.ms = 15000
+autopilot-kafka  | 	group.streams.max.session.timeout.ms = 60000
+autopilot-kafka  | 	group.streams.max.size = 2147483647
+autopilot-kafka  | 	group.streams.max.standby.replicas = 2
+autopilot-kafka  | 	group.streams.min.heartbeat.interval.ms = 5000
+autopilot-kafka  | 	group.streams.min.session.timeout.ms = 45000
+autopilot-kafka  | 	group.streams.num.standby.replicas = 0
+autopilot-kafka  | 	group.streams.session.timeout.ms = 45000
+autopilot-kafka  | 	initial.broker.registration.timeout.ms = 60000
+autopilot-kafka  | 	inter.broker.listener.name = INTERNAL
+autopilot-kafka  | 	internal.metadata.delete.delay.millis = 60000
+autopilot-kafka  | 	internal.metadata.log.segment.bytes = null
+autopilot-kafka  | 	internal.metadata.max.batch.size.in.bytes = 8388608
+autopilot-kafka  | 	internal.metadata.max.fetch.size.in.bytes = 8388608
+autopilot-kafka  | 	kafka.metrics.polling.interval.secs = 10
+autopilot-kafka  | 	kafka.metrics.reporters = []
+autopilot-kafka  | 	leader.imbalance.check.interval.seconds = 300
+autopilot-kafka  | 	listener.security.protocol.map = CONTROLLER:PLAINTEXT,INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT
+autopilot-kafka  | 	listeners = [INTERNAL://0.0.0.0:9092, CONTROLLER://0.0.0.0:9093, EXTERNAL://0.0.0.0:9094]
+autopilot-kafka  | 	log.cleaner.backoff.ms = 15000
+autopilot-kafka  | 	log.cleaner.dedupe.buffer.size = 134217728
+autopilot-kafka  | 	log.cleaner.delete.retention.ms = 86400000
+autopilot-kafka  | 	log.cleaner.enable = true
+autopilot-kafka  | 	log.cleaner.io.buffer.load.factor = 0.9
+autopilot-kafka  | 	log.cleaner.io.buffer.size = 524288
+autopilot-kafka  | 	log.cleaner.io.max.bytes.per.second = 1.7976931348623157E308
+autopilot-kafka  | 	log.cleaner.max.compaction.lag.ms = 9223372036854775807
+autopilot-kafka  | 	log.cleaner.min.cleanable.ratio = 0.5
+autopilot-kafka  | 	log.cleaner.min.compaction.lag.ms = 0
+autopilot-kafka  | 	log.cleaner.threads = 1
+autopilot-kafka  | 	log.cleanup.policy = [delete]
+autopilot-kafka  | 	log.dir = [/tmp/kafka-logs]
+autopilot-kafka  | 	log.dir.failure.timeout.ms = 30000
+autopilot-kafka  | 	log.dirs = null
+autopilot-kafka  | 	log.flush.interval.messages = 9223372036854775807
+autopilot-kafka  | 	log.flush.interval.ms = null
+autopilot-kafka  | 	log.flush.offset.checkpoint.interval.ms = 60000
+autopilot-kafka  | 	log.flush.scheduler.interval.ms = 9223372036854775807
+autopilot-kafka  | 	log.flush.start.offset.checkpoint.interval.ms = 60000
+autopilot-kafka  | 	log.index.interval.bytes = 4096
+autopilot-kafka  | 	log.index.size.max.bytes = 10485760
+autopilot-kafka  | 	log.initial.task.delay.ms = 30000
+autopilot-kafka  | 	log.local.retention.bytes = -2
+autopilot-kafka  | 	log.local.retention.ms = -2
+autopilot-kafka  | 	log.message.timestamp.after.max.ms = 3600000
+autopilot-kafka  | 	log.message.timestamp.before.max.ms = 9223372036854775807
+autopilot-kafka  | 	log.message.timestamp.type = CreateTime
+autopilot-kafka  | 	log.preallocate = false
+autopilot-kafka  | 	log.retention.bytes = -1
+autopilot-kafka  | 	log.retention.check.interval.ms = 300000
+autopilot-kafka  | 	log.retention.hours = 168
+autopilot-kafka  | 	log.retention.minutes = null
+autopilot-kafka  | 	log.retention.ms = null
+autopilot-kafka  | 	log.roll.hours = 168
+autopilot-kafka  | 	log.roll.jitter.hours = 0
+autopilot-kafka  | 	log.roll.jitter.ms = null
+autopilot-kafka  | 	log.roll.ms = null
+autopilot-kafka  | 	log.segment.bytes = 1073741824
+autopilot-kafka  | 	log.segment.delete.delay.ms = 60000
+autopilot-kafka  | 	max.connection.creation.rate = 2147483647
+autopilot-kafka  | 	max.connections = 2147483647
+autopilot-kafka  | 	max.connections.per.ip = 2147483647
+autopilot-kafka  | 	max.connections.per.ip.overrides = 
+autopilot-kafka  | 	max.incremental.fetch.session.cache.slots = 1000
+autopilot-kafka  | 	max.request.partition.size.limit = 2000
+autopilot-kafka  | 	message.max.bytes = 1048588
+autopilot-kafka  | 	metadata.log.dir = null
+autopilot-kafka  | 	metadata.log.max.record.bytes.between.snapshots = 20971520
+autopilot-kafka  | 	metadata.log.max.snapshot.interval.ms = 3600000
+autopilot-kafka  | 	metadata.log.segment.bytes = 1073741824
+autopilot-kafka  | 	metadata.log.segment.ms = 604800000
+autopilot-kafka  | 	metadata.max.idle.interval.ms = 500
+autopilot-kafka  | 	metadata.max.retention.bytes = 104857600
+autopilot-kafka  | 	metadata.max.retention.ms = 604800000
+autopilot-kafka  | 	metric.reporters = [org.apache.kafka.common.metrics.JmxReporter]
+autopilot-kafka  | 	metrics.num.samples = 2
+autopilot-kafka  | 	metrics.recording.level = INFO
+autopilot-kafka  | 	metrics.sample.window.ms = 30000
+autopilot-kafka  | 	min.insync.replicas = 1
+autopilot-kafka  | 	node.id = 1
+autopilot-kafka  | 	num.io.threads = 8
+autopilot-kafka  | 	num.network.threads = 3
+autopilot-kafka  | 	num.partitions = 1
+autopilot-kafka  | 	num.recovery.threads.per.data.dir = 2
+autopilot-kafka  | 	num.replica.alter.log.dirs.threads = null
+autopilot-kafka  | 	num.replica.fetchers = 1
+autopilot-kafka  | 	offset.metadata.max.bytes = 4096
+autopilot-kafka  | 	offsets.commit.timeout.ms = 5000
+autopilot-kafka  | 	offsets.load.buffer.size = 5242880
+autopilot-kafka  | 	offsets.retention.check.interval.ms = 600000
+autopilot-kafka  | 	offsets.retention.minutes = 10080
+autopilot-kafka  | 	offsets.topic.compression.codec = 0
+autopilot-kafka  | 	offsets.topic.num.partitions = 50
+autopilot-kafka  | 	offsets.topic.replication.factor = 1
+autopilot-kafka  | 	offsets.topic.segment.bytes = 104857600
+autopilot-kafka  | 	principal.builder.class = class org.apache.kafka.common.security.authenticator.DefaultKafkaPrincipalBuilder
+autopilot-kafka  | 	process.roles = [controller, broker]
+autopilot-kafka  | 	producer.id.expiration.check.interval.ms = 600000
+autopilot-kafka  | 	producer.id.expiration.ms = 86400000
+autopilot-kafka  | 	producer.purgatory.purge.interval.requests = 1000
+autopilot-kafka  | 	queued.max.request.bytes = -1
+autopilot-kafka  | 	queued.max.requests = 500
+autopilot-kafka  | 	quota.window.num = 11
+autopilot-kafka  | 	quota.window.size.seconds = 1
+autopilot-kafka  | 	remote.fetch.max.wait.ms = 500
+autopilot-kafka  | 	remote.list.offsets.request.timeout.ms = 30000
+autopilot-kafka  | 	remote.log.index.file.cache.total.size.bytes = 1073741824
+autopilot-kafka  | 	remote.log.manager.copier.thread.pool.size = 10
+autopilot-kafka  | 	remote.log.manager.copy.max.bytes.per.second = 9223372036854775807
+autopilot-kafka  | 	remote.log.manager.copy.quota.window.num = 11
+autopilot-kafka  | 	remote.log.manager.copy.quota.window.size.seconds = 1
+autopilot-kafka  | 	remote.log.manager.expiration.thread.pool.size = 10
+autopilot-kafka  | 	remote.log.manager.fetch.max.bytes.per.second = 9223372036854775807
+autopilot-kafka  | 	remote.log.manager.fetch.quota.window.num = 11
+autopilot-kafka  | 	remote.log.manager.fetch.quota.window.size.seconds = 1
+autopilot-kafka  | 	remote.log.manager.follower.thread.pool.size = 2
+autopilot-kafka  | 	remote.log.manager.task.interval.ms = 30000
+autopilot-kafka  | 	remote.log.manager.task.retry.backoff.max.ms = 30000
+autopilot-kafka  | 	remote.log.manager.task.retry.backoff.ms = 500
+autopilot-kafka  | 	remote.log.manager.task.retry.jitter = 0.2
+autopilot-kafka  | 	remote.log.manager.thread.pool.size = 2
+autopilot-kafka  | 	remote.log.metadata.custom.metadata.max.bytes = 128
+autopilot-kafka  | 	remote.log.metadata.manager.class.name = org.apache.kafka.server.log.remote.metadata.storage.TopicBasedRemoteLogMetadataManager
+autopilot-kafka  | 	remote.log.metadata.manager.class.path = null
+autopilot-kafka  | 	remote.log.metadata.manager.impl.prefix = rlmm.config.
+autopilot-kafka  | 	remote.log.metadata.manager.listener.name = null
+autopilot-kafka  | 	remote.log.reader.max.pending.tasks = 100
+autopilot-kafka  | 	remote.log.reader.threads = 10
+autopilot-kafka  | 	remote.log.storage.manager.class.name = null
+autopilot-kafka  | 	remote.log.storage.manager.class.path = null
+autopilot-kafka  | 	remote.log.storage.manager.impl.prefix = rsm.config.
+autopilot-kafka  | 	remote.log.storage.system.enable = false
+autopilot-kafka  | 	replica.fetch.backoff.ms = 1000
+autopilot-kafka  | 	replica.fetch.max.bytes = 1048576
+autopilot-kafka  | 	replica.fetch.min.bytes = 1
+autopilot-kafka  | 	replica.fetch.response.max.bytes = 10485760
+autopilot-kafka  | 	replica.fetch.wait.max.ms = 500
+autopilot-kafka  | 	replica.high.watermark.checkpoint.interval.ms = 5000
+autopilot-kafka  | 	replica.lag.time.max.ms = 30000
+autopilot-kafka  | 	replica.selector.class = null
+autopilot-kafka  | 	replica.socket.receive.buffer.bytes = 65536
+autopilot-kafka  | 	replica.socket.timeout.ms = 30000
+autopilot-kafka  | 	replication.quota.window.num = 11
+autopilot-kafka  | 	replication.quota.window.size.seconds = 1
+autopilot-kafka  | 	request.timeout.ms = 30000
+autopilot-kafka  | 	sasl.client.callback.handler.class = null
+autopilot-kafka  | 	sasl.enabled.mechanisms = [GSSAPI]
+autopilot-kafka  | 	sasl.jaas.config = null
+autopilot-kafka  | 	sasl.kerberos.kinit.cmd = /usr/bin/kinit
+autopilot-kafka  | 	sasl.kerberos.min.time.before.relogin = 60000
+autopilot-kafka  | 	sasl.kerberos.principal.to.local.rules = [DEFAULT]
+autopilot-kafka  | 	sasl.kerberos.service.name = null
+autopilot-kafka  | 	sasl.kerberos.ticket.renew.jitter = 0.05
+autopilot-kafka  | 	sasl.kerberos.ticket.renew.window.factor = 0.8
+autopilot-kafka  | 	sasl.login.callback.handler.class = null
+autopilot-kafka  | 	sasl.login.class = null
+autopilot-kafka  | 	sasl.login.connect.timeout.ms = null
+autopilot-kafka  | 	sasl.login.read.timeout.ms = null
+autopilot-kafka  | 	sasl.login.refresh.buffer.seconds = 300
+autopilot-kafka  | 	sasl.login.refresh.min.period.seconds = 60
+autopilot-kafka  | 	sasl.login.refresh.window.factor = 0.8
+autopilot-kafka  | 	sasl.login.refresh.window.jitter = 0.05
+autopilot-kafka  | 	sasl.login.retry.backoff.max.ms = 10000
+autopilot-kafka  | 	sasl.login.retry.backoff.ms = 100
+autopilot-kafka  | 	sasl.mechanism.controller.protocol = GSSAPI
+autopilot-kafka  | 	sasl.mechanism.inter.broker.protocol = GSSAPI
+autopilot-kafka  | 	sasl.oauthbearer.assertion.algorithm = RS256
+autopilot-kafka  | 	sasl.oauthbearer.assertion.claim.aud = null
+autopilot-kafka  | 	sasl.oauthbearer.assertion.claim.exp.seconds = 300
+autopilot-kafka  | 	sasl.oauthbearer.assertion.claim.iss = null
+autopilot-kafka  | 	sasl.oauthbearer.assertion.claim.jti.include = false
+autopilot-kafka  | 	sasl.oauthbearer.assertion.claim.nbf.seconds = 60
+autopilot-kafka  | 	sasl.oauthbearer.assertion.claim.sub = null
+autopilot-kafka  | 	sasl.oauthbearer.assertion.file = null
+autopilot-kafka  | 	sasl.oauthbearer.assertion.private.key.file = null
+autopilot-kafka  | 	sasl.oauthbearer.assertion.private.key.passphrase = null
+autopilot-kafka  | 	sasl.oauthbearer.assertion.template.file = null
+autopilot-kafka  | 	sasl.oauthbearer.client.credentials.client.id = null
+autopilot-kafka  | 	sasl.oauthbearer.client.credentials.client.secret = null
+autopilot-kafka  | 	sasl.oauthbearer.clock.skew.seconds = 30
+autopilot-kafka  | 	sasl.oauthbearer.expected.audience = []
+autopilot-kafka  | 	sasl.oauthbearer.expected.issuer = null
+autopilot-kafka  | 	sasl.oauthbearer.jwks.endpoint.refresh.ms = 3600000
+autopilot-kafka  | 	sasl.oauthbearer.jwks.endpoint.retry.backoff.max.ms = 10000
+autopilot-kafka  | 	sasl.oauthbearer.jwks.endpoint.retry.backoff.ms = 100
+autopilot-kafka  | 	sasl.oauthbearer.jwks.endpoint.url = null
+autopilot-kafka  | 	sasl.oauthbearer.jwt.retriever.class = class org.apache.kafka.common.security.oauthbearer.DefaultJwtRetriever
+autopilot-kafka  | 	sasl.oauthbearer.jwt.validator.class = class org.apache.kafka.common.security.oauthbearer.DefaultJwtValidator
+autopilot-kafka  | 	sasl.oauthbearer.scope = null
+autopilot-kafka  | 	sasl.oauthbearer.scope.claim.name = scope
+autopilot-kafka  | 	sasl.oauthbearer.sub.claim.name = sub
+autopilot-kafka  | 	sasl.oauthbearer.token.endpoint.url = null
+autopilot-kafka  | 	sasl.server.callback.handler.class = null
+autopilot-kafka  | 	sasl.server.max.receive.size = 524288
+autopilot-kafka  | 	security.inter.broker.protocol = PLAINTEXT
+autopilot-kafka  | 	security.providers = null
+autopilot-kafka  | 	server.max.startup.time.ms = 9223372036854775807
+autopilot-kafka  | 	share.coordinator.append.linger.ms = -1
+autopilot-kafka  | 	share.coordinator.cold.partition.snapshot.interval.ms = 300000
+autopilot-kafka  | 	share.coordinator.load.buffer.size = 5242880
+autopilot-kafka  | 	share.coordinator.snapshot.update.records.per.snapshot = 500
+autopilot-kafka  | 	share.coordinator.state.topic.compression.codec = 0
+autopilot-kafka  | 	share.coordinator.state.topic.min.isr = 2
+autopilot-kafka  | 	share.coordinator.state.topic.num.partitions = 50
+autopilot-kafka  | 	share.coordinator.state.topic.prune.interval.ms = 300000
+autopilot-kafka  | 	share.coordinator.state.topic.replication.factor = 3
+autopilot-kafka  | 	share.coordinator.state.topic.segment.bytes = 104857600
+autopilot-kafka  | 	share.coordinator.threads = 1
+autopilot-kafka  | 	share.coordinator.write.timeout.ms = 5000
+autopilot-kafka  | 	share.fetch.purgatory.purge.interval.requests = 1000
+autopilot-kafka  | 	socket.connection.setup.timeout.max.ms = 30000
+autopilot-kafka  | 	socket.connection.setup.timeout.ms = 10000
+autopilot-kafka  | 	socket.listen.backlog.size = 50
+autopilot-kafka  | 	socket.receive.buffer.bytes = 102400
+autopilot-kafka  | 	socket.request.max.bytes = 104857600
+autopilot-kafka  | 	socket.send.buffer.bytes = 102400
+autopilot-kafka  | 	ssl.allow.dn.changes = false
+autopilot-kafka  | 	ssl.allow.san.changes = false
+autopilot-kafka  | 	ssl.cipher.suites = []
+autopilot-kafka  | 	ssl.client.auth = none
+autopilot-kafka  | 	ssl.enabled.protocols = [TLSv1.2, TLSv1.3]
+autopilot-kafka  | 	ssl.endpoint.identification.algorithm = https
+autopilot-kafka  | 	ssl.engine.factory.class = null
+autopilot-kafka  | 	ssl.key.password = null
+autopilot-kafka  | 	ssl.keymanager.algorithm = SunX509
+autopilot-kafka  | 	ssl.keystore.certificate.chain = null
+autopilot-kafka  | 	ssl.keystore.key = null
+autopilot-kafka  | 	ssl.keystore.location = null
+autopilot-kafka  | 	ssl.keystore.password = null
+autopilot-kafka  | 	ssl.keystore.type = JKS
+autopilot-kafka  | 	ssl.principal.mapping.rules = DEFAULT
+autopilot-kafka  | 	ssl.protocol = TLSv1.3
+autopilot-kafka  | 	ssl.provider = null
+autopilot-kafka  | 	ssl.secure.random.implementation = null
+autopilot-kafka  | 	ssl.trustmanager.algorithm = PKIX
+autopilot-kafka  | 	ssl.truststore.certificates = null
+autopilot-kafka  | 	ssl.truststore.location = null
+autopilot-kafka  | 	ssl.truststore.password = null
+autopilot-kafka  | 	ssl.truststore.type = JKS
+autopilot-kafka  | 	telemetry.max.bytes = 1048576
+autopilot-kafka  | 	transaction.abort.timed.out.transaction.cleanup.interval.ms = 10000
+autopilot-kafka  | 	transaction.max.timeout.ms = 900000
+autopilot-kafka  | 	transaction.partition.verification.enable = true
+autopilot-kafka  | 	transaction.remove.expired.transaction.cleanup.interval.ms = 3600000
+autopilot-kafka  | 	transaction.state.log.load.buffer.size = 5242880
+autopilot-kafka  | 	transaction.state.log.min.isr = 1
+autopilot-kafka  | 	transaction.state.log.num.partitions = 50
+autopilot-kafka  | 	transaction.state.log.replication.factor = 1
+autopilot-kafka  | 	transaction.state.log.segment.bytes = 104857600
+autopilot-kafka  | 	transaction.two.phase.commit.enable = false
+autopilot-kafka  | 	transactional.id.expiration.ms = 604800000
+autopilot-kafka  | 	unclean.leader.election.enable = false
+autopilot-kafka  | 	unclean.leader.election.interval.ms = 300000
+autopilot-kafka  | 	unstable.api.versions.enable = false
+autopilot-kafka  | 	unstable.feature.versions.enable = false
+autopilot-kafka  |  (org.apache.kafka.common.config.AbstractConfig)
+autopilot-kafka  | [2026-05-31 19:47:11,465] INFO [SocketServer listenerType=BROKER, nodeId=1] Created data-plane acceptor and processors for endpoint : ListenerName(INTERNAL) (kafka.network.SocketServer)
+autopilot-kafka  | [2026-05-31 19:47:11,465] INFO Updated connection-accept-rate max connection creation rate to 2147483647 (kafka.network.ConnectionQuotas)
+autopilot-kafka  | [2026-05-31 19:47:11,466] INFO [ControllerRegistrationManager id=1 incarnation=XEXDLEobSa2Gyerx0ooF1g] sendControllerRegistration: attempting to send ControllerRegistrationRequestData(controllerId=1, incarnationId=XEXDLEobSa2Gyerx0ooF1g, zkMigrationReady=false, listeners=[Listener(name='CONTROLLER', host='kafka', port=9093, securityProtocol=0)], features=[Feature(name='group.version', minSupportedVersion=0, maxSupportedVersion=1), Feature(name='kraft.version', minSupportedVersion=0, maxSupportedVersion=1), Feature(name='metadata.version', minSupportedVersion=7, maxSupportedVersion=29), Feature(name='share.version', minSupportedVersion=0, maxSupportedVersion=1), Feature(name='streams.version', minSupportedVersion=0, maxSupportedVersion=1), Feature(name='transaction.version', minSupportedVersion=0, maxSupportedVersion=2), Feature(name='eligible.leader.replicas.version', minSupportedVersion=0, maxSupportedVersion=1)]) (kafka.server.ControllerRegistrationManager)
+autopilot-kafka  | [2026-05-31 19:47:11,467] INFO [SocketServer listenerType=BROKER, nodeId=1] Created data-plane acceptor and processors for endpoint : ListenerName(EXTERNAL) (kafka.network.SocketServer)
+autopilot-kafka  | [2026-05-31 19:47:11,470] INFO [broker-1-to-controller-alter-partition-channel-manager]: Starting (kafka.server.NodeToControllerRequestThread)
+autopilot-kafka  | [2026-05-31 19:47:11,470] INFO [broker-1-to-controller-alter-partition-channel-manager]: Recorded new KRaft controller, from now on will use node kafka:9093 (id: 1 rack: null isFenced: false) (kafka.server.NodeToControllerRequestThread)
+autopilot-kafka  | [2026-05-31 19:47:11,470] INFO [MetadataLoader id=1] InitializeNewPublishers: initializing DynamicClientQuotaPublisher controller id=1 with a snapshot at offset 9 (org.apache.kafka.image.loader.MetadataLoader)
+autopilot-kafka  | [2026-05-31 19:47:11,471] INFO [MetadataLoader id=1] InitializeNewPublishers: initializing DynamicTopicClusterQuotaPublisher controller id=1 with a snapshot at offset 9 (org.apache.kafka.image.loader.MetadataLoader)
+autopilot-kafka  | [2026-05-31 19:47:11,472] INFO [MetadataLoader id=1] InitializeNewPublishers: initializing ScramPublisher controller id=1 with a snapshot at offset 9 (org.apache.kafka.image.loader.MetadataLoader)
+autopilot-kafka  | [2026-05-31 19:47:11,472] INFO [MetadataLoader id=1] InitializeNewPublishers: initializing DelegationTokenPublisher controller id=1 with a snapshot at offset 9 (org.apache.kafka.image.loader.MetadataLoader)
+autopilot-kafka  | [2026-05-31 19:47:11,473] INFO [MetadataLoader id=1] InitializeNewPublishers: initializing ControllerMetadataMetricsPublisher with a snapshot at offset 9 (org.apache.kafka.image.loader.MetadataLoader)
+autopilot-kafka  | [2026-05-31 19:47:11,473] INFO [MetadataLoader id=1] InitializeNewPublishers: initializing AclPublisher controller id=1 with a snapshot at offset 9 (org.apache.kafka.image.loader.MetadataLoader)
+autopilot-kafka  | [2026-05-31 19:47:11,475] INFO [broker-1-to-controller-directory-assignments-channel-manager]: Starting (kafka.server.NodeToControllerRequestThread)
+autopilot-kafka  | [2026-05-31 19:47:11,475] INFO [broker-1-to-controller-directory-assignments-channel-manager]: Recorded new KRaft controller, from now on will use node kafka:9093 (id: 1 rack: null isFenced: false) (kafka.server.NodeToControllerRequestThread)
+autopilot-kafka  | [2026-05-31 19:47:11,478] INFO [ExpirationReaper-1-Produce]: Starting (org.apache.kafka.server.purgatory.DelayedOperationPurgatory$ExpiredOperationReaper)
+autopilot-kafka  | [2026-05-31 19:47:11,478] INFO [ExpirationReaper-1-Fetch]: Starting (org.apache.kafka.server.purgatory.DelayedOperationPurgatory$ExpiredOperationReaper)
+autopilot-kafka  | [2026-05-31 19:47:11,479] INFO [ExpirationReaper-1-DeleteRecords]: Starting (org.apache.kafka.server.purgatory.DelayedOperationPurgatory$ExpiredOperationReaper)
+autopilot-kafka  | [2026-05-31 19:47:11,480] INFO [ExpirationReaper-1-RemoteFetch]: Starting (org.apache.kafka.server.purgatory.DelayedOperationPurgatory$ExpiredOperationReaper)
+autopilot-kafka  | [2026-05-31 19:47:11,481] INFO [ExpirationReaper-1-RemoteListOffsets]: Starting (org.apache.kafka.server.purgatory.DelayedOperationPurgatory$ExpiredOperationReaper)
+autopilot-kafka  | [2026-05-31 19:47:11,481] INFO [ExpirationReaper-1-ShareFetch]: Starting (org.apache.kafka.server.purgatory.DelayedOperationPurgatory$ExpiredOperationReaper)
+autopilot-kafka  | [2026-05-31 19:47:11,485] INFO [share-coordinator-reaper]: Starting (org.apache.kafka.server.util.timer.SystemTimerReaper$Reaper)
+autopilot-kafka  | [2026-05-31 19:47:11,489] INFO [share-coordinator-event-processor-0]: Starting (org.apache.kafka.coordinator.common.runtime.MultiThreadedEventProcessor$EventProcessorThread)
+autopilot-kafka  | [2026-05-31 19:47:11,491] INFO [persister-state-manager-reaper]: Starting (org.apache.kafka.server.util.timer.SystemTimerReaper$Reaper)
+autopilot-kafka  | [2026-05-31 19:47:11,493] INFO [group-coordinator-reaper]: Starting (org.apache.kafka.server.util.timer.SystemTimerReaper$Reaper)
+autopilot-kafka  | [2026-05-31 19:47:11,492] INFO [network-partition-metadata-client-reaper]: Starting (org.apache.kafka.server.util.timer.SystemTimerReaper$Reaper)
+autopilot-kafka  | [2026-05-31 19:47:11,494] INFO [group-coordinator-event-processor-0]: Starting (org.apache.kafka.coordinator.common.runtime.MultiThreadedEventProcessor$EventProcessorThread)
+autopilot-kafka  | [2026-05-31 19:47:11,492] INFO [PersisterStateManager]: Starting (org.apache.kafka.server.share.persister.PersisterStateManager$SendThread)
+autopilot-kafka  | [2026-05-31 19:47:11,495] INFO [group-coordinator-event-processor-2]: Starting (org.apache.kafka.coordinator.common.runtime.MultiThreadedEventProcessor$EventProcessorThread)
+autopilot-kafka  | [2026-05-31 19:47:11,495] INFO [group-coordinator-event-processor-1]: Starting (org.apache.kafka.coordinator.common.runtime.MultiThreadedEventProcessor$EventProcessorThread)
+autopilot-kafka  | [2026-05-31 19:47:11,495] INFO [group-coordinator-event-processor-3]: Starting (org.apache.kafka.coordinator.common.runtime.MultiThreadedEventProcessor$EventProcessorThread)
+autopilot-kafka  | [2026-05-31 19:47:11,501] INFO Unable to read the broker epoch in /tmp/kafka-logs. (kafka.log.LogManager)
+autopilot-kafka  | [2026-05-31 19:47:11,502] INFO [broker-1-to-controller-heartbeat-channel-manager]: Starting (kafka.server.NodeToControllerRequestThread)
+autopilot-kafka  | [2026-05-31 19:47:11,502] INFO [broker-1-to-controller-heartbeat-channel-manager]: Recorded new KRaft controller, from now on will use node kafka:9093 (id: 1 rack: null isFenced: false) (kafka.server.NodeToControllerRequestThread)
+autopilot-kafka  | [2026-05-31 19:47:11,504] INFO [BrokerLifecycleManager id=1] Incarnation hJlyegFqRvC-7oPbVAHhuQ of broker 1 in cluster MkU3OEVBNTcwNTJENDM2Qg is now STARTING. (kafka.server.BrokerLifecycleManager)
+autopilot-kafka  | [2026-05-31 19:47:11,505] INFO [share-group-lock-timeout-reaper]: Starting (org.apache.kafka.server.util.timer.SystemTimerReaper$Reaper)
+autopilot-kafka  | [2026-05-31 19:47:11,507] INFO [ExpirationReaper-1-AlterAcls]: Starting (org.apache.kafka.server.purgatory.DelayedOperationPurgatory$ExpiredOperationReaper)
+autopilot-kafka  | [2026-05-31 19:47:11,515] INFO [BrokerServer id=1] Waiting for the broker metadata publishers to be installed (kafka.server.BrokerServer)
+autopilot-kafka  | [2026-05-31 19:47:11,516] INFO [BrokerServer id=1] Finished waiting for the broker metadata publishers to be installed (kafka.server.BrokerServer)
+autopilot-kafka  | [2026-05-31 19:47:11,516] INFO [BrokerServer id=1] Waiting for the controller to acknowledge that we are caught up (kafka.server.BrokerServer)
+autopilot-kafka  | [2026-05-31 19:47:11,516] INFO [MetadataLoader id=1] InitializeNewPublishers: initializing MetadataVersionPublisher(id=1) with a snapshot at offset 9 (org.apache.kafka.image.loader.MetadataLoader)
+autopilot-kafka  | [2026-05-31 19:47:11,517] INFO [MetadataLoader id=1] InitializeNewPublishers: initializing BrokerMetadataPublisher with a snapshot at offset 9 (org.apache.kafka.image.loader.MetadataLoader)
+autopilot-kafka  | [2026-05-31 19:47:11,518] INFO [BrokerMetadataPublisher id=1] Publishing initial metadata at offset OffsetAndEpoch[offset=9, epoch=1] with metadata.version Optional[4.2-IV1]. (kafka.server.metadata.BrokerMetadataPublisher)
+autopilot-kafka  | [2026-05-31 19:47:11,518] INFO [BrokerLifecycleManager id=1] Successfully registered broker 1 with broker epoch 11 (kafka.server.BrokerLifecycleManager)
+autopilot-kafka  | [2026-05-31 19:47:11,519] INFO [ControllerRegistrationManager id=1 incarnation=XEXDLEobSa2Gyerx0ooF1g] RegistrationResponseHandler: controller acknowledged ControllerRegistrationRequest. (kafka.server.ControllerRegistrationManager)
+autopilot-kafka  | [2026-05-31 19:47:11,519] INFO Loading logs from log dirs ArrayBuffer(/tmp/kafka-logs) (kafka.log.LogManager)
+autopilot-kafka  | [2026-05-31 19:47:11,523] INFO No logs found to be loaded in /tmp/kafka-logs (kafka.log.LogManager)
+autopilot-kafka  | [2026-05-31 19:47:11,528] INFO Loaded 0 logs in 7ms (kafka.log.LogManager)
+autopilot-kafka  | [2026-05-31 19:47:11,528] INFO Starting log cleanup with a period of 300000 ms. (kafka.log.LogManager)
+autopilot-kafka  | [2026-05-31 19:47:11,529] INFO Starting log flusher with a default period of 9223372036854775807 ms. (kafka.log.LogManager)
+autopilot-kafka  | [2026-05-31 19:47:11,594] INFO [LogDirFailureHandler]: Starting (kafka.server.ReplicaManager$LogDirFailureHandler)
+autopilot-kafka  | [2026-05-31 19:47:11,594] INFO [AddPartitionsToTxnSenderThread-1]: Starting (org.apache.kafka.server.transaction.AddPartitionsToTxnManager)
+autopilot-kafka  | [2026-05-31 19:47:11,594] INFO [GroupCoordinator id=1] Starting up. (org.apache.kafka.coordinator.group.GroupCoordinatorService)
+autopilot-kafka  | [2026-05-31 19:47:11,594] INFO [GroupCoordinator id=1] Startup complete. (org.apache.kafka.coordinator.group.GroupCoordinatorService)
+autopilot-kafka  | [2026-05-31 19:47:11,595] INFO [TransactionCoordinator id=1] Starting up. (kafka.coordinator.transaction.TransactionCoordinator)
+autopilot-kafka  | [2026-05-31 19:47:11,595] INFO [TransactionCoordinator id=1] Startup complete. (kafka.coordinator.transaction.TransactionCoordinator)
+autopilot-kafka  | [2026-05-31 19:47:11,595] INFO [TxnMarkerSenderThread-1]: Starting (kafka.coordinator.transaction.TransactionMarkerChannelManager)
+autopilot-kafka  | [2026-05-31 19:47:11,595] INFO [ShareCoordinator id=1] Starting up. (org.apache.kafka.coordinator.share.ShareCoordinatorService)
+autopilot-kafka  | [2026-05-31 19:47:11,596] INFO [ShareCoordinator id=1] Startup complete. (org.apache.kafka.coordinator.share.ShareCoordinatorService)
+autopilot-kafka  | [2026-05-31 19:47:11,598] INFO [DynamicConfigPublisher broker id=1] Updating cluster configuration : min.insync.replicas -> 1 (kafka.server.metadata.DynamicConfigPublisher)
+autopilot-kafka  | [2026-05-31 19:47:11,599] INFO KafkaConfig values: 
+autopilot-kafka  | 	add.partitions.to.txn.retry.backoff.max.ms = 100
+autopilot-kafka  | 	add.partitions.to.txn.retry.backoff.ms = 20
+autopilot-kafka  | 	advertised.listeners = [INTERNAL://kafka:9092, EXTERNAL://localhost:9094]
+autopilot-kafka  | 	alter.config.policy.class.name = null
+autopilot-kafka  | 	alter.log.dirs.replication.quota.window.num = 11
+autopilot-kafka  | 	alter.log.dirs.replication.quota.window.size.seconds = 1
+autopilot-kafka  | 	authorizer.class.name = 
+autopilot-kafka  | 	auto.create.topics.enable = false
+autopilot-kafka  | 	auto.leader.rebalance.enable = true
+autopilot-kafka  | 	background.threads = 10
+autopilot-kafka  | 	broker.heartbeat.interval.ms = 2000
+autopilot-kafka  | 	broker.id = 1
+autopilot-kafka  | 	broker.rack = null
+autopilot-kafka  | 	broker.session.timeout.ms = 9000
+autopilot-kafka  | 	client.quota.callback.class = null
+autopilot-kafka  | 	compression.gzip.level = -1
+autopilot-kafka  | 	compression.lz4.level = 9
+autopilot-kafka  | 	compression.type = producer
+autopilot-kafka  | 	compression.zstd.level = 3
+autopilot-kafka  | 	config.providers = []
+autopilot-kafka  | 	connection.failed.authentication.delay.ms = 100
+autopilot-kafka  | 	connections.max.idle.ms = 600000
+autopilot-kafka  | 	connections.max.reauth.ms = 0
+autopilot-kafka  | 	controlled.shutdown.enable = true
+autopilot-kafka  | 	controller.listener.names = [CONTROLLER]
+autopilot-kafka  | 	controller.performance.always.log.threshold.ms = 2000
+autopilot-kafka  | 	controller.performance.sample.period.ms = 60000
+autopilot-kafka  | 	controller.quorum.append.linger.ms = 25
+autopilot-kafka  | 	controller.quorum.auto.join.enable = false
+autopilot-kafka  | 	controller.quorum.bootstrap.servers = []
+autopilot-kafka  | 	controller.quorum.election.backoff.max.ms = 1000
+autopilot-kafka  | 	controller.quorum.election.timeout.ms = 1000
+autopilot-kafka  | 	controller.quorum.fetch.timeout.ms = 2000
+autopilot-kafka  | 	controller.quorum.request.timeout.ms = 2000
+autopilot-kafka  | 	controller.quorum.retry.backoff.ms = 20
+autopilot-kafka  | 	controller.quorum.voters = [1@kafka:9093]
+autopilot-kafka  | 	controller.quota.window.num = 11
+autopilot-kafka  | 	controller.quota.window.size.seconds = 1
+autopilot-kafka  | 	controller.socket.timeout.ms = 30000
+autopilot-kafka  | 	create.topic.policy.class.name = null
+autopilot-kafka  | 	default.replication.factor = 1
+autopilot-kafka  | 	delegation.token.expiry.check.interval.ms = 3600000
+autopilot-kafka  | 	delegation.token.expiry.time.ms = 86400000
+autopilot-kafka  | 	delegation.token.max.lifetime.ms = 604800000
+autopilot-kafka  | 	delegation.token.secret.key = null
+autopilot-kafka  | 	delete.records.purgatory.purge.interval.requests = 1
+autopilot-kafka  | 	delete.topic.enable = true
+autopilot-kafka  | 	early.start.listeners = null
+autopilot-kafka  | 	fetch.max.bytes = 57671680
+autopilot-kafka  | 	fetch.purgatory.purge.interval.requests = 1000
+autopilot-kafka  | 	group.consumer.assignors = [uniform, range]
+autopilot-kafka  | 	group.consumer.heartbeat.interval.ms = 5000
+autopilot-kafka  | 	group.consumer.max.heartbeat.interval.ms = 15000
+autopilot-kafka  | 	group.consumer.max.session.timeout.ms = 60000
+autopilot-kafka  | 	group.consumer.max.size = 2147483647
+autopilot-kafka  | 	group.consumer.migration.policy = bidirectional
+autopilot-kafka  | 	group.consumer.min.heartbeat.interval.ms = 5000
+autopilot-kafka  | 	group.consumer.min.session.timeout.ms = 45000
+autopilot-kafka  | 	group.consumer.regex.refresh.interval.ms = 600000
+autopilot-kafka  | 	group.consumer.session.timeout.ms = 45000
+autopilot-kafka  | 	group.coordinator.append.linger.ms = -1
+autopilot-kafka  | 	group.coordinator.rebalance.protocols = [classic, consumer, streams]
+autopilot-kafka  | 	group.coordinator.threads = 4
+autopilot-kafka  | 	group.initial.rebalance.delay.ms = 0
+autopilot-kafka  | 	group.max.session.timeout.ms = 1800000
+autopilot-kafka  | 	group.max.size = 2147483647
+autopilot-kafka  | 	group.min.session.timeout.ms = 6000
+autopilot-kafka  | 	group.share.assignors = [simple]
+autopilot-kafka  | 	group.share.delivery.count.limit = 5
+autopilot-kafka  | 	group.share.enable = false
+autopilot-kafka  | 	group.share.heartbeat.interval.ms = 5000
+autopilot-kafka  | 	group.share.initialize.retry.interval.ms = 30000
+autopilot-kafka  | 	group.share.max.heartbeat.interval.ms = 15000
+autopilot-kafka  | 	group.share.max.record.lock.duration.ms = 60000
+autopilot-kafka  | 	group.share.max.session.timeout.ms = 60000
+autopilot-kafka  | 	group.share.max.share.sessions = 2000
+autopilot-kafka  | 	group.share.max.size = 200
+autopilot-kafka  | 	group.share.min.heartbeat.interval.ms = 5000
+autopilot-kafka  | 	group.share.min.record.lock.duration.ms = 15000
+autopilot-kafka  | 	group.share.min.session.timeout.ms = 45000
+autopilot-kafka  | 	group.share.partition.max.record.locks = 2000
+autopilot-kafka  | 	group.share.persister.class.name = org.apache.kafka.server.share.persister.DefaultStatePersister
+autopilot-kafka  | 	group.share.record.lock.duration.ms = 30000
+autopilot-kafka  | 	group.share.session.timeout.ms = 45000
+autopilot-kafka  | 	group.streams.heartbeat.interval.ms = 5000
+autopilot-kafka  | 	group.streams.initial.rebalance.delay.ms = 3000
+autopilot-kafka  | 	group.streams.max.heartbeat.interval.ms = 15000
+autopilot-kafka  | 	group.streams.max.session.timeout.ms = 60000
+autopilot-kafka  | 	group.streams.max.size = 2147483647
+autopilot-kafka  | 	group.streams.max.standby.replicas = 2
+autopilot-kafka  | 	group.streams.min.heartbeat.interval.ms = 5000
+autopilot-kafka  | 	group.streams.min.session.timeout.ms = 45000
+autopilot-kafka  | 	group.streams.num.standby.replicas = 0
+autopilot-kafka  | 	group.streams.session.timeout.ms = 45000
+autopilot-kafka  | 	initial.broker.registration.timeout.ms = 60000
+autopilot-kafka  | 	inter.broker.listener.name = INTERNAL
+autopilot-kafka  | 	internal.metadata.delete.delay.millis = 60000
+autopilot-kafka  | 	internal.metadata.log.segment.bytes = null
+autopilot-kafka  | 	internal.metadata.max.batch.size.in.bytes = 8388608
+autopilot-kafka  | 	internal.metadata.max.fetch.size.in.bytes = 8388608
+autopilot-kafka  | 	kafka.metrics.polling.interval.secs = 10
+autopilot-kafka  | 	kafka.metrics.reporters = []
+autopilot-kafka  | 	leader.imbalance.check.interval.seconds = 300
+autopilot-kafka  | 	listener.security.protocol.map = CONTROLLER:PLAINTEXT,INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT
+autopilot-kafka  | 	listeners = [INTERNAL://0.0.0.0:9092, CONTROLLER://0.0.0.0:9093, EXTERNAL://0.0.0.0:9094]
+autopilot-kafka  | 	log.cleaner.backoff.ms = 15000
+autopilot-kafka  | 	log.cleaner.dedupe.buffer.size = 134217728
+autopilot-kafka  | 	log.cleaner.delete.retention.ms = 86400000
+autopilot-kafka  | 	log.cleaner.enable = true
+autopilot-kafka  | 	log.cleaner.io.buffer.load.factor = 0.9
+autopilot-kafka  | 	log.cleaner.io.buffer.size = 524288
+autopilot-kafka  | 	log.cleaner.io.max.bytes.per.second = 1.7976931348623157E308
+autopilot-kafka  | 	log.cleaner.max.compaction.lag.ms = 9223372036854775807
+autopilot-kafka  | 	log.cleaner.min.cleanable.ratio = 0.5
+autopilot-kafka  | 	log.cleaner.min.compaction.lag.ms = 0
+autopilot-kafka  | 	log.cleaner.threads = 1
+autopilot-kafka  | 	log.cleanup.policy = [delete]
+autopilot-kafka  | 	log.dir = [/tmp/kafka-logs]
+autopilot-kafka  | 	log.dir.failure.timeout.ms = 30000
+autopilot-kafka  | 	log.dirs = null
+autopilot-kafka  | 	log.flush.interval.messages = 9223372036854775807
+autopilot-kafka  | 	log.flush.interval.ms = null
+autopilot-kafka  | 	log.flush.offset.checkpoint.interval.ms = 60000
+autopilot-kafka  | 	log.flush.scheduler.interval.ms = 9223372036854775807
+autopilot-kafka  | 	log.flush.start.offset.checkpoint.interval.ms = 60000
+autopilot-kafka  | 	log.index.interval.bytes = 4096
+autopilot-kafka  | 	log.index.size.max.bytes = 10485760
+autopilot-kafka  | 	log.initial.task.delay.ms = 30000
+autopilot-kafka  | 	log.local.retention.bytes = -2
+autopilot-kafka  | 	log.local.retention.ms = -2
+autopilot-kafka  | 	log.message.timestamp.after.max.ms = 3600000
+autopilot-kafka  | 	log.message.timestamp.before.max.ms = 9223372036854775807
+autopilot-kafka  | 	log.message.timestamp.type = CreateTime
+autopilot-kafka  | 	log.preallocate = false
+autopilot-kafka  | 	log.retention.bytes = -1
+autopilot-kafka  | 	log.retention.check.interval.ms = 300000
+autopilot-kafka  | 	log.retention.hours = 168
+autopilot-kafka  | 	log.retention.minutes = null
+autopilot-kafka  | 	log.retention.ms = null
+autopilot-kafka  | 	log.roll.hours = 168
+autopilot-kafka  | 	log.roll.jitter.hours = 0
+autopilot-kafka  | 	log.roll.jitter.ms = null
+autopilot-kafka  | 	log.roll.ms = null
+autopilot-kafka  | 	log.segment.bytes = 1073741824
+autopilot-kafka  | 	log.segment.delete.delay.ms = 60000
+autopilot-kafka  | 	max.connection.creation.rate = 2147483647
+autopilot-kafka  | 	max.connections = 2147483647
+autopilot-kafka  | 	max.connections.per.ip = 2147483647
+autopilot-kafka  | 	max.connections.per.ip.overrides = 
+autopilot-kafka  | 	max.incremental.fetch.session.cache.slots = 1000
+autopilot-kafka  | 	max.request.partition.size.limit = 2000
+autopilot-kafka  | 	message.max.bytes = 1048588
+autopilot-kafka  | 	metadata.log.dir = null
+autopilot-kafka  | 	metadata.log.max.record.bytes.between.snapshots = 20971520
+autopilot-kafka  | 	metadata.log.max.snapshot.interval.ms = 3600000
+autopilot-kafka  | 	metadata.log.segment.bytes = 1073741824
+autopilot-kafka  | 	metadata.log.segment.ms = 604800000
+autopilot-kafka  | 	metadata.max.idle.interval.ms = 500
+autopilot-kafka  | 	metadata.max.retention.bytes = 104857600
+autopilot-kafka  | 	metadata.max.retention.ms = 604800000
+autopilot-kafka  | 	metric.reporters = [org.apache.kafka.common.metrics.JmxReporter]
+autopilot-kafka  | 	metrics.num.samples = 2
+autopilot-kafka  | 	metrics.recording.level = INFO
+autopilot-kafka  | 	metrics.sample.window.ms = 30000
+autopilot-kafka  | 	min.insync.replicas = 1
+autopilot-kafka  | 	node.id = 1
+autopilot-kafka  | 	num.io.threads = 8
+autopilot-kafka  | 	num.network.threads = 3
+autopilot-kafka  | 	num.partitions = 1
+autopilot-kafka  | 	num.recovery.threads.per.data.dir = 2
+autopilot-kafka  | 	num.replica.alter.log.dirs.threads = null
+autopilot-kafka  | 	num.replica.fetchers = 1
+autopilot-kafka  | 	offset.metadata.max.bytes = 4096
+autopilot-kafka  | 	offsets.commit.timeout.ms = 5000
+autopilot-kafka  | 	offsets.load.buffer.size = 5242880
+autopilot-kafka  | 	offsets.retention.check.interval.ms = 600000
+autopilot-kafka  | 	offsets.retention.minutes = 10080
+autopilot-kafka  | 	offsets.topic.compression.codec = 0
+autopilot-kafka  | 	offsets.topic.num.partitions = 50
+autopilot-kafka  | 	offsets.topic.replication.factor = 1
+autopilot-kafka  | 	offsets.topic.segment.bytes = 104857600
+autopilot-kafka  | 	principal.builder.class = class org.apache.kafka.common.security.authenticator.DefaultKafkaPrincipalBuilder
+autopilot-kafka  | 	process.roles = [controller, broker]
+autopilot-kafka  | 	producer.id.expiration.check.interval.ms = 600000
+autopilot-kafka  | 	producer.id.expiration.ms = 86400000
+autopilot-kafka  | 	producer.purgatory.purge.interval.requests = 1000
+autopilot-kafka  | 	queued.max.request.bytes = -1
+autopilot-kafka  | 	queued.max.requests = 500
+autopilot-kafka  | 	quota.window.num = 11
+autopilot-kafka  | 	quota.window.size.seconds = 1
+autopilot-kafka  | 	remote.fetch.max.wait.ms = 500
+autopilot-kafka  | 	remote.list.offsets.request.timeout.ms = 30000
+autopilot-kafka  | 	remote.log.index.file.cache.total.size.bytes = 1073741824
+autopilot-kafka  | 	remote.log.manager.copier.thread.pool.size = 10
+autopilot-kafka  | 	remote.log.manager.copy.max.bytes.per.second = 9223372036854775807
+autopilot-kafka  | 	remote.log.manager.copy.quota.window.num = 11
+autopilot-kafka  | 	remote.log.manager.copy.quota.window.size.seconds = 1
+autopilot-kafka  | 	remote.log.manager.expiration.thread.pool.size = 10
+autopilot-kafka  | 	remote.log.manager.fetch.max.bytes.per.second = 9223372036854775807
+autopilot-kafka  | 	remote.log.manager.fetch.quota.window.num = 11
+autopilot-kafka  | 	remote.log.manager.fetch.quota.window.size.seconds = 1
+autopilot-kafka  | 	remote.log.manager.follower.thread.pool.size = 2
+autopilot-kafka  | 	remote.log.manager.task.interval.ms = 30000
+autopilot-kafka  | 	remote.log.manager.task.retry.backoff.max.ms = 30000
+autopilot-kafka  | 	remote.log.manager.task.retry.backoff.ms = 500
+autopilot-kafka  | 	remote.log.manager.task.retry.jitter = 0.2
+autopilot-kafka  | 	remote.log.manager.thread.pool.size = 2
+autopilot-kafka  | 	remote.log.metadata.custom.metadata.max.bytes = 128
+autopilot-kafka  | 	remote.log.metadata.manager.class.name = org.apache.kafka.server.log.remote.metadata.storage.TopicBasedRemoteLogMetadataManager
+autopilot-kafka  | 	remote.log.metadata.manager.class.path = null
+autopilot-kafka  | 	remote.log.metadata.manager.impl.prefix = rlmm.config.
+autopilot-kafka  | 	remote.log.metadata.manager.listener.name = null
+autopilot-kafka  | 	remote.log.reader.max.pending.tasks = 100
+autopilot-kafka  | 	remote.log.reader.threads = 10
+autopilot-kafka  | 	remote.log.storage.manager.class.name = null
+autopilot-kafka  | 	remote.log.storage.manager.class.path = null
+autopilot-kafka  | 	remote.log.storage.manager.impl.prefix = rsm.config.
+autopilot-kafka  | 	remote.log.storage.system.enable = false
+autopilot-kafka  | 	replica.fetch.backoff.ms = 1000
+autopilot-kafka  | 	replica.fetch.max.bytes = 1048576
+autopilot-kafka  | 	replica.fetch.min.bytes = 1
+autopilot-kafka  | 	replica.fetch.response.max.bytes = 10485760
+autopilot-kafka  | 	replica.fetch.wait.max.ms = 500
+autopilot-kafka  | 	replica.high.watermark.checkpoint.interval.ms = 5000
+autopilot-kafka  | 	replica.lag.time.max.ms = 30000
+autopilot-kafka  | 	replica.selector.class = null
+autopilot-kafka  | 	replica.socket.receive.buffer.bytes = 65536
+autopilot-kafka  | 	replica.socket.timeout.ms = 30000
+autopilot-kafka  | 	replication.quota.window.num = 11
+autopilot-kafka  | 	replication.quota.window.size.seconds = 1
+autopilot-kafka  | 	request.timeout.ms = 30000
+autopilot-kafka  | 	sasl.client.callback.handler.class = null
+autopilot-kafka  | 	sasl.enabled.mechanisms = [GSSAPI]
+autopilot-kafka  | 	sasl.jaas.config = null
+autopilot-kafka  | 	sasl.kerberos.kinit.cmd = /usr/bin/kinit
+autopilot-kafka  | 	sasl.kerberos.min.time.before.relogin = 60000
+autopilot-kafka  | 	sasl.kerberos.principal.to.local.rules = [DEFAULT]
+autopilot-kafka  | 	sasl.kerberos.service.name = null
+autopilot-kafka  | 	sasl.kerberos.ticket.renew.jitter = 0.05
+autopilot-kafka  | 	sasl.kerberos.ticket.renew.window.factor = 0.8
+autopilot-kafka  | 	sasl.login.callback.handler.class = null
+autopilot-kafka  | 	sasl.login.class = null
+autopilot-kafka  | 	sasl.login.connect.timeout.ms = null
+autopilot-kafka  | 	sasl.login.read.timeout.ms = null
+autopilot-kafka  | 	sasl.login.refresh.buffer.seconds = 300
+autopilot-kafka  | 	sasl.login.refresh.min.period.seconds = 60
+autopilot-kafka  | 	sasl.login.refresh.window.factor = 0.8
+autopilot-kafka  | 	sasl.login.refresh.window.jitter = 0.05
+autopilot-kafka  | 	sasl.login.retry.backoff.max.ms = 10000
+autopilot-kafka  | 	sasl.login.retry.backoff.ms = 100
+autopilot-kafka  | 	sasl.mechanism.controller.protocol = GSSAPI
+autopilot-kafka  | 	sasl.mechanism.inter.broker.protocol = GSSAPI
+autopilot-kafka  | 	sasl.oauthbearer.assertion.algorithm = RS256
+autopilot-kafka  | 	sasl.oauthbearer.assertion.claim.aud = null
+autopilot-kafka  | 	sasl.oauthbearer.assertion.claim.exp.seconds = 300
+autopilot-kafka  | 	sasl.oauthbearer.assertion.claim.iss = null
+autopilot-kafka  | 	sasl.oauthbearer.assertion.claim.jti.include = false
+autopilot-kafka  | 	sasl.oauthbearer.assertion.claim.nbf.seconds = 60
+autopilot-kafka  | 	sasl.oauthbearer.assertion.claim.sub = null
+autopilot-kafka  | 	sasl.oauthbearer.assertion.file = null
+autopilot-kafka  | 	sasl.oauthbearer.assertion.private.key.file = null
+autopilot-kafka  | 	sasl.oauthbearer.assertion.private.key.passphrase = null
+autopilot-kafka  | 	sasl.oauthbearer.assertion.template.file = null
+autopilot-kafka  | 	sasl.oauthbearer.client.credentials.client.id = null
+autopilot-kafka  | 	sasl.oauthbearer.client.credentials.client.secret = null
+autopilot-kafka  | 	sasl.oauthbearer.clock.skew.seconds = 30
+autopilot-kafka  | 	sasl.oauthbearer.expected.audience = []
+autopilot-kafka  | 	sasl.oauthbearer.expected.issuer = null
+autopilot-kafka  | 	sasl.oauthbearer.jwks.endpoint.refresh.ms = 3600000
+autopilot-kafka  | 	sasl.oauthbearer.jwks.endpoint.retry.backoff.max.ms = 10000
+autopilot-kafka  | 	sasl.oauthbearer.jwks.endpoint.retry.backoff.ms = 100
+autopilot-kafka  | 	sasl.oauthbearer.jwks.endpoint.url = null
+autopilot-kafka  | 	sasl.oauthbearer.jwt.retriever.class = class org.apache.kafka.common.security.oauthbearer.DefaultJwtRetriever
+autopilot-kafka  | 	sasl.oauthbearer.jwt.validator.class = class org.apache.kafka.common.security.oauthbearer.DefaultJwtValidator
+autopilot-kafka  | 	sasl.oauthbearer.scope = null
+autopilot-kafka  | 	sasl.oauthbearer.scope.claim.name = scope
+autopilot-kafka  | 	sasl.oauthbearer.sub.claim.name = sub
+autopilot-kafka  | 	sasl.oauthbearer.token.endpoint.url = null
+autopilot-kafka  | 	sasl.server.callback.handler.class = null
+autopilot-kafka  | 	sasl.server.max.receive.size = 524288
+autopilot-kafka  | 	security.inter.broker.protocol = PLAINTEXT
+autopilot-kafka  | 	security.providers = null
+autopilot-kafka  | 	server.max.startup.time.ms = 9223372036854775807
+autopilot-kafka  | 	share.coordinator.append.linger.ms = -1
+autopilot-kafka  | 	share.coordinator.cold.partition.snapshot.interval.ms = 300000
+autopilot-kafka  | 	share.coordinator.load.buffer.size = 5242880
+autopilot-kafka  | 	share.coordinator.snapshot.update.records.per.snapshot = 500
+autopilot-kafka  | 	share.coordinator.state.topic.compression.codec = 0
+autopilot-kafka  | 	share.coordinator.state.topic.min.isr = 2
+autopilot-kafka  | 	share.coordinator.state.topic.num.partitions = 50
+autopilot-kafka  | 	share.coordinator.state.topic.prune.interval.ms = 300000
+autopilot-kafka  | 	share.coordinator.state.topic.replication.factor = 3
+autopilot-kafka  | 	share.coordinator.state.topic.segment.bytes = 104857600
+autopilot-kafka  | 	share.coordinator.threads = 1
+autopilot-kafka  | 	share.coordinator.write.timeout.ms = 5000
+autopilot-kafka  | 	share.fetch.purgatory.purge.interval.requests = 1000
+autopilot-kafka  | 	socket.connection.setup.timeout.max.ms = 30000
+autopilot-kafka  | 	socket.connection.setup.timeout.ms = 10000
+autopilot-kafka  | 	socket.listen.backlog.size = 50
+autopilot-kafka  | 	socket.receive.buffer.bytes = 102400
+autopilot-kafka  | 	socket.request.max.bytes = 104857600
+autopilot-kafka  | 	socket.send.buffer.bytes = 102400
+autopilot-kafka  | 	ssl.allow.dn.changes = false
+autopilot-kafka  | 	ssl.allow.san.changes = false
+autopilot-kafka  | 	ssl.cipher.suites = []
+autopilot-kafka  | 	ssl.client.auth = none
+autopilot-kafka  | 	ssl.enabled.protocols = [TLSv1.2, TLSv1.3]
+autopilot-kafka  | 	ssl.endpoint.identification.algorithm = https
+autopilot-kafka  | 	ssl.engine.factory.class = null
+autopilot-kafka  | 	ssl.key.password = null
+autopilot-kafka  | 	ssl.keymanager.algorithm = SunX509
+autopilot-kafka  | 	ssl.keystore.certificate.chain = null
+autopilot-kafka  | 	ssl.keystore.key = null
+autopilot-kafka  | 	ssl.keystore.location = null
+autopilot-kafka  | 	ssl.keystore.password = null
+autopilot-kafka  | 	ssl.keystore.type = JKS
+autopilot-kafka  | 	ssl.principal.mapping.rules = DEFAULT
+autopilot-kafka  | 	ssl.protocol = TLSv1.3
+autopilot-kafka  | 	ssl.provider = null
+autopilot-kafka  | 	ssl.secure.random.implementation = null
+autopilot-kafka  | 	ssl.trustmanager.algorithm = PKIX
+autopilot-kafka  | 	ssl.truststore.certificates = null
+autopilot-kafka  | 	ssl.truststore.location = null
+autopilot-kafka  | 	ssl.truststore.password = null
+autopilot-kafka  | 	ssl.truststore.type = JKS
+autopilot-kafka  | 	telemetry.max.bytes = 1048576
+autopilot-kafka  | 	transaction.abort.timed.out.transaction.cleanup.interval.ms = 10000
+autopilot-kafka  | 	transaction.max.timeout.ms = 900000
+autopilot-kafka  | 	transaction.partition.verification.enable = true
+autopilot-kafka  | 	transaction.remove.expired.transaction.cleanup.interval.ms = 3600000
+autopilot-kafka  | 	transaction.state.log.load.buffer.size = 5242880
+autopilot-kafka  | 	transaction.state.log.min.isr = 1
+autopilot-kafka  | 	transaction.state.log.num.partitions = 50
+autopilot-kafka  | 	transaction.state.log.replication.factor = 1
+autopilot-kafka  | 	transaction.state.log.segment.bytes = 104857600
+autopilot-kafka  | 	transaction.two.phase.commit.enable = false
+autopilot-kafka  | 	transactional.id.expiration.ms = 604800000
+autopilot-kafka  | 	unclean.leader.election.enable = false
+autopilot-kafka  | 	unclean.leader.election.interval.ms = 300000
+autopilot-kafka  | 	unstable.api.versions.enable = false
+autopilot-kafka  | 	unstable.feature.versions.enable = false
+autopilot-kafka  |  (org.apache.kafka.common.config.AbstractConfig)
+autopilot-kafka  | [2026-05-31 19:47:11,604] INFO [BrokerMetadataPublisher id=1] Feature share.version has been updated to version 1 (kafka.server.metadata.BrokerMetadataPublisher)
+autopilot-kafka  | [2026-05-31 19:47:11,604] INFO [MetadataLoader id=1] InitializeNewPublishers: initializing BrokerRegistrationTracker(id=1) with a snapshot at offset 9 (org.apache.kafka.image.loader.MetadataLoader)
+autopilot-kafka  | [2026-05-31 19:47:11,605] INFO [ControllerRegistrationManager id=1 incarnation=XEXDLEobSa2Gyerx0ooF1g] Our registration has been persisted to the metadata log. (kafka.server.ControllerRegistrationManager)
+autopilot-kafka  | [2026-05-31 19:47:11,619] INFO [BrokerLifecycleManager id=1] The broker has caught up. Transitioning from STARTING to RECOVERY. (kafka.server.BrokerLifecycleManager)
+autopilot-kafka  | [2026-05-31 19:47:11,619] INFO [BrokerServer id=1] Finished waiting for the controller to acknowledge that we are caught up (kafka.server.BrokerServer)
+autopilot-kafka  | [2026-05-31 19:47:11,619] INFO [BrokerServer id=1] Waiting for the initial broker metadata update to be published (kafka.server.BrokerServer)
+autopilot-kafka  | [2026-05-31 19:47:11,619] INFO [BrokerServer id=1] Finished waiting for the initial broker metadata update to be published (kafka.server.BrokerServer)
+autopilot-kafka  | [2026-05-31 19:47:11,620] INFO KafkaConfig values: 
+autopilot-kafka  | 	add.partitions.to.txn.retry.backoff.max.ms = 100
+autopilot-kafka  | 	add.partitions.to.txn.retry.backoff.ms = 20
+autopilot-kafka  | 	advertised.listeners = [INTERNAL://kafka:9092, EXTERNAL://localhost:9094]
+autopilot-kafka  | 	alter.config.policy.class.name = null
+autopilot-kafka  | 	alter.log.dirs.replication.quota.window.num = 11
+autopilot-kafka  | 	alter.log.dirs.replication.quota.window.size.seconds = 1
+autopilot-kafka  | 	authorizer.class.name = 
+autopilot-kafka  | 	auto.create.topics.enable = false
+autopilot-kafka  | 	auto.leader.rebalance.enable = true
+autopilot-kafka  | 	background.threads = 10
+autopilot-kafka  | 	broker.heartbeat.interval.ms = 2000
+autopilot-kafka  | 	broker.id = 1
+autopilot-kafka  | 	broker.rack = null
+autopilot-kafka  | 	broker.session.timeout.ms = 9000
+autopilot-kafka  | 	client.quota.callback.class = null
+autopilot-kafka  | 	compression.gzip.level = -1
+autopilot-kafka  | 	compression.lz4.level = 9
+autopilot-kafka  | 	compression.type = producer
+autopilot-kafka  | 	compression.zstd.level = 3
+autopilot-kafka  | 	config.providers = []
+autopilot-kafka  | 	connection.failed.authentication.delay.ms = 100
+autopilot-kafka  | 	connections.max.idle.ms = 600000
+autopilot-kafka  | 	connections.max.reauth.ms = 0
+autopilot-kafka  | 	controlled.shutdown.enable = true
+autopilot-kafka  | 	controller.listener.names = [CONTROLLER]
+autopilot-kafka  | 	controller.performance.always.log.threshold.ms = 2000
+autopilot-kafka  | 	controller.performance.sample.period.ms = 60000
+autopilot-kafka  | 	controller.quorum.append.linger.ms = 25
+autopilot-kafka  | 	controller.quorum.auto.join.enable = false
+autopilot-kafka  | 	controller.quorum.bootstrap.servers = []
+autopilot-kafka  | 	controller.quorum.election.backoff.max.ms = 1000
+autopilot-kafka  | 	controller.quorum.election.timeout.ms = 1000
+autopilot-kafka  | 	controller.quorum.fetch.timeout.ms = 2000
+autopilot-kafka  | 	controller.quorum.request.timeout.ms = 2000
+autopilot-kafka  | 	controller.quorum.retry.backoff.ms = 20
+autopilot-kafka  | 	controller.quorum.voters = [1@kafka:9093]
+autopilot-kafka  | 	controller.quota.window.num = 11
+autopilot-kafka  | 	controller.quota.window.size.seconds = 1
+autopilot-kafka  | 	controller.socket.timeout.ms = 30000
+autopilot-kafka  | 	create.topic.policy.class.name = null
+autopilot-kafka  | 	default.replication.factor = 1
+autopilot-kafka  | 	delegation.token.expiry.check.interval.ms = 3600000
+autopilot-kafka  | 	delegation.token.expiry.time.ms = 86400000
+autopilot-kafka  | 	delegation.token.max.lifetime.ms = 604800000
+autopilot-kafka  | 	delegation.token.secret.key = null
+autopilot-kafka  | 	delete.records.purgatory.purge.interval.requests = 1
+autopilot-kafka  | 	delete.topic.enable = true
+autopilot-kafka  | 	early.start.listeners = null
+autopilot-kafka  | 	fetch.max.bytes = 57671680
+autopilot-kafka  | 	fetch.purgatory.purge.interval.requests = 1000
+autopilot-kafka  | 	group.consumer.assignors = [uniform, range]
+autopilot-kafka  | 	group.consumer.heartbeat.interval.ms = 5000
+autopilot-kafka  | 	group.consumer.max.heartbeat.interval.ms = 15000
+autopilot-kafka  | 	group.consumer.max.session.timeout.ms = 60000
+autopilot-kafka  | 	group.consumer.max.size = 2147483647
+autopilot-kafka  | 	group.consumer.migration.policy = bidirectional
+autopilot-kafka  | 	group.consumer.min.heartbeat.interval.ms = 5000
+autopilot-kafka  | 	group.consumer.min.session.timeout.ms = 45000
+autopilot-kafka  | 	group.consumer.regex.refresh.interval.ms = 600000
+autopilot-kafka  | 	group.consumer.session.timeout.ms = 45000
+autopilot-kafka  | 	group.coordinator.append.linger.ms = -1
+autopilot-kafka  | 	group.coordinator.rebalance.protocols = [classic, consumer, streams]
+autopilot-kafka  | 	group.coordinator.threads = 4
+autopilot-kafka  | 	group.initial.rebalance.delay.ms = 0
+autopilot-kafka  | 	group.max.session.timeout.ms = 1800000
+autopilot-kafka  | 	group.max.size = 2147483647
+autopilot-kafka  | 	group.min.session.timeout.ms = 6000
+autopilot-kafka  | 	group.share.assignors = [simple]
+autopilot-kafka  | 	group.share.delivery.count.limit = 5
+autopilot-kafka  | 	group.share.enable = false
+autopilot-kafka  | 	group.share.heartbeat.interval.ms = 5000
+autopilot-kafka  | 	group.share.initialize.retry.interval.ms = 30000
+autopilot-kafka  | 	group.share.max.heartbeat.interval.ms = 15000
+autopilot-kafka  | 	group.share.max.record.lock.duration.ms = 60000
+autopilot-kafka  | 	group.share.max.session.timeout.ms = 60000
+autopilot-kafka  | 	group.share.max.share.sessions = 2000
+autopilot-kafka  | 	group.share.max.size = 200
+autopilot-kafka  | 	group.share.min.heartbeat.interval.ms = 5000
+autopilot-kafka  | 	group.share.min.record.lock.duration.ms = 15000
+autopilot-kafka  | 	group.share.min.session.timeout.ms = 45000
+autopilot-kafka  | 	group.share.partition.max.record.locks = 2000
+autopilot-kafka  | 	group.share.persister.class.name = org.apache.kafka.server.share.persister.DefaultStatePersister
+autopilot-kafka  | 	group.share.record.lock.duration.ms = 30000
+autopilot-kafka  | 	group.share.session.timeout.ms = 45000
+autopilot-kafka  | 	group.streams.heartbeat.interval.ms = 5000
+autopilot-kafka  | 	group.streams.initial.rebalance.delay.ms = 3000
+autopilot-kafka  | 	group.streams.max.heartbeat.interval.ms = 15000
+autopilot-kafka  | 	group.streams.max.session.timeout.ms = 60000
+autopilot-kafka  | 	group.streams.max.size = 2147483647
+autopilot-kafka  | 	group.streams.max.standby.replicas = 2
+autopilot-kafka  | 	group.streams.min.heartbeat.interval.ms = 5000
+autopilot-kafka  | 	group.streams.min.session.timeout.ms = 45000
+autopilot-kafka  | 	group.streams.num.standby.replicas = 0
+autopilot-kafka  | 	group.streams.session.timeout.ms = 45000
+autopilot-kafka  | 	initial.broker.registration.timeout.ms = 60000
+autopilot-kafka  | 	inter.broker.listener.name = INTERNAL
+autopilot-kafka  | 	internal.metadata.delete.delay.millis = 60000
+autopilot-kafka  | 	internal.metadata.log.segment.bytes = null
+autopilot-kafka  | 	internal.metadata.max.batch.size.in.bytes = 8388608
+autopilot-kafka  | 	internal.metadata.max.fetch.size.in.bytes = 8388608
+autopilot-kafka  | 	kafka.metrics.polling.interval.secs = 10
+autopilot-kafka  | 	kafka.metrics.reporters = []
+autopilot-kafka  | 	leader.imbalance.check.interval.seconds = 300
+autopilot-kafka  | 	listener.security.protocol.map = CONTROLLER:PLAINTEXT,INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT
+autopilot-kafka  | 	listeners = [INTERNAL://0.0.0.0:9092, CONTROLLER://0.0.0.0:9093, EXTERNAL://0.0.0.0:9094]
+autopilot-kafka  | 	log.cleaner.backoff.ms = 15000
+autopilot-kafka  | 	log.cleaner.dedupe.buffer.size = 134217728
+autopilot-kafka  | 	log.cleaner.delete.retention.ms = 86400000
+autopilot-kafka  | 	log.cleaner.enable = true
+autopilot-kafka  | 	log.cleaner.io.buffer.load.factor = 0.9
+autopilot-kafka  | 	log.cleaner.io.buffer.size = 524288
+autopilot-kafka  | 	log.cleaner.io.max.bytes.per.second = 1.7976931348623157E308
+autopilot-kafka  | 	log.cleaner.max.compaction.lag.ms = 9223372036854775807
+autopilot-kafka  | 	log.cleaner.min.cleanable.ratio = 0.5
+autopilot-kafka  | 	log.cleaner.min.compaction.lag.ms = 0
+autopilot-kafka  | 	log.cleaner.threads = 1
+autopilot-kafka  | 	log.cleanup.policy = [delete]
+autopilot-kafka  | 	log.dir = [/tmp/kafka-logs]
+autopilot-kafka  | 	log.dir.failure.timeout.ms = 30000
+autopilot-kafka  | 	log.dirs = null
+autopilot-kafka  | 	log.flush.interval.messages = 9223372036854775807
+autopilot-kafka  | 	log.flush.interval.ms = null
+autopilot-kafka  | 	log.flush.offset.checkpoint.interval.ms = 60000
+autopilot-kafka  | 	log.flush.scheduler.interval.ms = 9223372036854775807
+autopilot-kafka  | 	log.flush.start.offset.checkpoint.interval.ms = 60000
+autopilot-kafka  | 	log.index.interval.bytes = 4096
+autopilot-kafka  | 	log.index.size.max.bytes = 10485760
+autopilot-kafka  | 	log.initial.task.delay.ms = 30000
+autopilot-kafka  | 	log.local.retention.bytes = -2
+autopilot-kafka  | 	log.local.retention.ms = -2
+autopilot-kafka  | 	log.message.timestamp.after.max.ms = 3600000
+autopilot-kafka  | 	log.message.timestamp.before.max.ms = 9223372036854775807
+autopilot-kafka  | 	log.message.timestamp.type = CreateTime
+autopilot-kafka  | 	log.preallocate = false
+autopilot-kafka  | 	log.retention.bytes = -1
+autopilot-kafka  | 	log.retention.check.interval.ms = 300000
+autopilot-kafka  | 	log.retention.hours = 168
+autopilot-kafka  | 	log.retention.minutes = null
+autopilot-kafka  | 	log.retention.ms = null
+autopilot-kafka  | 	log.roll.hours = 168
+autopilot-kafka  | 	log.roll.jitter.hours = 0
+autopilot-kafka  | 	log.roll.jitter.ms = null
+autopilot-kafka  | 	log.roll.ms = null
+autopilot-kafka  | 	log.segment.bytes = 1073741824
+autopilot-kafka  | 	log.segment.delete.delay.ms = 60000
+autopilot-kafka  | 	max.connection.creation.rate = 2147483647
+autopilot-kafka  | 	max.connections = 2147483647
+autopilot-kafka  | 	max.connections.per.ip = 2147483647
+autopilot-kafka  | 	max.connections.per.ip.overrides = 
+autopilot-kafka  | 	max.incremental.fetch.session.cache.slots = 1000
+autopilot-kafka  | 	max.request.partition.size.limit = 2000
+autopilot-kafka  | 	message.max.bytes = 1048588
+autopilot-kafka  | 	metadata.log.dir = null
+autopilot-kafka  | 	metadata.log.max.record.bytes.between.snapshots = 20971520
+autopilot-kafka  | 	metadata.log.max.snapshot.interval.ms = 3600000
+autopilot-kafka  | 	metadata.log.segment.bytes = 1073741824
+autopilot-kafka  | 	metadata.log.segment.ms = 604800000
+autopilot-kafka  | 	metadata.max.idle.interval.ms = 500
+autopilot-kafka  | 	metadata.max.retention.bytes = 104857600
+autopilot-kafka  | 	metadata.max.retention.ms = 604800000
+autopilot-kafka  | 	metric.reporters = [org.apache.kafka.common.metrics.JmxReporter]
+autopilot-kafka  | 	metrics.num.samples = 2
+autopilot-kafka  | 	metrics.recording.level = INFO
+autopilot-kafka  | 	metrics.sample.window.ms = 30000
+autopilot-kafka  | 	min.insync.replicas = 1
+autopilot-kafka  | 	node.id = 1
+autopilot-kafka  | 	num.io.threads = 8
+autopilot-kafka  | 	num.network.threads = 3
+autopilot-kafka  | 	num.partitions = 1
+autopilot-kafka  | 	num.recovery.threads.per.data.dir = 2
+autopilot-kafka  | 	num.replica.alter.log.dirs.threads = null
+autopilot-kafka  | 	num.replica.fetchers = 1
+autopilot-kafka  | 	offset.metadata.max.bytes = 4096
+autopilot-kafka  | 	offsets.commit.timeout.ms = 5000
+autopilot-kafka  | 	offsets.load.buffer.size = 5242880
+autopilot-kafka  | 	offsets.retention.check.interval.ms = 600000
+autopilot-kafka  | 	offsets.retention.minutes = 10080
+autopilot-kafka  | 	offsets.topic.compression.codec = 0
+autopilot-kafka  | 	offsets.topic.num.partitions = 50
+autopilot-kafka  | 	offsets.topic.replication.factor = 1
+autopilot-kafka  | 	offsets.topic.segment.bytes = 104857600
+autopilot-kafka  | 	principal.builder.class = class org.apache.kafka.common.security.authenticator.DefaultKafkaPrincipalBuilder
+autopilot-kafka  | 	process.roles = [controller, broker]
+autopilot-kafka  | 	producer.id.expiration.check.interval.ms = 600000
+autopilot-kafka  | 	producer.id.expiration.ms = 86400000
+autopilot-kafka  | 	producer.purgatory.purge.interval.requests = 1000
+autopilot-kafka  | 	queued.max.request.bytes = -1
+autopilot-kafka  | 	queued.max.requests = 500
+autopilot-kafka  | 	quota.window.num = 11
+autopilot-kafka  | 	quota.window.size.seconds = 1
+autopilot-kafka  | 	remote.fetch.max.wait.ms = 500
+autopilot-kafka  | 	remote.list.offsets.request.timeout.ms = 30000
+autopilot-kafka  | 	remote.log.index.file.cache.total.size.bytes = 1073741824
+autopilot-kafka  | 	remote.log.manager.copier.thread.pool.size = 10
+autopilot-kafka  | 	remote.log.manager.copy.max.bytes.per.second = 9223372036854775807
+autopilot-kafka  | 	remote.log.manager.copy.quota.window.num = 11
+autopilot-kafka  | 	remote.log.manager.copy.quota.window.size.seconds = 1
+autopilot-kafka  | 	remote.log.manager.expiration.thread.pool.size = 10
+autopilot-kafka  | 	remote.log.manager.fetch.max.bytes.per.second = 9223372036854775807
+autopilot-kafka  | 	remote.log.manager.fetch.quota.window.num = 11
+autopilot-kafka  | 	remote.log.manager.fetch.quota.window.size.seconds = 1
+autopilot-kafka  | 	remote.log.manager.follower.thread.pool.size = 2
+autopilot-kafka  | 	remote.log.manager.task.interval.ms = 30000
+autopilot-kafka  | 	remote.log.manager.task.retry.backoff.max.ms = 30000
+autopilot-kafka  | 	remote.log.manager.task.retry.backoff.ms = 500
+autopilot-kafka  | 	remote.log.manager.task.retry.jitter = 0.2
+autopilot-kafka  | 	remote.log.manager.thread.pool.size = 2
+autopilot-kafka  | 	remote.log.metadata.custom.metadata.max.bytes = 128
+autopilot-kafka  | 	remote.log.metadata.manager.class.name = org.apache.kafka.server.log.remote.metadata.storage.TopicBasedRemoteLogMetadataManager
+autopilot-kafka  | 	remote.log.metadata.manager.class.path = null
+autopilot-kafka  | 	remote.log.metadata.manager.impl.prefix = rlmm.config.
+autopilot-kafka  | 	remote.log.metadata.manager.listener.name = null
+autopilot-kafka  | 	remote.log.reader.max.pending.tasks = 100
+autopilot-kafka  | 	remote.log.reader.threads = 10
+autopilot-kafka  | 	remote.log.storage.manager.class.name = null
+autopilot-kafka  | 	remote.log.storage.manager.class.path = null
+autopilot-kafka  | 	remote.log.storage.manager.impl.prefix = rsm.config.
+autopilot-kafka  | 	remote.log.storage.system.enable = false
+autopilot-kafka  | 	replica.fetch.backoff.ms = 1000
+autopilot-kafka  | 	replica.fetch.max.bytes = 1048576
+autopilot-kafka  | 	replica.fetch.min.bytes = 1
+autopilot-kafka  | 	replica.fetch.response.max.bytes = 10485760
+autopilot-kafka  | 	replica.fetch.wait.max.ms = 500
+autopilot-kafka  | 	replica.high.watermark.checkpoint.interval.ms = 5000
+autopilot-kafka  | 	replica.lag.time.max.ms = 30000
+autopilot-kafka  | 	replica.selector.class = null
+autopilot-kafka  | 	replica.socket.receive.buffer.bytes = 65536
+autopilot-kafka  | 	replica.socket.timeout.ms = 30000
+autopilot-kafka  | 	replication.quota.window.num = 11
+autopilot-kafka  | 	replication.quota.window.size.seconds = 1
+autopilot-kafka  | 	request.timeout.ms = 30000
+autopilot-kafka  | 	sasl.client.callback.handler.class = null
+autopilot-kafka  | 	sasl.enabled.mechanisms = [GSSAPI]
+autopilot-kafka  | 	sasl.jaas.config = null
+autopilot-kafka  | 	sasl.kerberos.kinit.cmd = /usr/bin/kinit
+autopilot-kafka  | 	sasl.kerberos.min.time.before.relogin = 60000
+autopilot-kafka  | 	sasl.kerberos.principal.to.local.rules = [DEFAULT]
+autopilot-kafka  | 	sasl.kerberos.service.name = null
+autopilot-kafka  | 	sasl.kerberos.ticket.renew.jitter = 0.05
+autopilot-kafka  | 	sasl.kerberos.ticket.renew.window.factor = 0.8
+autopilot-kafka  | 	sasl.login.callback.handler.class = null
+autopilot-kafka  | 	sasl.login.class = null
+autopilot-kafka  | 	sasl.login.connect.timeout.ms = null
+autopilot-kafka  | 	sasl.login.read.timeout.ms = null
+autopilot-kafka  | 	sasl.login.refresh.buffer.seconds = 300
+autopilot-kafka  | 	sasl.login.refresh.min.period.seconds = 60
+autopilot-kafka  | 	sasl.login.refresh.window.factor = 0.8
+autopilot-kafka  | 	sasl.login.refresh.window.jitter = 0.05
+autopilot-kafka  | 	sasl.login.retry.backoff.max.ms = 10000
+autopilot-kafka  | 	sasl.login.retry.backoff.ms = 100
+autopilot-kafka  | 	sasl.mechanism.controller.protocol = GSSAPI
+autopilot-kafka  | 	sasl.mechanism.inter.broker.protocol = GSSAPI
+autopilot-kafka  | 	sasl.oauthbearer.assertion.algorithm = RS256
+autopilot-kafka  | 	sasl.oauthbearer.assertion.claim.aud = null
+autopilot-kafka  | 	sasl.oauthbearer.assertion.claim.exp.seconds = 300
+autopilot-kafka  | 	sasl.oauthbearer.assertion.claim.iss = null
+autopilot-kafka  | 	sasl.oauthbearer.assertion.claim.jti.include = false
+autopilot-kafka  | 	sasl.oauthbearer.assertion.claim.nbf.seconds = 60
+autopilot-kafka  | 	sasl.oauthbearer.assertion.claim.sub = null
+autopilot-kafka  | 	sasl.oauthbearer.assertion.file = null
+autopilot-kafka  | 	sasl.oauthbearer.assertion.private.key.file = null
+autopilot-kafka  | 	sasl.oauthbearer.assertion.private.key.passphrase = null
+autopilot-kafka  | 	sasl.oauthbearer.assertion.template.file = null
+autopilot-kafka  | 	sasl.oauthbearer.client.credentials.client.id = null
+autopilot-kafka  | 	sasl.oauthbearer.client.credentials.client.secret = null
+autopilot-kafka  | 	sasl.oauthbearer.clock.skew.seconds = 30
+autopilot-kafka  | 	sasl.oauthbearer.expected.audience = []
+autopilot-kafka  | 	sasl.oauthbearer.expected.issuer = null
+autopilot-kafka  | 	sasl.oauthbearer.jwks.endpoint.refresh.ms = 3600000
+autopilot-kafka  | 	sasl.oauthbearer.jwks.endpoint.retry.backoff.max.ms = 10000
+autopilot-kafka  | 	sasl.oauthbearer.jwks.endpoint.retry.backoff.ms = 100
+autopilot-kafka  | 	sasl.oauthbearer.jwks.endpoint.url = null
+autopilot-kafka  | 	sasl.oauthbearer.jwt.retriever.class = class org.apache.kafka.common.security.oauthbearer.DefaultJwtRetriever
+autopilot-kafka  | 	sasl.oauthbearer.jwt.validator.class = class org.apache.kafka.common.security.oauthbearer.DefaultJwtValidator
+autopilot-kafka  | 	sasl.oauthbearer.scope = null
+autopilot-kafka  | 	sasl.oauthbearer.scope.claim.name = scope
+autopilot-kafka  | 	sasl.oauthbearer.sub.claim.name = sub
+autopilot-kafka  | 	sasl.oauthbearer.token.endpoint.url = null
+autopilot-kafka  | 	sasl.server.callback.handler.class = null
+autopilot-kafka  | 	sasl.server.max.receive.size = 524288
+autopilot-kafka  | 	security.inter.broker.protocol = PLAINTEXT
+autopilot-kafka  | 	security.providers = null
+autopilot-kafka  | 	server.max.startup.time.ms = 9223372036854775807
+autopilot-kafka  | 	share.coordinator.append.linger.ms = -1
+autopilot-kafka  | 	share.coordinator.cold.partition.snapshot.interval.ms = 300000
+autopilot-kafka  | 	share.coordinator.load.buffer.size = 5242880
+autopilot-kafka  | 	share.coordinator.snapshot.update.records.per.snapshot = 500
+autopilot-kafka  | 	share.coordinator.state.topic.compression.codec = 0
+autopilot-kafka  | 	share.coordinator.state.topic.min.isr = 2
+autopilot-kafka  | 	share.coordinator.state.topic.num.partitions = 50
+autopilot-kafka  | 	share.coordinator.state.topic.prune.interval.ms = 300000
+autopilot-kafka  | 	share.coordinator.state.topic.replication.factor = 3
+autopilot-kafka  | 	share.coordinator.state.topic.segment.bytes = 104857600
+autopilot-kafka  | 	share.coordinator.threads = 1
+autopilot-kafka  | 	share.coordinator.write.timeout.ms = 5000
+autopilot-kafka  | 	share.fetch.purgatory.purge.interval.requests = 1000
+autopilot-kafka  | 	socket.connection.setup.timeout.max.ms = 30000
+autopilot-kafka  | 	socket.connection.setup.timeout.ms = 10000
+autopilot-kafka  | 	socket.listen.backlog.size = 50
+autopilot-kafka  | 	socket.receive.buffer.bytes = 102400
+autopilot-kafka  | 	socket.request.max.bytes = 104857600
+autopilot-kafka  | 	socket.send.buffer.bytes = 102400
+autopilot-kafka  | 	ssl.allow.dn.changes = false
+autopilot-kafka  | 	ssl.allow.san.changes = false
+autopilot-kafka  | 	ssl.cipher.suites = []
+autopilot-kafka  | 	ssl.client.auth = none
+autopilot-kafka  | 	ssl.enabled.protocols = [TLSv1.2, TLSv1.3]
+autopilot-kafka  | 	ssl.endpoint.identification.algorithm = https
+autopilot-kafka  | 	ssl.engine.factory.class = null
+autopilot-kafka  | 	ssl.key.password = null
+autopilot-kafka  | 	ssl.keymanager.algorithm = SunX509
+autopilot-kafka  | 	ssl.keystore.certificate.chain = null
+autopilot-kafka  | 	ssl.keystore.key = null
+autopilot-kafka  | 	ssl.keystore.location = null
+autopilot-kafka  | 	ssl.keystore.password = null
+autopilot-kafka  | 	ssl.keystore.type = JKS
+autopilot-kafka  | 	ssl.principal.mapping.rules = DEFAULT
+autopilot-kafka  | 	ssl.protocol = TLSv1.3
+autopilot-kafka  | 	ssl.provider = null
+autopilot-kafka  | 	ssl.secure.random.implementation = null
+autopilot-kafka  | 	ssl.trustmanager.algorithm = PKIX
+autopilot-kafka  | 	ssl.truststore.certificates = null
+autopilot-kafka  | 	ssl.truststore.location = null
+autopilot-kafka  | 	ssl.truststore.password = null
+autopilot-kafka  | 	ssl.truststore.type = JKS
+autopilot-kafka  | 	telemetry.max.bytes = 1048576
+autopilot-kafka  | 	transaction.abort.timed.out.transaction.cleanup.interval.ms = 10000
+autopilot-kafka  | 	transaction.max.timeout.ms = 900000
+autopilot-kafka  | 	transaction.partition.verification.enable = true
+autopilot-kafka  | 	transaction.remove.expired.transaction.cleanup.interval.ms = 3600000
+autopilot-kafka  | 	transaction.state.log.load.buffer.size = 5242880
+autopilot-kafka  | 	transaction.state.log.min.isr = 1
+autopilot-kafka  | 	transaction.state.log.num.partitions = 50
+autopilot-kafka  | 	transaction.state.log.replication.factor = 1
+autopilot-kafka  | 	transaction.state.log.segment.bytes = 104857600
+autopilot-kafka  | 	transaction.two.phase.commit.enable = false
+autopilot-kafka  | 	transactional.id.expiration.ms = 604800000
+autopilot-kafka  | 	unclean.leader.election.enable = false
+autopilot-kafka  | 	unclean.leader.election.interval.ms = 300000
+autopilot-kafka  | 	unstable.api.versions.enable = false
+autopilot-kafka  | 	unstable.feature.versions.enable = false
+autopilot-kafka  |  (org.apache.kafka.common.config.AbstractConfig)
+autopilot-kafka  | [2026-05-31 19:47:11,622] INFO [BrokerServer id=1] Waiting for the broker to be unfenced (kafka.server.BrokerServer)
+autopilot-kafka  | [2026-05-31 19:47:11,651] INFO [BrokerLifecycleManager id=1] The broker has been unfenced. Transitioning from RECOVERY to RUNNING. (kafka.server.BrokerLifecycleManager)
+autopilot-kafka  | [2026-05-31 19:47:11,651] INFO [BrokerServer id=1] Finished waiting for the broker to be unfenced (kafka.server.BrokerServer)
+autopilot-kafka  | [2026-05-31 19:47:11,651] INFO authorizerStart completed for endpoint INTERNAL. Endpoint is now READY. (org.apache.kafka.server.network.EndpointReadyFutures)
+autopilot-kafka  | [2026-05-31 19:47:11,651] INFO authorizerStart completed for endpoint EXTERNAL. Endpoint is now READY. (org.apache.kafka.server.network.EndpointReadyFutures)
+autopilot-kafka  | [2026-05-31 19:47:11,651] INFO [SocketServer listenerType=BROKER, nodeId=1] Enabling request processing. (kafka.network.SocketServer)
+autopilot-kafka  | [2026-05-31 19:47:11,652] INFO Awaiting socket connections on 0.0.0.0:9094. (kafka.network.DataPlaneAcceptor)
+autopilot-kafka  | [2026-05-31 19:47:11,652] INFO Awaiting socket connections on 0.0.0.0:9092. (kafka.network.DataPlaneAcceptor)
+autopilot-kafka  | [2026-05-31 19:47:11,655] INFO [BrokerServer id=1] Waiting for all of the authorizer futures to be completed (kafka.server.BrokerServer)
+autopilot-kafka  | [2026-05-31 19:47:11,655] INFO [BrokerServer id=1] Finished waiting for all of the authorizer futures to be completed (kafka.server.BrokerServer)
+autopilot-kafka  | [2026-05-31 19:47:11,655] INFO [BrokerServer id=1] Waiting for all of the SocketServer Acceptors to be started (kafka.server.BrokerServer)
+autopilot-kafka  | [2026-05-31 19:47:11,655] INFO [BrokerServer id=1] Finished waiting for all of the SocketServer Acceptors to be started (kafka.server.BrokerServer)
+autopilot-kafka  | [2026-05-31 19:47:11,656] INFO [BrokerServer id=1] Transition from STARTING to STARTED (kafka.server.BrokerServer)
+autopilot-kafka  | [2026-05-31 19:47:11,656] INFO Kafka version: 4.2.1 (org.apache.kafka.common.utils.AppInfoParser)
+autopilot-kafka  | [2026-05-31 19:47:11,656] INFO Kafka commitId: 18d5ecd939c8d510 (org.apache.kafka.common.utils.AppInfoParser)
+autopilot-kafka  | [2026-05-31 19:47:11,656] INFO Kafka startTimeMs: 1780256831656 (org.apache.kafka.common.utils.AppInfoParser)
+autopilot-kafka  | [2026-05-31 19:47:11,657] INFO [KafkaRaftServer nodeId=1] Kafka Server started (kafka.server.KafkaRaftServer)
+autopilot-kafka  | [2026-05-31 19:47:18,212] INFO [ReplicaFetcherManager on broker 1] Removed fetcher for partitions Set(competitor.data.raw-2, competitor.data.raw-0, competitor.data.raw-1) (kafka.server.ReplicaFetcherManager)
+autopilot-kafka  | [2026-05-31 19:47:18,246] INFO [LogLoader partition=competitor.data.raw-2, dir=/tmp/kafka-logs] Loading producer state till offset 0 (org.apache.kafka.storage.internals.log.UnifiedLog)
+autopilot-kafka  | [2026-05-31 19:47:18,249] INFO Created log for partition competitor.data.raw-2 in /tmp/kafka-logs/competitor.data.raw-2 with properties {retention.ms=604800000} (kafka.log.LogManager)
+autopilot-kafka  | [2026-05-31 19:47:18,250] INFO [Partition competitor.data.raw-2 broker=1] No checkpointed highwatermark is found for partition competitor.data.raw-2 (kafka.cluster.Partition)
+autopilot-kafka  | [2026-05-31 19:47:18,251] INFO [Partition competitor.data.raw-2 broker=1] Log loaded for partition competitor.data.raw-2 with initial high watermark 0 (kafka.cluster.Partition)
+autopilot-kafka  | [2026-05-31 19:47:18,264] INFO [LogLoader partition=competitor.data.raw-0, dir=/tmp/kafka-logs] Loading producer state till offset 0 (org.apache.kafka.storage.internals.log.UnifiedLog)
+autopilot-kafka  | [2026-05-31 19:47:18,264] INFO Created log for partition competitor.data.raw-0 in /tmp/kafka-logs/competitor.data.raw-0 with properties {retention.ms=604800000} (kafka.log.LogManager)
+autopilot-kafka  | [2026-05-31 19:47:18,264] INFO [Partition competitor.data.raw-0 broker=1] No checkpointed highwatermark is found for partition competitor.data.raw-0 (kafka.cluster.Partition)
+autopilot-kafka  | [2026-05-31 19:47:18,264] INFO [Partition competitor.data.raw-0 broker=1] Log loaded for partition competitor.data.raw-0 with initial high watermark 0 (kafka.cluster.Partition)
+autopilot-kafka  | [2026-05-31 19:47:18,269] INFO [LogLoader partition=competitor.data.raw-1, dir=/tmp/kafka-logs] Loading producer state till offset 0 (org.apache.kafka.storage.internals.log.UnifiedLog)
+autopilot-kafka  | [2026-05-31 19:47:18,269] INFO Created log for partition competitor.data.raw-1 in /tmp/kafka-logs/competitor.data.raw-1 with properties {retention.ms=604800000} (kafka.log.LogManager)
+autopilot-kafka  | [2026-05-31 19:47:18,270] INFO [Partition competitor.data.raw-1 broker=1] No checkpointed highwatermark is found for partition competitor.data.raw-1 (kafka.cluster.Partition)
+autopilot-kafka  | [2026-05-31 19:47:18,270] INFO [Partition competitor.data.raw-1 broker=1] Log loaded for partition competitor.data.raw-1 with initial high watermark 0 (kafka.cluster.Partition)
+autopilot-kafka  | [2026-05-31 19:47:18,278] INFO [DynamicConfigPublisher broker id=1] Updating topic competitor.data.raw with new configuration : retention.ms -> 604800000 (kafka.server.metadata.DynamicConfigPublisher)
+autopilot-kafka  | [2026-05-31 19:47:19,685] INFO [ReplicaFetcherManager on broker 1] Removed fetcher for partitions Set(competitor.data.dlq-0) (kafka.server.ReplicaFetcherManager)
+autopilot-kafka  | [2026-05-31 19:47:19,689] INFO [LogLoader partition=competitor.data.dlq-0, dir=/tmp/kafka-logs] Loading producer state till offset 0 (org.apache.kafka.storage.internals.log.UnifiedLog)
+autopilot-kafka  | [2026-05-31 19:47:19,689] INFO Created log for partition competitor.data.dlq-0 in /tmp/kafka-logs/competitor.data.dlq-0 with properties {retention.ms=2592000000} (kafka.log.LogManager)
+autopilot-kafka  | [2026-05-31 19:47:19,690] INFO [Partition competitor.data.dlq-0 broker=1] No checkpointed highwatermark is found for partition competitor.data.dlq-0 (kafka.cluster.Partition)
+autopilot-kafka  | [2026-05-31 19:47:19,690] INFO [Partition competitor.data.dlq-0 broker=1] Log loaded for partition competitor.data.dlq-0 with initial high watermark 0 (kafka.cluster.Partition)
+autopilot-kafka  | [2026-05-31 19:47:19,698] INFO [DynamicConfigPublisher broker id=1] Updating topic competitor.data.dlq with new configuration : retention.ms -> 2592000000 (kafka.server.metadata.DynamicConfigPublisher)
+autopilot-kafka  | [2026-05-31 19:47:20,944] INFO [ReplicaFetcherManager on broker 1] Removed fetcher for partitions Set(competitor.insights.created-1, competitor.insights.created-2, competitor.insights.created-0) (kafka.server.ReplicaFetcherManager)
+autopilot-kafka  | [2026-05-31 19:47:20,946] INFO [LogLoader partition=competitor.insights.created-1, dir=/tmp/kafka-logs] Loading producer state till offset 0 (org.apache.kafka.storage.internals.log.UnifiedLog)
+autopilot-kafka  | [2026-05-31 19:47:20,946] INFO Created log for partition competitor.insights.created-1 in /tmp/kafka-logs/competitor.insights.created-1 with properties {retention.ms=604800000} (kafka.log.LogManager)
+autopilot-kafka  | [2026-05-31 19:47:20,946] INFO [Partition competitor.insights.created-1 broker=1] No checkpointed highwatermark is found for partition competitor.insights.created-1 (kafka.cluster.Partition)
+autopilot-kafka  | [2026-05-31 19:47:20,946] INFO [Partition competitor.insights.created-1 broker=1] Log loaded for partition competitor.insights.created-1 with initial high watermark 0 (kafka.cluster.Partition)
+autopilot-kafka  | [2026-05-31 19:47:20,953] INFO [LogLoader partition=competitor.insights.created-2, dir=/tmp/kafka-logs] Loading producer state till offset 0 (org.apache.kafka.storage.internals.log.UnifiedLog)
+autopilot-kafka  | [2026-05-31 19:47:20,954] INFO Created log for partition competitor.insights.created-2 in /tmp/kafka-logs/competitor.insights.created-2 with properties {retention.ms=604800000} (kafka.log.LogManager)
+autopilot-kafka  | [2026-05-31 19:47:20,954] INFO [Partition competitor.insights.created-2 broker=1] No checkpointed highwatermark is found for partition competitor.insights.created-2 (kafka.cluster.Partition)
+autopilot-kafka  | [2026-05-31 19:47:20,954] INFO [Partition competitor.insights.created-2 broker=1] Log loaded for partition competitor.insights.created-2 with initial high watermark 0 (kafka.cluster.Partition)
+autopilot-kafka  | [2026-05-31 19:47:20,961] INFO [LogLoader partition=competitor.insights.created-0, dir=/tmp/kafka-logs] Loading producer state till offset 0 (org.apache.kafka.storage.internals.log.UnifiedLog)
+autopilot-kafka  | [2026-05-31 19:47:20,961] INFO Created log for partition competitor.insights.created-0 in /tmp/kafka-logs/competitor.insights.created-0 with properties {retention.ms=604800000} (kafka.log.LogManager)
+autopilot-kafka  | [2026-05-31 19:47:20,961] INFO [Partition competitor.insights.created-0 broker=1] No checkpointed highwatermark is found for partition competitor.insights.created-0 (kafka.cluster.Partition)
+autopilot-kafka  | [2026-05-31 19:47:20,961] INFO [Partition competitor.insights.created-0 broker=1] Log loaded for partition competitor.insights.created-0 with initial high watermark 0 (kafka.cluster.Partition)
+autopilot-kafka  | [2026-05-31 19:47:20,974] INFO [DynamicConfigPublisher broker id=1] Updating topic competitor.insights.created with new configuration : retention.ms -> 604800000 (kafka.server.metadata.DynamicConfigPublisher)
+autopilot-kafka  | [2026-05-31 19:47:22,100] INFO [ReplicaFetcherManager on broker 1] Removed fetcher for partitions Set(content.generation.requested-0, content.generation.requested-1, content.generation.requested-2) (kafka.server.ReplicaFetcherManager)
+autopilot-kafka  | [2026-05-31 19:47:22,102] INFO [LogLoader partition=content.generation.requested-0, dir=/tmp/kafka-logs] Loading producer state till offset 0 (org.apache.kafka.storage.internals.log.UnifiedLog)
+autopilot-kafka  | [2026-05-31 19:47:22,103] INFO Created log for partition content.generation.requested-0 in /tmp/kafka-logs/content.generation.requested-0 with properties {retention.ms=86400000} (kafka.log.LogManager)
+autopilot-kafka  | [2026-05-31 19:47:22,103] INFO [Partition content.generation.requested-0 broker=1] No checkpointed highwatermark is found for partition content.generation.requested-0 (kafka.cluster.Partition)
+autopilot-kafka  | [2026-05-31 19:47:22,103] INFO [Partition content.generation.requested-0 broker=1] Log loaded for partition content.generation.requested-0 with initial high watermark 0 (kafka.cluster.Partition)
+autopilot-kafka  | [2026-05-31 19:47:22,108] INFO [LogLoader partition=content.generation.requested-1, dir=/tmp/kafka-logs] Loading producer state till offset 0 (org.apache.kafka.storage.internals.log.UnifiedLog)
+autopilot-kafka  | [2026-05-31 19:47:22,109] INFO Created log for partition content.generation.requested-1 in /tmp/kafka-logs/content.generation.requested-1 with properties {retention.ms=86400000} (kafka.log.LogManager)
+autopilot-kafka  | [2026-05-31 19:47:22,109] INFO [Partition content.generation.requested-1 broker=1] No checkpointed highwatermark is found for partition content.generation.requested-1 (kafka.cluster.Partition)
+autopilot-kafka  | [2026-05-31 19:47:22,109] INFO [Partition content.generation.requested-1 broker=1] Log loaded for partition content.generation.requested-1 with initial high watermark 0 (kafka.cluster.Partition)
+autopilot-kafka  | [2026-05-31 19:47:22,112] INFO [LogLoader partition=content.generation.requested-2, dir=/tmp/kafka-logs] Loading producer state till offset 0 (org.apache.kafka.storage.internals.log.UnifiedLog)
+autopilot-kafka  | [2026-05-31 19:47:22,112] INFO Created log for partition content.generation.requested-2 in /tmp/kafka-logs/content.generation.requested-2 with properties {retention.ms=86400000} (kafka.log.LogManager)
+autopilot-kafka  | [2026-05-31 19:47:22,112] INFO [Partition content.generation.requested-2 broker=1] No checkpointed highwatermark is found for partition content.generation.requested-2 (kafka.cluster.Partition)
+autopilot-kafka  | [2026-05-31 19:47:22,112] INFO [Partition content.generation.requested-2 broker=1] Log loaded for partition content.generation.requested-2 with initial high watermark 0 (kafka.cluster.Partition)
+autopilot-kafka  | [2026-05-31 19:47:22,113] INFO [DynamicConfigPublisher broker id=1] Updating topic content.generation.requested with new configuration : retention.ms -> 86400000 (kafka.server.metadata.DynamicConfigPublisher)
+autopilot-kafka  | [2026-05-31 19:47:23,104] INFO [ReplicaFetcherManager on broker 1] Removed fetcher for partitions Set(content.generation.completed-2, content.generation.completed-1, content.generation.completed-0) (kafka.server.ReplicaFetcherManager)
+autopilot-kafka  | [2026-05-31 19:47:23,106] INFO [LogLoader partition=content.generation.completed-2, dir=/tmp/kafka-logs] Loading producer state till offset 0 (org.apache.kafka.storage.internals.log.UnifiedLog)
+autopilot-kafka  | [2026-05-31 19:47:23,107] INFO Created log for partition content.generation.completed-2 in /tmp/kafka-logs/content.generation.completed-2 with properties {retention.ms=86400000} (kafka.log.LogManager)
+autopilot-kafka  | [2026-05-31 19:47:23,107] INFO [Partition content.generation.completed-2 broker=1] No checkpointed highwatermark is found for partition content.generation.completed-2 (kafka.cluster.Partition)
+autopilot-kafka  | [2026-05-31 19:47:23,107] INFO [Partition content.generation.completed-2 broker=1] Log loaded for partition content.generation.completed-2 with initial high watermark 0 (kafka.cluster.Partition)
+autopilot-kafka  | [2026-05-31 19:47:23,112] INFO [LogLoader partition=content.generation.completed-1, dir=/tmp/kafka-logs] Loading producer state till offset 0 (org.apache.kafka.storage.internals.log.UnifiedLog)
+autopilot-kafka  | [2026-05-31 19:47:23,113] INFO Created log for partition content.generation.completed-1 in /tmp/kafka-logs/content.generation.completed-1 with properties {retention.ms=86400000} (kafka.log.LogManager)
+autopilot-kafka  | [2026-05-31 19:47:23,113] INFO [Partition content.generation.completed-1 broker=1] No checkpointed highwatermark is found for partition content.generation.completed-1 (kafka.cluster.Partition)
+autopilot-kafka  | [2026-05-31 19:47:23,113] INFO [Partition content.generation.completed-1 broker=1] Log loaded for partition content.generation.completed-1 with initial high watermark 0 (kafka.cluster.Partition)
+autopilot-kafka  | [2026-05-31 19:47:23,116] INFO [LogLoader partition=content.generation.completed-0, dir=/tmp/kafka-logs] Loading producer state till offset 0 (org.apache.kafka.storage.internals.log.UnifiedLog)
+autopilot-kafka  | [2026-05-31 19:47:23,116] INFO Created log for partition content.generation.completed-0 in /tmp/kafka-logs/content.generation.completed-0 with properties {retention.ms=86400000} (kafka.log.LogManager)
+autopilot-kafka  | [2026-05-31 19:47:23,116] INFO [Partition content.generation.completed-0 broker=1] No checkpointed highwatermark is found for partition content.generation.completed-0 (kafka.cluster.Partition)
+autopilot-kafka  | [2026-05-31 19:47:23,116] INFO [Partition content.generation.completed-0 broker=1] Log loaded for partition content.generation.completed-0 with initial high watermark 0 (kafka.cluster.Partition)
+autopilot-kafka  | [2026-05-31 19:47:23,118] INFO [DynamicConfigPublisher broker id=1] Updating topic content.generation.completed with new configuration : retention.ms -> 86400000 (kafka.server.metadata.DynamicConfigPublisher)
+autopilot-kafka  | [2026-05-31 19:47:24,169] INFO [ReplicaFetcherManager on broker 1] Removed fetcher for partitions Set(post.scheduled-0, post.scheduled-2, post.scheduled-1) (kafka.server.ReplicaFetcherManager)
+autopilot-kafka  | [2026-05-31 19:47:24,172] INFO [LogLoader partition=post.scheduled-0, dir=/tmp/kafka-logs] Loading producer state till offset 0 (org.apache.kafka.storage.internals.log.UnifiedLog)
+autopilot-kafka  | [2026-05-31 19:47:24,173] INFO Created log for partition post.scheduled-0 in /tmp/kafka-logs/post.scheduled-0 with properties {retention.ms=172800000} (kafka.log.LogManager)
+autopilot-kafka  | [2026-05-31 19:47:24,173] INFO [Partition post.scheduled-0 broker=1] No checkpointed highwatermark is found for partition post.scheduled-0 (kafka.cluster.Partition)
+autopilot-kafka  | [2026-05-31 19:47:24,173] INFO [Partition post.scheduled-0 broker=1] Log loaded for partition post.scheduled-0 with initial high watermark 0 (kafka.cluster.Partition)
+autopilot-kafka  | [2026-05-31 19:47:24,178] INFO [LogLoader partition=post.scheduled-2, dir=/tmp/kafka-logs] Loading producer state till offset 0 (org.apache.kafka.storage.internals.log.UnifiedLog)
+autopilot-kafka  | [2026-05-31 19:47:24,178] INFO Created log for partition post.scheduled-2 in /tmp/kafka-logs/post.scheduled-2 with properties {retention.ms=172800000} (kafka.log.LogManager)
+autopilot-kafka  | [2026-05-31 19:47:24,178] INFO [Partition post.scheduled-2 broker=1] No checkpointed highwatermark is found for partition post.scheduled-2 (kafka.cluster.Partition)
+autopilot-kafka  | [2026-05-31 19:47:24,178] INFO [Partition post.scheduled-2 broker=1] Log loaded for partition post.scheduled-2 with initial high watermark 0 (kafka.cluster.Partition)
+autopilot-kafka  | [2026-05-31 19:47:24,181] INFO [LogLoader partition=post.scheduled-1, dir=/tmp/kafka-logs] Loading producer state till offset 0 (org.apache.kafka.storage.internals.log.UnifiedLog)
+autopilot-kafka  | [2026-05-31 19:47:24,182] INFO Created log for partition post.scheduled-1 in /tmp/kafka-logs/post.scheduled-1 with properties {retention.ms=172800000} (kafka.log.LogManager)
+autopilot-kafka  | [2026-05-31 19:47:24,182] INFO [Partition post.scheduled-1 broker=1] No checkpointed highwatermark is found for partition post.scheduled-1 (kafka.cluster.Partition)
+autopilot-kafka  | [2026-05-31 19:47:24,182] INFO [Partition post.scheduled-1 broker=1] Log loaded for partition post.scheduled-1 with initial high watermark 0 (kafka.cluster.Partition)
+autopilot-kafka  | [2026-05-31 19:47:24,184] INFO [DynamicConfigPublisher broker id=1] Updating topic post.scheduled with new configuration : retention.ms -> 172800000 (kafka.server.metadata.DynamicConfigPublisher)
+autopilot-kafka  | [2026-05-31 19:47:25,316] INFO [ReplicaFetcherManager on broker 1] Removed fetcher for partitions Set(post.published-2, post.published-1, post.published-0) (kafka.server.ReplicaFetcherManager)
+autopilot-kafka  | [2026-05-31 19:47:25,318] INFO [LogLoader partition=post.published-2, dir=/tmp/kafka-logs] Loading producer state till offset 0 (org.apache.kafka.storage.internals.log.UnifiedLog)
+autopilot-kafka  | [2026-05-31 19:47:25,318] INFO Created log for partition post.published-2 in /tmp/kafka-logs/post.published-2 with properties {retention.ms=604800000} (kafka.log.LogManager)
+autopilot-kafka  | [2026-05-31 19:47:25,319] INFO [Partition post.published-2 broker=1] No checkpointed highwatermark is found for partition post.published-2 (kafka.cluster.Partition)
+autopilot-kafka  | [2026-05-31 19:47:25,319] INFO [Partition post.published-2 broker=1] Log loaded for partition post.published-2 with initial high watermark 0 (kafka.cluster.Partition)
+autopilot-kafka  | [2026-05-31 19:47:25,325] INFO [LogLoader partition=post.published-1, dir=/tmp/kafka-logs] Loading producer state till offset 0 (org.apache.kafka.storage.internals.log.UnifiedLog)
+autopilot-kafka  | [2026-05-31 19:47:25,325] INFO Created log for partition post.published-1 in /tmp/kafka-logs/post.published-1 with properties {retention.ms=604800000} (kafka.log.LogManager)
+autopilot-kafka  | [2026-05-31 19:47:25,325] INFO [Partition post.published-1 broker=1] No checkpointed highwatermark is found for partition post.published-1 (kafka.cluster.Partition)
+autopilot-kafka  | [2026-05-31 19:47:25,325] INFO [Partition post.published-1 broker=1] Log loaded for partition post.published-1 with initial high watermark 0 (kafka.cluster.Partition)
+autopilot-kafka  | [2026-05-31 19:47:25,328] INFO [LogLoader partition=post.published-0, dir=/tmp/kafka-logs] Loading producer state till offset 0 (org.apache.kafka.storage.internals.log.UnifiedLog)
+autopilot-kafka  | [2026-05-31 19:47:25,328] INFO Created log for partition post.published-0 in /tmp/kafka-logs/post.published-0 with properties {retention.ms=604800000} (kafka.log.LogManager)
+autopilot-kafka  | [2026-05-31 19:47:25,329] INFO [Partition post.published-0 broker=1] No checkpointed highwatermark is found for partition post.published-0 (kafka.cluster.Partition)
+autopilot-kafka  | [2026-05-31 19:47:25,329] INFO [Partition post.published-0 broker=1] Log loaded for partition post.published-0 with initial high watermark 0 (kafka.cluster.Partition)
+autopilot-kafka  | [2026-05-31 19:47:25,330] INFO [DynamicConfigPublisher broker id=1] Updating topic post.published with new configuration : retention.ms -> 604800000 (kafka.server.metadata.DynamicConfigPublisher)
+
