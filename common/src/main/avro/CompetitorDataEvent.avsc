@@ -1,0 +1,147 @@
+{
+  "namespace": "pl.autopilot.common.event",
+  "type": "record",
+  "name": "CompetitorDataEvent",
+  "doc": "Emitowany przez data-collector po zebraniu danych posta z Instagram API.",
+  "fields": [
+
+    // ── Metadane eventu ────────────────────────────────────────────
+    {
+      "name": "eventId",
+      "type": "string",
+      "doc": "UUID eventu — idempotency key po stronie konsumenta."
+    },
+    {
+      "name": "eventType",
+      "type": "string",
+      "default": "COMPETITOR_POST_COLLECTED"
+    },
+    {
+      "name": "schemaVersion",
+      "type": "string",
+      "default": "1.0",
+      "doc": "Wersja schematu — pozwala konsumentom obsłużyć migracje."
+    },
+    {
+      "name": "source",
+      "type": "string",
+      "default": "data-collector"
+    },
+    {
+      "name": "correlationId",
+      "type": ["null", "string"],
+      "default": null,
+      "doc": "OpenTelemetry trace-id — łączy span data-collector → Kafka → competitor-agent."
+    },
+
+    // ── Identyfikacja posta ────────────────────────────────────────
+    {
+      "name": "id",
+      "type": "string",
+      "doc": "Instagram media ID."
+    },
+    {
+      "name": "shortcode",
+      "type": "string",
+      "doc": "Część URL: instagram.com/p/{shortcode}."
+    },
+    {
+      "name": "ownerIgId",
+      "type": "string",
+      "doc": "Instagram user ID właściciela posta."
+    },
+    {
+      "name": "ownerUsername",
+      "type": "string"
+    },
+
+    // ── Typ contentu ───────────────────────────────────────────────
+    {
+      "name": "mediaType",
+      "type": {
+        "type": "enum",
+        "name": "MediaType",
+        "symbols": ["IMAGE", "VIDEO", "CAROUSEL_ALBUM", "REEL", "UNKNOWN"],
+        "doc": "UNKNOWN jako fallback gdy IG doda nowy typ — konsument nie wysypie się."
+      }
+    },
+
+    // ── Treść ──────────────────────────────────────────────────────
+    {
+      "name": "caption",
+      "type": ["null", "string"],
+      "default": null,
+      "doc": "Pełny tekst posta. Nullable — IG pozwala na posty bez opisu."
+    },
+    {
+      "name": "hashtags",
+      "type": { "type": "array", "items": "string" },
+      "default": [],
+      "doc": "Wyekstrahowane z caption przez data-collector, bez znaku '#'."
+    },
+    {
+      "name": "mentions",
+      "type": { "type": "array", "items": "string" },
+      "default": [],
+      "doc": "Wyekstrahowane @mentions, bez znaku '@'."
+    },
+    {
+      "name": "mediaUrl",
+      "type": ["null", "string"],
+      "default": null,
+      "doc": "URL wygasa po ~1h — używaj tylko do pobrania, nie przechowuj."
+    },
+    {
+      "name": "permalink",
+      "type": ["null", "string"],
+      "default": null,
+      "doc": "Stały URL do posta — nie wygasa."
+    },
+
+    // ── Metryki zaangażowania ──────────────────────────────────────
+    {
+      "name": "likeCount",
+      "type": "long",
+      "default": 0
+    },
+    {
+      "name": "commentsCount",
+      "type": "int",
+      "default": 0
+    },
+    {
+      "name": "shareCount",
+      "type": "int",
+      "default": 0,
+      "doc": "Dostępny tylko dla własnego konta przez Insights API. Dla konkurencji = 0."
+    },
+
+    // ── Snapshot profilu w momencie pobrania ───────────────────────
+    {
+      "name": "ownerFollowerCount",
+      "type": "long",
+      "default": 0,
+      "doc": "Liczba followersów w chwili zebrania danych. Potrzebna do wyliczenia ER."
+    },
+    {
+      "name": "ownerMediaCount",
+      "type": "int",
+      "default": 0,
+      "doc": "Łączna liczba postów konta — do analizy częstotliwości publikowania."
+    },
+
+    // ── Timestampy jako epoch-millis ───────────────────────────────
+    // Avro timestamp-millis logicalType — Instant po stronie Java
+    {
+      "name": "publishedAt",
+      "type": { "type": "long", "logicalType": "timestamp-millis" },
+      "doc": "Czas publikacji posta wg Instagram (ISO 8601 → epoch ms)."
+    },
+    {
+      "name": "collectedAt",
+      "type": { "type": "long", "logicalType": "timestamp-millis" },
+      "doc": "Czas pobrania przez data-collector. Różnica publishedAt/collectedAt = opóźnienie."
+    }
+
+  ]
+}
