@@ -1,4 +1,8 @@
-// common/src/main/java/pl/autopilot/common/dto/CompetitorPostDto.java
+package pl.autopilot.common.dto;
+import java.time.Instant;
+import java.util.List;
+import java.util.Objects;
+import pl.autopilot.common.dto.CompetitorPostDto.MediaType;
 
 public record CompetitorPostDto(
 
