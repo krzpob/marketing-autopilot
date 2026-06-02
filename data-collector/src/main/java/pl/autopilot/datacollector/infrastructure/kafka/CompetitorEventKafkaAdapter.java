@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 import pl.autopilot.common.event.CompetitorDataEvent;
+import pl.autopilot.common.event.MediaType;
 import pl.autopilot.datacollector.domain.model.CollectedPost;
 import pl.autopilot.datacollector.domain.model.CompetitorProfile;
 import pl.autopilot.datacollector.domain.port.out.CompetitorEventPort;
@@ -54,7 +55,7 @@ public class CompetitorEventKafkaAdapter implements CompetitorEventPort {
                 .setShortcode(post.getShortcode())
                 .setOwnerIgId(post.getOwnerIgId())
                 .setOwnerUsername(post.getOwnerUsername())
-                .setMediaType(pl.autopilot.MediaType.valueOf(post.getMediaType().name()))
+                .setMediaType(MediaType.valueOf(post.getMediaType().name()))
                 .setCaption(post.getCaption())
                 .setHashtags(post.getHashtags())
                 .setMentions(post.getMentions())
