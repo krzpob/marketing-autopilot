@@ -1,0 +1,23 @@
+# Buildy Maven — nie wchodzą do Docker context
+**/target/
+**/.mvn/repository/
+
+# IDE i system
+**/.idea/
+**/.git/
+**/*.iml
+**/.DS_Store
+**/*.log
+
+# Docker
+**/docker-compose*.yml
+docker/
+
+# Dokumentacja i CI
+docs/
+.github/
+**/*.md
+
+# Sekrety — nigdy do obrazu
+.env
+*.env*
