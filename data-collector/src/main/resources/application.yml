@@ -1,0 +1,20 @@
+instagram.client-id: ${INSTAGRAM_APP_ID}
+instagram.client-secret: ${INSTAGRAM_APP_SECRET}
+instagram.long-lived-token: ${INSTAGRAM_LONG_LIVED_TOKEN}
+server:
+  port: 8081
+application:
+  name: data-collector
+spring:
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/${POSTGRES_DB:marketing_autopilot}
+    username: ${POSTGRES_USER:test}
+    password: ${POSTGRES_PASSWORD:test}
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        
