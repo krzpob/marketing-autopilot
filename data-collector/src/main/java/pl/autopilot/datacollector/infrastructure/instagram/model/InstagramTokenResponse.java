@@ -2,6 +2,7 @@ package pl.autopilot.datacollector.infrastructure.instagram.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)

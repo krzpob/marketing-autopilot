@@ -1,4 +1,7 @@
-package pl.autopilot.datacollector.infrastructure.web;
+package pl.autopilot.datacollector.infrastructure.instagram.client;
+
+import lombok.Data;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @Data
 @ConfigurationProperties(prefix = "instagram.api")
