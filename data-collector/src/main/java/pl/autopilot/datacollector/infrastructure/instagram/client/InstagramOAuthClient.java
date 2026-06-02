@@ -13,6 +13,7 @@ import pl.autopilot.datacollector.infrastructure.instagram.model.InstagramUserRe
 
 import java.time.Instant;
 import java.util.UUID;
+import java.net.URI;
 
 @Slf4j
 @Component
@@ -31,7 +32,7 @@ public class InstagramOAuthClient {
 
     public String buildAuthorizationUrl() {
         String state = UUID.randomUUID().toString();
-        return UriComponentsBuilder.fromHttpUrl(properties.getAuthBaseUrl())
+        return UriComponentsBuilder.fromUriString(properties.getAuthBaseUrl())
                 .queryParam("client_id",     properties.getClientId())
                 .queryParam("redirect_uri",  properties.getRedirectUri())
                 .queryParam("scope",         properties.getScopes())
@@ -67,14 +68,15 @@ public class InstagramOAuthClient {
     // ── B2-04: Exchange short-lived → long-lived token ───────────────────────
 
     public AccessToken exchangeForLongLivedToken(AccessToken shortLived) {
+        URI uri = UriComponentsBuilder.fromUriString(properties.getTokenBaseUrl())
+                    .queryParam("grant_type",        "fb_exchange_token")
+                    .queryParam("client_id",         properties.getClientId())
+                    .queryParam("client_secret",     properties.getClientSecret())
+                    .queryParam("fb_exchange_token", shortLived.getToken())
+                    .build()
+                    .toUri();
         InstagramTokenResponse response = webClient.get()
-                .uri(uriBuilder -> uriBuilder
-                        .fromHttpUrl(properties.getTokenBaseUrl())
-                        .queryParam("grant_type",        "fb_exchange_token")
-                        .queryParam("client_id",         properties.getClientId())
-                        .queryParam("client_secret",     properties.getClientSecret())
-                        .queryParam("fb_exchange_token", shortLived.getToken())
-                        .build())
+                .uri(uri)
                 .retrieve()
                 .bodyToMono(InstagramTokenResponse.class)
                 .block();
@@ -91,14 +93,15 @@ public class InstagramOAuthClient {
     // ── B2-05: Refresh long-lived token ─────────────────────────────────────
 
     public AccessToken refreshLongLivedToken(AccessToken longLived) {
+        URI uri = UriComponentsBuilder.fromUriString(properties.getTokenBaseUrl())
+                    .queryParam("grant_type",        "fb_exchange_token")
+                    .queryParam("client_id",         properties.getClientId())
+                    .queryParam("client_secret",     properties.getClientSecret())
+                    .queryParam("fb_exchange_token", longLived.getToken())
+                    .build()
+                    .toUri();
         InstagramTokenResponse response = webClient.get()
-                .uri(uriBuilder -> uriBuilder
-                        .fromHttpUrl(properties.getTokenBaseUrl())
-                        .queryParam("grant_type",        "fb_exchange_token")
-                        .queryParam("client_id",         properties.getClientId())
-                        .queryParam("client_secret",     properties.getClientSecret())
-                        .queryParam("fb_exchange_token", longLived.getToken())
-                        .build())
+                .uri(uri)
                 .retrieve()
                 .bodyToMono(InstagramTokenResponse.class)
                 .block();
@@ -114,13 +117,14 @@ public class InstagramOAuthClient {
     // ── helpers ──────────────────────────────────────────────────────────────
 
     private InstagramUserResponse fetchMe(String accessToken) {
+        URI uri = UriComponentsBuilder.fromUriString(properties.getGraphBaseUrl())
+                    .path("/me")
+                    .queryParam("fields",       "id,username")
+                    .queryParam("access_token", accessToken)
+                    .build()
+                    .toUri();
         return webClient.get()
-                .uri(uriBuilder -> uriBuilder
-                        .fromHttpUrl(properties.getGraphBaseUrl())
-                        .path("/me")
-                        .queryParam("fields",       "id,username")
-                        .queryParam("access_token", accessToken)
-                        .build())
+                .uri(uri)
                 .retrieve()
                 .bodyToMono(InstagramUserResponse.class)
                 .block();

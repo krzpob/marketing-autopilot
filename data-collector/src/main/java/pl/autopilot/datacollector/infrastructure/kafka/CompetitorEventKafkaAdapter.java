@@ -14,6 +14,7 @@ import pl.autopilot.datacollector.domain.port.out.CompetitorEventPort;
 import java.time.Instant;
 import java.util.UUID;
 
+
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -66,8 +67,8 @@ public class CompetitorEventKafkaAdapter implements CompetitorEventPort {
                 .setShareCount(post.getShareCount())
                 .setOwnerFollowerCount(profile.getFollowerCount())
                 .setOwnerMediaCount(profile.getMediaCount())
-                .setPublishedAt(post.getPublishedAt().toEpochMilli())
-                .setCollectedAt(Instant.now().toEpochMilli())
+                .setPublishedAt(post.getPublishedAt())
+                .setCollectedAt(Instant.now())
                 .build();
     }
 }
