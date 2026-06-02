@@ -6,15 +6,17 @@ on:
   pull_request:
     branches: [main, develop]
 
+# Upgrade Node.js 20 → 24 (wymagany od 16.06.2026)
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
 
   build-and-test:
-    name: Build & Test (Java 21)
+    name: Build & Test (Java 24)
     runs-on: ubuntu-latest
 
     services:
-      # Postgres dla testów integracyjnych (Testcontainers nie potrzebuje tego,
-      # ale zostawiamy jako fallback dla szybkich unit testów z @DataJpaTest)
       postgres:
         image: pgvector/pgvector:pg16
         env:
@@ -30,44 +32,35 @@ jobs:
           --health-retries 5
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Set up Java 21
+      - name: Set up Java 24
         uses: actions/setup-java@v4
         with:
-          java-version: '21'
+          java-version: '24'        # zmienione z 21 na 24
           distribution: 'temurin'
           cache: 'maven'
 
-      - name: Build (bez testów — szybka weryfikacja kompilacji)
-        run: ./mvnw clean compile -DskipTests
+      - name: Build (bez testów)
+        run: ./mvnw clean compile -DskipTests --no-transfer-progress
 
       - name: Run tests
-        run: ./mvnw verify
+        run: ./mvnw verify --no-transfer-progress
         env:
-          # Testcontainers zarządza własnymi kontenerami; te zmienne
-          # są tylko fallbackiem dla testów, które nie używają TC
           POSTGRES_HOST: localhost
           POSTGRES_USER: test
           POSTGRES_PASSWORD: test
           POSTGRES_DB: marketing_autopilot_test
-          OPENAI_API_KEY: test-key-dla-mock     # MockChatModel nie odpytuje API
-          KAFKA_BOOTSTRAP_SERVERS: localhost:9092  # TC kafka nadpisze to sam
+          OPENAI_API_KEY: test-key-mock
+          KAFKA_BOOTSTRAP_SERVERS: localhost:9092
 
       - name: Upload Jacoco report
         uses: actions/upload-artifact@v4
         if: always()
         with:
           name: jacoco-report
-          path: '**/target/site/jacoco/'
-
-      - name: Coverage gate (minimum 70%)
-        run: |
-          for module in competitor-agent data-collector common; do
-            echo "Sprawdzam pokrycie: $module"
-          done
-        # TODO: dodaj jacoco-check goal z minimalnym progiem coverage
+          path: '**/target/site/jacoco/**'   # ** na końcu — fix dla "no files found"
+          if-no-files-found: ignore          # nie failuj gdy brak testów
 
   docker-build:
     name: Docker image build
@@ -84,8 +77,9 @@ jobs:
       - name: Build competitor-agent image
         uses: docker/build-push-action@v6
         with:
-          context: ./competitor-agent
-          push: false       # zmień na true + dodaj login gdy masz registry
+          context: .                                  # root — Dockerfile widzi wszystkie moduły
+          file: ./competitor-agent/Dockerfile         # jawna ścieżka do Dockerfile
+          push: false
           tags: autopilot/competitor-agent:${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
