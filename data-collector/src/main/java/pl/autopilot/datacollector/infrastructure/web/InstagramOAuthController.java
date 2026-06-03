@@ -1,6 +1,7 @@
 package pl.autopilot.datacollector.infrastructure.web;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,14 +26,19 @@ class InstagramOAuthController {
    
     @GetMapping("/callback")
     public ResponseEntity<String> callback(
-            @RequestParam String code,
+            @RequestParam(required = false) String code,
             @RequestParam(required = false) String error,
             @RequestParam(required = false) String error_description) {
 
-        if (error != null) {
+        if (StringUtils.hasText(error)) {
             log.error("Błąd OAuth: {} — {}", error, error_description);
             return ResponseEntity.badRequest()
-                    .body("Błąd autoryzacji: " + error_description);
+                    .body("Błąd autoryzacji: " + error);
+        }
+
+        if (!StringUtils.hasText(code)) {
+            log.error("Brak parametru code w callbacku OAuth");
+            return ResponseEntity.badRequest().body("Brak kodu autoryzacyjnego");
         }
 
         try {
@@ -53,7 +59,7 @@ class InstagramOAuthController {
         }
     }
 
-    @GetMapping("/instagram/authorize")
+    @GetMapping("/authorize")
     public RedirectView instagramAuthorize() {
         String url = oAuthClient.buildAuthorizationUrl();
         log.info("Przekierowanie do autoryzacji: {}", url);

@@ -3,7 +3,7 @@ package pl.autopilot.datacollector.infrastructure.instagram.client;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
 import org.junit.jupiter.api.*;
-import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.client.RestClient;
 import pl.autopilot.datacollector.domain.model.AccessToken;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
@@ -39,7 +39,7 @@ class InstagramOAuthClientTest {
         props.setAuthBaseUrl(base + "/dialog/oauth");
         props.setTokenBaseUrl(base + "/v19.0/oauth/access_token");
 
-        client = new InstagramOAuthClient(WebClient.builder(), props);
+        client = new InstagramOAuthClient(RestClient.builder(), props);
     }
 
     // ── buildAuthorizationUrl ────────────────────────────────────────────────
