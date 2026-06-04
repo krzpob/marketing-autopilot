@@ -1,11 +1,13 @@
-instagram.client-id: ${INSTAGRAM_APP_ID}
-instagram.client-secret: ${INSTAGRAM_APP_SECRET}
-instagram.long-lived-token: ${INSTAGRAM_LONG_LIVED_TOKEN}
+instagram:
+  client-id: ${INSTAGRAM_APP_ID}
+  client-secret: ${INSTAGRAM_APP_SECRET}
+  long-lived-token: ${INSTAGRAM_LONG_LIVED_TOKEN}
 server:
   port: 8081
-application:
-  name: data-collector
+
 spring:
+  application:
+    name: data-collector
   datasource:
     url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/${POSTGRES_DB:marketing_autopilot}
     username: ${POSTGRES_USER:test}
@@ -15,6 +17,14 @@ spring:
       ddl-auto: none
     show-sql: true
     properties:
-      hibernate:
+      hibernate:  
         format_sql: true
-        
+  cloud:
+    stream:
+      bindings:
+        competitor-data-out-0:
+          destination: competitor-data-events
+          content-type: application/json   # TODO: B3 → application/*+avro
+      kafka:
+        binder:
+          brokers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
