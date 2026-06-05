@@ -3,7 +3,7 @@ package pl.autopilot.datacollector.infrastructure.kafka;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.stereotype.Component;
 import pl.autopilot.common.event.CompetitorDataEvent;
 import pl.autopilot.common.event.MediaType;
@@ -20,27 +20,20 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class CompetitorEventKafkaAdapter implements CompetitorEventPort {
 
-    private final KafkaTemplate<String, CompetitorDataEvent> kafkaTemplate;
+    private final StreamBridge streamBridge;
 
-    @Value("${kafka.topics.competitor-data:competitor-data-events}")
+    @Value("${spring.cloud.stream.bindings.competitor-data-out-0.destination:competitor-data-events}")
     private String topic;
 
-    @Override
+   @Override
     public void publish(CollectedPost post, CompetitorProfile profile) {
         CompetitorDataEvent event = toEvent(post, profile);
-
-        kafkaTemplate.send(topic, post.getOwnerIgId(), event)
-                .whenComplete((result, ex) -> {
-                    if (ex != null) {
-                        log.error("Błąd publikacji eventu ownerIgId={}",
-                                post.getOwnerIgId(), ex);
-                    } else {
-                        log.debug("Event opublikowany topic={} partition={} offset={}",
-                                topic,
-                                result.getRecordMetadata().partition(),
-                                result.getRecordMetadata().offset());
-                    }
-                });
+        boolean sent = streamBridge.send("competitor-data-out-0", event);
+        if (sent) {
+            log.debug("Event opublikowany dla ownerIgId={}", post.getOwnerIgId());
+        } else {
+            log.error("Błąd publikacji eventu dla ownerIgId={}", post.getOwnerIgId());
+        }
     }
 
     // ── mapper domain → Avro ─────────────────────────────────────────────────
@@ -67,7 +60,7 @@ public class CompetitorEventKafkaAdapter implements CompetitorEventPort {
                 .setShareCount(post.getShareCount())
                 .setOwnerFollowerCount(profile.getFollowerCount())
                 .setOwnerMediaCount(profile.getMediaCount())
-                .setPublishedAt(post.getPublishedAt())
+                .setPublishedAt(post.getPublishedAt()   )
                 .setCollectedAt(Instant.now())
                 .build();
     }

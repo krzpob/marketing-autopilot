@@ -1,9 +1,11 @@
 package pl.autopilot.datacollector.infrastructure.instagram.client;
 
 import lombok.Data;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @Data
+@Configuration
 @ConfigurationProperties(prefix = "instagram.api")
 public class InstagramApiProperties {
     private String clientId;
