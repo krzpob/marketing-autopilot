@@ -1,23 +1,23 @@
-instagram:
-  client-id: ${INSTAGRAM_APP_ID}
-  client-secret: ${INSTAGRAM_APP_SECRET}
-  long-lived-token: ${INSTAGRAM_LONG_LIVED_TOKEN}
 server:
-  port: 8081
+  port: 8083
 
 spring:
   application:
     name: data-collector
   datasource:
-    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/${POSTGRES_DB:marketing_autopilot}
+    url: ${POSTGRES_URL:jdbc:postgresql://localhost:5432/autopilot}
     username: ${POSTGRES_USER:test}
     password: ${POSTGRES_PASSWORD:test}
+  # flyway:
+  #   enabled: true
+  #   locations: classpath:db/migration
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: validate
     show-sql: true
     properties:
       hibernate:  
+        dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
   cloud:
     stream:
@@ -28,3 +28,28 @@ spring:
       kafka:
         binder:
           brokers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      database: ${REDIS_DB:0}
+      password: ${REDIS_PASSWORD}
+instagram:
+  api:
+    client-id:     ${META_APP_ID}
+    client-secret: ${META_APP_SECRET}
+    redirect-uri:  ${INSTAGRAM_REDIRECT_URI:http://localhost:8083/oauth/instagram/callback}
+    graph-base-url: https://graph.facebook.com/v19.0
+    auth-base-url:  https://www.facebook.com/dialog/oauth
+    token-base-url: https://graph.facebook.com/v19.0/oauth/access_token
+    scopes: instagram_basic,instagram_manage_insights,pages_show_list,pages_read_engagement
+
+facebook:
+  api:
+    client-id:     ${META_APP_ID}
+    client-secret: ${META_APP_SECRET}
+
+google:
+  api:
+    client-id:     ${GOOGLE_CLIENT_ID}
+    client-secret: ${GOOGLE_CLIENT_SECRET}
