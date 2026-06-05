@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.stream.function.StreamBridge;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 import pl.autopilot.common.event.CompetitorDataEvent;
 import pl.autopilot.common.event.MediaType;
@@ -25,7 +24,7 @@ public class CompetitorEventKafkaAdapter implements CompetitorEventPort {
 
     @Value("${spring.cloud.stream.bindings.competitor-data-out-0.destination:competitor-data-events}")
     private String topic;
-    
+
    @Override
     public void publish(CollectedPost post, CompetitorProfile profile) {
         CompetitorDataEvent event = toEvent(post, profile);
