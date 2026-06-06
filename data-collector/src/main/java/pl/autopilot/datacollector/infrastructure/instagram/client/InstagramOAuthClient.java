@@ -52,11 +52,11 @@ public class InstagramOAuthClient {
 
         InstagramUserResponse user = fetchMe(response.getAccessToken());
 
-        log.info("Short-lived token uzyskany dla: {}", user.getUsername());
+        log.info("Short-lived token uzyskany dla: {}", user.getName());
 
         return AccessToken.builder()
                 .ownerIgId(user.getId())
-                .ownerUsername(user.getUsername())
+                .ownerUsername(user.getName())
                 .token(response.getAccessToken())
                 .tokenType(AccessToken.TokenType.SHORT_LIVED)
                 .expiresAt(Instant.now().plusSeconds(3_600))
@@ -115,7 +115,7 @@ public class InstagramOAuthClient {
     private InstagramUserResponse fetchMe(String accessToken) {
         URI uri = UriComponentsBuilder.fromUriString(properties.getGraphBaseUrl())
                 .path("/me")
-                .queryParam("fields",       "id,username")
+                .queryParam("fields",       "id,name")
                 .queryParam("access_token", accessToken)
                 .build().toUri();
 
