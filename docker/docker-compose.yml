@@ -119,6 +119,27 @@ services:
       interval: 15s
       timeout: 10s
       retries: 5
+  data-collector:
+    container_name: autopilot-data-collector
+    image: data-collector:latest
+    ports:
+      - "8083:8083"
+    depends_on:
+      - kafka
+      - postgres
+      - redis
+    environment:
+      REDIS_PASSWORD:          ${REDIS_PASSWORD:?err_redis_password_required}
+      REDIS_HOST:              ${REDIS_HOST:-autopilot-redis}
+      REDIS_PORT:              ${REDIS_PORT:-6379}
+      REDIS_DB:                ${REDIS_DB:-0}
+      META_APP_ID:              ${META_APP_ID}
+      META_APP_SECRET:          ${META_APP_SECRET}
+      INSTAGRAM_REDIRECT_URI:   ${INSTAGRAM_REDIRECT_URI}
+      POSTGRES_URL:            jdbc:postgresql://autopilot-postgres:5432/marketing_autopilot
+      POSTGRES_USER:            ${POSTGRES_USER:-autopilot}
+      POSTGRES_PASSWORD:        ${POSTGRES_PASSWORD:-autopilot}
+      KAFKA_BOOTSTRAP_SERVERS:  kafka:9092
 
 volumes:
   kafka_data:

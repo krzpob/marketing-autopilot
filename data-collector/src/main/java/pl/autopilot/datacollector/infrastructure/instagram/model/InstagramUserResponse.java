@@ -7,5 +7,5 @@ import lombok.Data;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class InstagramUserResponse {
     private String id;
-    private String username;
+    private String name;
 }

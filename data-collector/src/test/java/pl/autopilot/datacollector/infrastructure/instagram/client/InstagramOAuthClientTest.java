@@ -56,28 +56,27 @@ class InstagramOAuthClientTest {
     }
 
     // ── exchangeCodeForShortLivedToken ───────────────────────────────────────
+        @Test
+        void exchangeCode_shouldReturnShortLivedToken() {
+                wireMock.stubFor(post(urlPathEqualTo("/v19.0/oauth/access_token"))
+                        .willReturn(okJson("""
+                                {"access_token":"short-lived-123","token_type":"bearer","expires_in":3600}
+                                """)));
 
-    @Test
-    void exchangeCode_shouldReturnShortLivedToken() {
-        wireMock.stubFor(post(urlPathEqualTo("/v19.0/oauth/access_token"))
-                .willReturn(okJson("""
-                        {"access_token":"short-lived-123","token_type":"bearer","expires_in":3600}
-                        """)));
+                wireMock.stubFor(get(urlPathEqualTo("/me"))
+                        .withQueryParam("fields", equalTo("id,name"))
+                        .willReturn(okJson("""
+                                {"id":"12345678","name":"testuser"}
+                                """)));
 
-        wireMock.stubFor(get(urlPathEqualTo("/me"))
-                .withQueryParam("fields", equalTo("id,username"))
-                .willReturn(okJson("""
-                        {"id":"12345678","username":"testuser"}
-                        """)));
+                AccessToken token = client.exchangeCodeForShortLivedToken("auth-code-abc");
 
-        AccessToken token = client.exchangeCodeForShortLivedToken("auth-code-abc");
-
-        assertThat(token.getToken()).isEqualTo("short-lived-123");
-        assertThat(token.getOwnerIgId()).isEqualTo("12345678");
-        assertThat(token.getOwnerUsername()).isEqualTo("testuser");
-        assertThat(token.getTokenType()).isEqualTo(AccessToken.TokenType.SHORT_LIVED);
-        assertThat(token.getExpiresAt()).isNotNull();
-    }
+                assertThat(token.getToken()).isEqualTo("short-lived-123");
+                assertThat(token.getOwnerIgId()).isEqualTo("12345678");
+                assertThat(token.getOwnerUsername()).isEqualTo("testuser");
+                assertThat(token.getTokenType()).isEqualTo(AccessToken.TokenType.SHORT_LIVED);
+                assertThat(token.getExpiresAt()).isNotNull();
+        }
 
     @Test
     void exchangeCode_whenApiFails_shouldThrow() {
