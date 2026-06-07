@@ -107,12 +107,12 @@ class InstagramOAuthControllerTest {
 
     private AccessToken aShortLivedToken() {
         return AccessToken.builder()
-                .ownerIgId("12345678")
-                .ownerUsername("testuser")
-                .token("short-lived-token")
-                .tokenType(AccessToken.TokenType.SHORT_LIVED)
-                .expiresAt(Instant.now().plusSeconds(3_600))
-                .build();
+            .ownerIgId("ig_12345678")        // Instagram ID
+            .ownerUsername("testuser")
+            .token("short-lived-123")
+            .tokenType(AccessToken.TokenType.SHORT_LIVED)
+            .expiresAt(Instant.now().plusSeconds(3_600))
+            .build();
     }
 
     private AccessToken aLongLivedToken() {

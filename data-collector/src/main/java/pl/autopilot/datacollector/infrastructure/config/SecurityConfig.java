@@ -19,7 +19,8 @@ public class SecurityConfig {
                 .ignoringRequestMatchers(
                     "/oauth/instagram/**",
                     "/meta/**",
-                    "/actuator/**"
+                    "/actuator/**",
+                    "/debug/**"
                 )
             )
             .authorizeHttpRequests(auth -> auth

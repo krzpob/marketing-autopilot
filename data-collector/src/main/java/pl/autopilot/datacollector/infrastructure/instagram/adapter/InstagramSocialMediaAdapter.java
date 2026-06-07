@@ -7,7 +7,6 @@ import pl.autopilot.datacollector.domain.model.AccessToken;
 import pl.autopilot.datacollector.domain.model.CompetitorProfile;
 import pl.autopilot.datacollector.domain.model.CollectedPost;
 import pl.autopilot.datacollector.domain.model.HashtagStats;
-import pl.autopilot.datacollector.domain.port.out.CompetitorEventPort;
 import pl.autopilot.datacollector.domain.port.out.SocialMediaPort;
 import pl.autopilot.datacollector.infrastructure.instagram.client.InstagramApiClient;
 

@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import pl.autopilot.datacollector.domain.port.out.AccessTokenPort;
-import pl.autopilot.datacollector.infrastructure.instagram.adapter.InstagramSocialMediaAdapter;
 import pl.autopilot.datacollector.infrastructure.instagram.client.InstagramOAuthClient;
 import org.springframework.web.servlet.view.RedirectView;
 import pl.autopilot.datacollector.domain.model.AccessToken;

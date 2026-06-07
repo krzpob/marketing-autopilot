@@ -52,16 +52,25 @@ public class InstagramOAuthClient {
 
         InstagramUserResponse user = fetchMe(response.getAccessToken());
 
-        log.info("Short-lived token uzyskany dla: {}", user.getName());
+        String igId       = user.getInstagramAccountId();
+        String igUsername = user.getInstagramUsername();
+
+        if (igId == null) {
+                log.warn("Brak Instagram Business Account dla Facebook User: {}", user.getId());
+                // fallback na Facebook User ID — przyda się do debugowania
+                igId       = user.getId();
+                igUsername = user.getName();
+        }
+        log.info("Short-lived token dla Instagram: {} ({})", igUsername, igId);
 
         return AccessToken.builder()
-                .ownerIgId(user.getId())
-                .ownerUsername(user.getName())
+                .ownerIgId(igId)
+                .ownerUsername(igUsername)
                 .token(response.getAccessToken())
                 .tokenType(AccessToken.TokenType.SHORT_LIVED)
                 .expiresAt(Instant.now().plusSeconds(3_600))
                 .build();
-    }
+        }       
 
     // ── B2-04: Exchange short-lived → long-lived token ───────────────────────
 
@@ -115,7 +124,8 @@ public class InstagramOAuthClient {
     private InstagramUserResponse fetchMe(String accessToken) {
         URI uri = UriComponentsBuilder.fromUriString(properties.getGraphBaseUrl())
                 .path("/me")
-                .queryParam("fields",       "id,name")
+                .queryParam("fields",  
+                     "id,name,accounts{instagram_business_account{id,username}}")
                 .queryParam("access_token", accessToken)
                 .build().toUri();
 
