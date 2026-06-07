@@ -87,8 +87,8 @@ class InstagramMediaMapperTest {
     }
 
     @Test
-    void shouldParseIso8601Timestamp() {
-        // given
+    void shouldParseInstagramTimestamp() {
+        // given — format z Instagram API: +0000 bez dwukropka
         InstagramMediaResponse.MediaItem item = aMediaItem(
                 "x", "IMAGE", null, null, null, 0L, 0, "2024-06-15T12:00:00+0000");
         given(hashtagExtractor.extractHashtags(null)).willReturn(List.of());

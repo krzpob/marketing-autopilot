@@ -1,1 +1,21 @@
-GET http://localhost:8083/
+GET http://localhost:8083/oauth/instagram/authorize?userId=12345 HTTP/1.1
+Host: localhost:8083
+User-Agent: PostmanRuntime/7.29.0
+Accept: */*
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive  
+
+###
+POST https://erupt-relenting-detoxify.ngrok-free.dev/debug/collect/own/27157438937198248 HTTP/1.1
+Host: erupt-relenting-detoxify.ngrok-free.dev
+Content-Type: application/json
+User-Agent: Java/17.0.2
+Accept: */*
+
+###
+POST https://erupt-relenting-detoxify.ngrok-free.dev/debug/collect/own/17841441888584276 HTTP/1.1
+Host: erupt-relenting-detoxify.ngrok-free.dev
+Content-Type: application/json
+User-Agent: Java/17.0.2
+Accept: */*
+

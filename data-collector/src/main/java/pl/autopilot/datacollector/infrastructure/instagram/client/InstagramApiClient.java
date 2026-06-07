@@ -3,14 +3,17 @@ package pl.autopilot.datacollector.infrastructure.instagram.client;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.springframework.web.util.UriComponentsBuilder;
 import pl.autopilot.datacollector.domain.model.AccessToken;
 import pl.autopilot.datacollector.domain.model.CollectedPost;
 import pl.autopilot.datacollector.infrastructure.instagram.mapper.InstagramMediaMapper;
 import pl.autopilot.datacollector.infrastructure.instagram.model.InstagramMediaResponse;
 
+
 import java.net.URI;
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @Component
@@ -28,6 +31,10 @@ public class InstagramApiClient {
     // ── B2-06: GET /me/media ─────────────────────────────────────────────────
 
     public List<CollectedPost> fetchOwnMedia(AccessToken token) {
+        Objects.requireNonNull(token, "AccessToken must not be null");
+        if (!StringUtils.hasText(token.getOwnerIgId())) {
+            throw new IllegalArgumentException("AccessToken.ownerIgId must not be blank");
+        }
         URI firstPage = UriComponentsBuilder
                 .fromUriString(properties.getGraphBaseUrl())
                 .path("/{igUserId}/media")

@@ -8,6 +8,7 @@ import pl.autopilot.datacollector.domain.model.AccessToken;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.BDDAssertions.then;
 
 class InstagramOAuthClientTest {
 
@@ -64,18 +65,30 @@ class InstagramOAuthClientTest {
                                 """)));
 
                 wireMock.stubFor(get(urlPathEqualTo("/me"))
-                        .withQueryParam("fields", equalTo("id,name"))
+                        .withQueryParam("fields",
+                                equalTo("id,name,accounts{instagram_business_account{id,username}}"))
                         .willReturn(okJson("""
-                                {"id":"12345678","name":"testuser"}
+                                {
+                                        "id": "fb_user_id",
+                                        "name": "Test User",
+                                        "accounts": {
+                                                "data": [{
+                                                        "instagram_business_account": {
+                                                                "id": "ig_12345678",
+                                                                "username": "testuser"
+                                                                }
+                                                }]
+                                        }
+                                }
                                 """)));
 
                 AccessToken token = client.exchangeCodeForShortLivedToken("auth-code-abc");
 
-                assertThat(token.getToken()).isEqualTo("short-lived-123");
-                assertThat(token.getOwnerIgId()).isEqualTo("12345678");
-                assertThat(token.getOwnerUsername()).isEqualTo("testuser");
-                assertThat(token.getTokenType()).isEqualTo(AccessToken.TokenType.SHORT_LIVED);
-                assertThat(token.getExpiresAt()).isNotNull();
+                then(token.getToken()).isEqualTo("short-lived-123");
+                then(token.getOwnerIgId()).isEqualTo("ig_12345678");      // Instagram ID, nie Facebook ID
+                then(token.getOwnerUsername()).isEqualTo("testuser");      // Instagram username
+                then(token.getTokenType()).isEqualTo(AccessToken.TokenType.SHORT_LIVED);
+                then(token.getExpiresAt()).isNotNull();
         }
 
     @Test

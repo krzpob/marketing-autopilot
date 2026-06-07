@@ -1,21 +1,32 @@
 package pl.autopilot.datacollector.infrastructure.instagram.client;
 
-import com.github.tomakehurst.wiremock.WireMockServer;
-import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
-import org.junit.jupiter.api.*;
-import org.springframework.http.client.SimpleClientHttpRequestFactory;
-import org.springframework.web.client.RestClient;
-import pl.autopilot.datacollector.infrastructure.instagram.model.InstagramMediaResponse;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
+import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
+import static com.github.tomakehurst.wiremock.client.WireMock.absent;
+import static com.github.tomakehurst.wiremock.client.WireMock.equalTo;
+import static com.github.tomakehurst.wiremock.client.WireMock.get;
+import static com.github.tomakehurst.wiremock.client.WireMock.getRequestedFor;
+import static com.github.tomakehurst.wiremock.client.WireMock.okJson;
+import static com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.api.BDDAssertions.thenThrownBy;
+import static com.github.tomakehurst.wiremock.client.WireMock.jsonResponse;
 
 import java.net.URI;
 import java.time.Duration;
 import java.util.List;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.*;
-import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.api.BDDAssertions.thenThrownBy;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
+import org.springframework.http.MediaType;
+import org.springframework.web.client.RestClient;
+
+import com.github.tomakehurst.wiremock.WireMockServer;
+import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
+
+import pl.autopilot.datacollector.infrastructure.instagram.model.InstagramMediaResponse;
 
 class InstagramGraphClientTest {
 
@@ -46,8 +57,7 @@ class InstagramGraphClientTest {
 
         graphClient = new InstagramGraphClient(
                 RestClient.builder().requestFactory(factory),
-                props,
-                new ObjectMapper()
+                props
         );
     }
 
@@ -56,7 +66,7 @@ class InstagramGraphClientTest {
     @Test
     void shouldReturnAllItemsFromSinglePage() {
         // given
-        givenThat(get(urlPathEqualTo("/me/media"))
+        wireMock.stubFor(get(urlPathEqualTo("/me/media"))
                 .willReturn(okJson("""
                         {
                           "data": [
@@ -84,7 +94,7 @@ class InstagramGraphClientTest {
     @Test
     void shouldFetchAllPagesUntilNoCursor() {
         // given — strona 1 zwraca cursor, strona 2 nie ma kolejnej
-        givenThat(get(urlPathEqualTo("/me/media"))
+        wireMock.stubFor(get(urlPathEqualTo("/me/media"))
                 .withQueryParam("after", absent())
                 .willReturn(okJson("""
                         {
@@ -96,7 +106,7 @@ class InstagramGraphClientTest {
                         }
                         """)));
 
-        givenThat(get(urlPathEqualTo("/me/media"))
+        wireMock.stubFor(get(urlPathEqualTo("/me/media"))
                 .withQueryParam("after", equalTo("cursor_abc"))
                 .willReturn(okJson("""
                         {
@@ -124,7 +134,7 @@ class InstagramGraphClientTest {
     @Test
     void shouldHandleEmptyDataList() {
         // given
-        givenThat(get(urlPathEqualTo("/me/media"))
+        wireMock.stubFor(get(urlPathEqualTo("/me/media"))
                 .willReturn(okJson("""
                         {"data": [], "paging": {}}
                         """)));
@@ -146,17 +156,17 @@ class InstagramGraphClientTest {
     @Test
     void shouldThrowInstagramApiExceptionOn400() {
         // given
-        givenThat(get(urlPathEqualTo("/me/media"))
-                .willReturn(aResponse().withStatus(400).withBody("""
-                        {
-                          "error": {
-                            "message": "Invalid parameter",
-                            "type": "GraphMethodException",
-                            "code": 100,
-                            "fbtrace_id": "trace123"
-                          }
-                        }
-                        """)));
+        wireMock.stubFor(get(urlPathEqualTo("/me/media"))
+        .willReturn(jsonResponse("""
+                {
+                  "error": {
+                    "message": "Invalid parameter",
+                    "type": "GraphMethodException",
+                    "code": 100,
+                    "fbtrace_id": "trace123"
+                  }
+                }
+                """, 400)));
 
         // when / then
         thenThrownBy(() -> graphClient.get(
@@ -170,17 +180,17 @@ class InstagramGraphClientTest {
     @Test
     void shouldThrowWithExpiredTokenCode() {
         // given
-        givenThat(get(urlPathEqualTo("/me/media"))
-                .willReturn(aResponse().withStatus(401).withBody("""
-                        {
-                          "error": {
-                            "message": "Error validating access token",
-                            "type": "OAuthException",
-                            "code": 190,
-                            "fbtrace_id": "trace456"
-                          }
-                        }
-                        """)));
+        wireMock.stubFor(get(urlPathEqualTo("/me/media"))
+        .willReturn(jsonResponse("""
+                {
+                  "error": {
+                    "message": "Error validating access token",
+                    "type": "OAuthException",
+                    "code": 190,
+                    "fbtrace_id": "trace456"
+                  }
+                }
+                """, 401)));
 
         // when / then
         thenThrownBy(() -> graphClient.get(
