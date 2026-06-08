@@ -1,4 +1,4 @@
-# ── Etap 1: Budowanie ────────────────────────────────────────────────────────
+    # ── Etap 1: Budowanie ────────────────────────────────────────────────────────
 FROM eclipse-temurin:21-jdk-alpine AS builder
 
 WORKDIR /build

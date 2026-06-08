@@ -19,3 +19,11 @@ Content-Type: application/json
 User-Agent: Java/17.0.2
 Accept: */*
 
+###
+GET https://erupt-relenting-detoxify.ngrok-free.dev/debug/hashtag/sesjebuduarowe?ownerIgId=17841441888584276 HTTP/1.1 
+
+###
+GET https://erupt-relenting-detoxify.ngrok-free.dev/debug/hashtag/sesjebuduarowe/top-media?ownerIgId=17841441888584276 HTTP/1.1
+
+###
+GET http://localhost:8083/debug/hashtag/sesjebuduarowe/top-media?ownerIgId=17841441888584276 HTTP/1.1

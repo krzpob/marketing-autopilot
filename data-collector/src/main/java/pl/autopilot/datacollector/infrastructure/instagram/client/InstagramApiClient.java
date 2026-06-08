@@ -7,7 +7,10 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.util.UriComponentsBuilder;
 import pl.autopilot.datacollector.domain.model.AccessToken;
 import pl.autopilot.datacollector.domain.model.CollectedPost;
+import pl.autopilot.datacollector.domain.model.HashtagStats;
 import pl.autopilot.datacollector.infrastructure.instagram.mapper.InstagramMediaMapper;
+import pl.autopilot.datacollector.infrastructure.instagram.model.InstagramHashtagResponse;
+import pl.autopilot.datacollector.infrastructure.instagram.model.InstagramHashtagStatsResponse;
 import pl.autopilot.datacollector.infrastructure.instagram.model.InstagramMediaResponse;
 
 
@@ -23,6 +26,11 @@ public class InstagramApiClient {
     private static final String MEDIA_FIELDS =
             "id,shortcode,media_type,caption,media_url,permalink," +
             "like_count,comments_count,timestamp";
+
+    private static final String HASHTAG_FIELDS = "id,name";
+
+    private static final String HASHTAG_MEDIA_FIELDS = "id,media_type,permalink,like_count,comments_count,timestamp";
+
 
     private final InstagramGraphClient    graphClient;
     private final InstagramApiProperties  properties;
@@ -66,10 +74,89 @@ public class InstagramApiClient {
         return new InstagramMediaResponse();
     }
 
-    public String findHashtagId(String hashtag, String accessToken) {
-        // TODO: B2-08
-        return null;
+    // ── B2-08: GET /ig_hashtag_search ────────────────────────────────────────
+
+    public HashtagStats fetchHashtagStats(String hashtag, AccessToken token) {
+        Objects.requireNonNull(token,   "AccessToken must not be null");
+        Objects.requireNonNull(hashtag, "Hashtag must not be null");
+
+        String igHashtagId = findHashtagId(hashtag, token);
+        if (igHashtagId == null) {
+            log.warn("Nie znaleziono hashtagу: #{}", hashtag);
+            return null;
+        }
+
+        URI uri = UriComponentsBuilder
+                .fromUriString(properties.getGraphBaseUrl())
+                .path("/{hashtagId}")
+                .queryParam("fields",       HASHTAG_FIELDS)
+                .queryParam("access_token", token.getToken())
+                .buildAndExpand(igHashtagId)
+                .toUri();
+
+        InstagramHashtagStatsResponse response =
+                graphClient.get(uri, InstagramHashtagStatsResponse.class);
+
+        log.info("Hashtag #{}", hashtag);
+
+        return HashtagStats.builder()
+                .hashtag(hashtag.toLowerCase().replace("#", ""))
+                .igHashtagId(igHashtagId)
+                .mediaCount(0)
+                .build();
     }
+
+    public String findHashtagId(String hashtag, AccessToken token) {
+        URI uri = UriComponentsBuilder
+                .fromUriString(properties.getGraphBaseUrl())
+                .path("/ig_hashtag_search")
+                .queryParam("q",            hashtag.replace("#", ""))
+                .queryParam("user_id",      token.getOwnerIgId())
+                .queryParam("access_token", token.getToken())
+                .build().toUri();
+
+        InstagramHashtagResponse response =
+                graphClient.get(uri, InstagramHashtagResponse.class);
+
+        if (response.getData() == null || response.getData().isEmpty()) {
+            return null;
+        }
+        return response.getData().get(0).getId();
+    }
+
+    public List<CollectedPost> fetchHashtagTopMedia(String hashtag, AccessToken token) {
+    Objects.requireNonNull(token,   "AccessToken must not be null");
+    Objects.requireNonNull(hashtag, "Hashtag must not be null");
+
+    String igHashtagId = findHashtagId(hashtag, token);
+    if (igHashtagId == null) {
+        log.warn("Nie znaleziono hashtagу: #{}", hashtag);
+        return List.of();
+    }
+
+    URI uri = UriComponentsBuilder
+            .fromUriString(properties.getGraphBaseUrl())
+            .path("/{hashtagId}/top_media")
+            .queryParam("fields",       HASHTAG_MEDIA_FIELDS)
+            .queryParam("user_id",      token.getOwnerIgId())
+            .queryParam("limit",    20)
+            .queryParam("access_token", token.getToken())
+            .buildAndExpand(igHashtagId)
+            .toUri();
+
+    log.info("First page url: {}", uri.toASCIIString());
+
+    InstagramMediaResponse response = graphClient.get(uri, InstagramMediaResponse.class);
+
+    List<CollectedPost> posts = response.getData() == null
+            ? List.of()
+            : response.getData().stream()
+                      .map(item -> mediaMapper.toDomain(item, igHashtagId, hashtag))
+                      .toList();
+
+    log.info("Pobrano {} top postów dla #{}", posts.size(), hashtag);
+    return posts;
+}
 
     // ── helpers ──────────────────────────────────────────────────────────────
 
