@@ -55,6 +55,10 @@
       <artifactId>spring-boot-flyway</artifactId>
     </dependency>
     <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-circuitbreaker-resilience4j</artifactId>
+    </dependency>
+    <dependency>
       <!-- Flyway 10+ wymaga osobnego artefaktu dla PostgreSQL -->
       <groupId>org.flywaydb</groupId>
       <artifactId>flyway-database-postgresql</artifactId>

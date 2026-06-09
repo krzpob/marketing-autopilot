@@ -32,6 +32,8 @@ public class InstagramApiClient {
     private static final String HASHTAG_MEDIA_FIELDS = "id,media_type,permalink,like_count,comments_count,timestamp";
 
 
+    private static final String INSTAGRAM_CB = "instagramApi"; 
+            
     private final InstagramGraphClient    graphClient;
     private final InstagramApiProperties  properties;
     private final InstagramMediaMapper    mediaMapper;
