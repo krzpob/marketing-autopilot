@@ -21,8 +21,7 @@ public class InstagramSocialMediaAdapter implements SocialMediaPort {
 
     @Override
     public List<CollectedPost> fetchOwnPosts(AccessToken token) {
-        // TODO: B2-06 — mapowanie InstagramMediaResponse → List<CollectedPost>
-        return List.of();
+        return apiClient.fetchOwnMedia(token);
     }
 
     @Override
@@ -41,7 +40,9 @@ public class InstagramSocialMediaAdapter implements SocialMediaPort {
 
     @Override
     public HashtagStats fetchHashtagStats(String hashtag, AccessToken token) {
-        // TODO: B2-08
-        return null;
+        HashtagStats stats   = apiClient.fetchHashtagStats(hashtag, token);
+        List<CollectedPost> topMedia = apiClient.fetchHashtagTopMedia(hashtag, token);
+        // top media dostępne przez osobne wywołanie — można je połączyć
+        return stats;
     }
 }

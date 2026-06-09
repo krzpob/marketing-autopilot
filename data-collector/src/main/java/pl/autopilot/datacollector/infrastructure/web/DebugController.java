@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import pl.autopilot.datacollector.domain.model.AccessToken;
 import pl.autopilot.datacollector.domain.model.CollectedPost;
+import pl.autopilot.datacollector.domain.model.HashtagStats;
 import pl.autopilot.datacollector.domain.port.out.AccessTokenPort;
 import pl.autopilot.datacollector.infrastructure.instagram.client.InstagramApiClient;
 
@@ -60,6 +61,43 @@ public class DebugController {
         return new CollectionResultDto(
                 ownerIgId,
                 token.getOwnerUsername(),
+                posts.size(),
+                posts.stream().limit(5).map(PostSummaryDto::from).toList()
+        );
+    }
+
+    @GetMapping("/hashtag/{hashtag}")
+    public HashtagStats fetchHashtagStats(
+            @PathVariable String hashtag,
+            @RequestParam String ownerIgId) {
+
+        AccessToken token = accessTokenPort.findByOwnerIgId(ownerIgId)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "Brak tokenu dla: " + ownerIgId));
+
+        HashtagStats stats = instagramApiClient.fetchHashtagStats(hashtag, token);
+
+        if (stats == null) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "Nie znaleziono hashtagу: " + hashtag);
+        }
+        return stats;
+    }
+
+    @GetMapping("/hashtag/{hashtag}/top-media")
+    public CollectionResultDto fetchHashtagTopMedia(
+            @PathVariable String hashtag,
+            @RequestParam String ownerIgId) {
+
+        AccessToken token = accessTokenPort.findByOwnerIgId(ownerIgId)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "Brak tokenu dla: " + ownerIgId));
+
+        List<CollectedPost> posts = instagramApiClient.fetchHashtagTopMedia(hashtag, token);
+
+        return new CollectionResultDto(
+                ownerIgId,
+                hashtag,
                 posts.size(),
                 posts.stream().limit(5).map(PostSummaryDto::from).toList()
         );

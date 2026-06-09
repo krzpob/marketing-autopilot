@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -47,6 +48,9 @@ class InstagramGraphClient {
 
         } catch (RestClientResponseException e) {
             throw parseError(e);
+        } catch (ResourceAccessException e) {
+            log.error("Timeout lub błąd sieci dla URI: {}", uri);
+            throw new InstagramApiException(timeoutError(uri));
         }
     }
 
@@ -152,5 +156,14 @@ class InstagramGraphClient {
         return UriComponentsBuilder.fromUri(base)
                 .replaceQueryParam("after", cursor)
                 .build().toUri();
+    }
+
+    private InstagramErrorResponse.ErrorDetail timeoutError(URI uri) {
+        InstagramErrorResponse.ErrorDetail detail = new InstagramErrorResponse.ErrorDetail();
+        detail.setCode(0);
+        detail.setMessage("Read timeout: " + uri.getPath());
+        detail.setType("NetworkError");
+        detail.setFbtraceId("unknown");
+        return detail;
     }
 }
