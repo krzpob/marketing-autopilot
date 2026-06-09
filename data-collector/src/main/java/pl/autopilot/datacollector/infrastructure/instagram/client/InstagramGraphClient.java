@@ -1,10 +1,16 @@
 package pl.autopilot.datacollector.infrastructure.instagram.client;
 
 import lombok.extern.slf4j.Slf4j;
+
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import pl.autopilot.datacollector.infrastructure.instagram.model.InstagramErrorResponse;
 
 import java.net.URI;
@@ -16,6 +22,8 @@ import java.util.function.Function;
 @Component
 class InstagramGraphClient {
 
+    private static final String X_APP_USAGE = "X-App-Usage";
+    private static final ObjectMapper USAGE_PARSER = new ObjectMapper();
     private final RestClient restClient;
 
     InstagramGraphClient(RestClient.Builder builder,
@@ -29,10 +37,14 @@ class InstagramGraphClient {
 
     <T> T get(URI uri, Class<T> responseType) {
         try {
-            return restClient.get()
+            ResponseEntity<T> response = restClient.get()
                     .uri(uri)
                     .retrieve()
-                    .body(responseType);
+                    .toEntity(responseType);
+
+            checkAppUsage(response.getHeaders());
+            return response.getBody();
+
         } catch (RestClientResponseException e) {
             throw parseError(e);
         }
@@ -67,6 +79,54 @@ class InstagramGraphClient {
     }
 
     // ── helpers ──────────────────────────────────────────────────────────────
+
+    // ── rate limit ───────────────────────────────────────────────────────────
+
+    private void checkAppUsage(HttpHeaders headers) {
+        String raw = headers.getFirst(X_APP_USAGE);
+        if (raw == null) return;
+
+        try {
+            AppUsage usage = USAGE_PARSER.readValue(raw, AppUsage.class);
+
+            if (usage.isAtLimit()) {
+                log.error("Instagram API rate limit osiągnięty: call={}% cpu={}% time={}%",
+                        usage.callCount(), usage.totalCputime(), usage.totalTime());
+                throw new InstagramApiException(rateLimitDetail(usage));
+            }
+
+            if (usage.isApproachingLimit()) {
+                log.warn("Instagram API zbliża się do limitu: call={}% cpu={}% time={}%",
+                        usage.callCount(), usage.totalCputime(), usage.totalTime());
+            } else {
+                log.debug("X-App-Usage: call={}% cpu={}% time={}%",
+                        usage.callCount(), usage.totalCputime(), usage.totalTime());
+            }
+
+        } catch (InstagramApiException e) {
+            throw e;
+        } catch (Exception e) {
+            log.warn("Nie można sparsować X-App-Usage: {}", raw);
+        }
+    }
+
+    private InstagramErrorResponse.ErrorDetail rateLimitDetail(AppUsage usage) {
+        InstagramErrorResponse.ErrorDetail detail = new InstagramErrorResponse.ErrorDetail();
+        detail.setCode(4);
+        detail.setMessage("Rate limit osiągnięty: " + usage.maxUsage() + "%");
+        detail.setType("OAuthException");
+        detail.setFbtraceId("rate-limit");
+        return detail;
+    }
+
+    private InstagramErrorResponse.ErrorDetail timeoutDetail(URI uri) {
+        InstagramErrorResponse.ErrorDetail detail = new InstagramErrorResponse.ErrorDetail();
+        detail.setCode(0);
+        detail.setMessage("Read timeout: " + uri.getPath());
+        detail.setType("NetworkError");
+        detail.setFbtraceId("unknown");
+        return detail;
+    }
 
     private InstagramApiException parseError(RestClientResponseException e) {
         try {
