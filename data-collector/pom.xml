@@ -101,13 +101,6 @@
       <artifactId>spring-boot-starter-oauth2-client</artifactId>
     </dependency>
 
-    <!-- ── Resilience4j — rate limiting i circuit breaker ────────── -->
-    <!-- Instagram Graph API: 200 req/h; GSC: 1200 req/min           -->
-    <!-- CircuitBreaker chroni przed kaskadowymi błędami             -->
-    <dependency>
-      <groupId>io.github.resilience4j</groupId>
-      <artifactId>resilience4j-spring-boot4</artifactId>
-    </dependency>
     <!-- Bucket4j: token-bucket rate limiter zsynchronizowany przez Redis -->
     <dependency>
       <groupId>com.bucket4j</groupId>

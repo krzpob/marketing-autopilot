@@ -5,6 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import pl.autopilot.datacollector.domain.model.AccessToken;
 import pl.autopilot.datacollector.domain.model.CollectedPost;
 import pl.autopilot.datacollector.domain.model.HashtagStats;
@@ -39,7 +41,7 @@ public class InstagramApiClient {
     private final InstagramMediaMapper    mediaMapper;
 
     // ── B2-06: GET /me/media ─────────────────────────────────────────────────
-
+    @CircuitBreaker(name = INSTAGRAM_CB, fallbackMethod = "fetchOwnMediaFallback")
     public List<CollectedPost> fetchOwnMedia(AccessToken token) {
         Objects.requireNonNull(token, "AccessToken must not be null");
         if (!StringUtils.hasText(token.getOwnerIgId())) {
@@ -68,6 +70,11 @@ public class InstagramApiClient {
         return posts;
     }
 
+    private List<CollectedPost> fetchOwnMediaFallback(AccessToken token, Exception e) {
+        log.error("Circuit breaker: fetchOwnMedia niedostępne dla {}: {}",
+                token.getOwnerIgId(), e.getMessage());
+        return List.of();
+    }
     // ── B2-07 / B2-08 — stubs ───────────────────────────────────────────────
 
     public InstagramMediaResponse fetchCompetitorMedia(String igUserId,
@@ -77,7 +84,7 @@ public class InstagramApiClient {
     }
 
     // ── B2-08: GET /ig_hashtag_search ────────────────────────────────────────
-
+    @CircuitBreaker(name = INSTAGRAM_CB, fallbackMethod = "fetchHashtagStatsFallback")
     public HashtagStats fetchHashtagStats(String hashtag, AccessToken token) {
         Objects.requireNonNull(token,   "AccessToken must not be null");
         Objects.requireNonNull(hashtag, "Hashtag must not be null");
@@ -108,6 +115,13 @@ public class InstagramApiClient {
                 .build();
     }
 
+    private HashtagStats fetchHashtagStatsFallback(String hashtag,
+                                                    AccessToken token, Exception e) {
+        log.error("Circuit breaker: fetchHashtagStats niedostępne dla #{}: {}",
+                hashtag, e.getMessage());
+        return null;
+    }
+
     public String findHashtagId(String hashtag, AccessToken token) {
         URI uri = UriComponentsBuilder
                 .fromUriString(properties.getGraphBaseUrl())
@@ -126,39 +140,47 @@ public class InstagramApiClient {
         return response.getData().get(0).getId();
     }
 
+    @CircuitBreaker(name = INSTAGRAM_CB, fallbackMethod = "fetchHashtagTopMediaFallback")
     public List<CollectedPost> fetchHashtagTopMedia(String hashtag, AccessToken token) {
-    Objects.requireNonNull(token,   "AccessToken must not be null");
-    Objects.requireNonNull(hashtag, "Hashtag must not be null");
+        Objects.requireNonNull(token,   "AccessToken must not be null");
+        Objects.requireNonNull(hashtag, "Hashtag must not be null");
 
-    String igHashtagId = findHashtagId(hashtag, token);
-    if (igHashtagId == null) {
-        log.warn("Nie znaleziono hashtagу: #{}", hashtag);
-        return List.of();
+        String igHashtagId = findHashtagId(hashtag, token);
+        if (igHashtagId == null) {
+            log.warn("Nie znaleziono hashtagу: #{}", hashtag);
+            return List.of();
+        }
+
+        URI uri = UriComponentsBuilder
+                .fromUriString(properties.getGraphBaseUrl())
+                .path("/{hashtagId}/top_media")
+                .queryParam("fields",       HASHTAG_MEDIA_FIELDS)
+                .queryParam("user_id",      token.getOwnerIgId())
+                .queryParam("limit",    20)
+                .queryParam("access_token", token.getToken())
+                .buildAndExpand(igHashtagId)
+                .toUri();
+
+        log.info("First page url: {}", uri.toASCIIString());
+
+        InstagramMediaResponse response = graphClient.get(uri, InstagramMediaResponse.class);
+
+        List<CollectedPost> posts = response.getData() == null
+                ? List.of()
+                : response.getData().stream()
+                        .map(item -> mediaMapper.toDomain(item, igHashtagId, hashtag))
+                        .toList();
+
+        log.info("Pobrano {} top postów dla #{}", posts.size(), hashtag);
+        return posts;
     }
 
-    URI uri = UriComponentsBuilder
-            .fromUriString(properties.getGraphBaseUrl())
-            .path("/{hashtagId}/top_media")
-            .queryParam("fields",       HASHTAG_MEDIA_FIELDS)
-            .queryParam("user_id",      token.getOwnerIgId())
-            .queryParam("limit",    20)
-            .queryParam("access_token", token.getToken())
-            .buildAndExpand(igHashtagId)
-            .toUri();
-
-    log.info("First page url: {}", uri.toASCIIString());
-
-    InstagramMediaResponse response = graphClient.get(uri, InstagramMediaResponse.class);
-
-    List<CollectedPost> posts = response.getData() == null
-            ? List.of()
-            : response.getData().stream()
-                      .map(item -> mediaMapper.toDomain(item, igHashtagId, hashtag))
-                      .toList();
-
-    log.info("Pobrano {} top postów dla #{}", posts.size(), hashtag);
-    return posts;
-}
+    private List<CollectedPost> fetchHashtagTopMediaFallback(String hashtag,
+                                                              AccessToken token, Exception e) {
+        log.error("Circuit breaker: fetchHashtagTopMedia niedostępne dla #{}: {}",
+                hashtag, e.getMessage());
+        return List.of();
+    }
 
     // ── helpers ──────────────────────────────────────────────────────────────
 

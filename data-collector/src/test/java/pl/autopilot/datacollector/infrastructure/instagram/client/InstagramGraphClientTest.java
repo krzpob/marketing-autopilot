@@ -176,27 +176,26 @@ class InstagramGraphClientTest {
     }
 
     @Test
-    void shouldThrowWithExpiredTokenCode() {
+        void shouldThrowWithExpiredTokenCode() {
         // given
         wireMock.stubFor(get(urlPathEqualTo("/me/media"))
-        .willReturn(jsonResponse("""
-                {
-                  "error": {
-                    "message": "Error validating access token",
-                    "type": "OAuthException",
-                    "code": 190,
-                    "fbtrace_id": "trace456"
-                  }
-                }
-                """, 401)));
+                .willReturn(jsonResponse("""
+                        {
+                        "error": {
+                                "message": "Error validating access token",
+                                "type": "OAuthException",
+                                "code": 190,
+                                "fbtrace_id": "trace456"
+                        }
+                        }
+                        """, 401)));
 
-        // when / then
+        // when / then — kod 190 rzuca dedykowany wyjątek, nie InstagramApiException
         thenThrownBy(() -> graphClient.get(
-                URI.create("http://localhost:" + wireMock.port() + "/me/media"),
-                InstagramMediaResponse.class))
-                .isInstanceOf(InstagramApiException.class)
-                .matches(e -> ((InstagramApiException) e).isTokenExpired());
-    }
+                        URI.create("http://localhost:" + wireMock.port() + "/me/media"),
+                        InstagramMediaResponse.class))
+                .isInstanceOf(InstagramTokenExpiredException.class);
+        }
 
     @Test
         void shouldWarnWhenAppUsageApproachingLimit() {

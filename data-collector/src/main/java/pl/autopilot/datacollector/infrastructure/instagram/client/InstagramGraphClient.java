@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.util.StringUtils;
@@ -33,6 +34,11 @@ class InstagramGraphClient {
                          InstagramApiProperties properties) {
         this.restClient = builder
                 .baseUrl(properties.getGraphBaseUrl())
+                .requestInterceptor((request, body, execution) -> {
+                    ClientHttpResponse response = execution.execute(request, body);
+                    checkAppUsage(response.getHeaders());
+                    return response;
+                })
                 .build();
     }
 
@@ -40,13 +46,10 @@ class InstagramGraphClient {
 
     <T> T get(URI uri, Class<T> responseType) {
         try {
-            ResponseEntity<T> response = restClient.get()
+            return restClient.get() 
                     .uri(uri)
                     .retrieve()
-                    .toEntity(responseType);
-
-            checkAppUsage(response.getHeaders());
-            return response.getBody();
+                    .body(responseType);
 
         } catch (RestClientResponseException e) {
             throw parseError(e);
@@ -137,14 +140,16 @@ class InstagramGraphClient {
     private InstagramApiException parseError(RestClientResponseException e) {
         try {
             String body = e.getResponseBodyAsString();
-            if (!StringUtils.hasText(body)) {
+            log.error("Body: {}",body);
+            if (StringUtils.hasText(body)) {
                 InstagramErrorResponse error = USAGE_PARSER.readValue(body, InstagramErrorResponse.class);
+                log.error("Bład: {}", error);
                 if(error.getError() != null) {
                     InstagramApiException apiException = new InstagramApiException(error.getError());
                     if (apiException.isTokenExpired()) {
                         throw new InstagramTokenExpiredException("unknown");
                     }
-                    return new InstagramApiException(error.getError());
+                    return apiException;
                 }
                 
             }
