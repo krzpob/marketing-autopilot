@@ -1,11 +1,14 @@
 package pl.autopilot.datacollector.infrastructure.instagram.client;
 
+
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.ResourceAccessException;
+import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -31,6 +34,11 @@ class InstagramGraphClient {
                          InstagramApiProperties properties) {
         this.restClient = builder
                 .baseUrl(properties.getGraphBaseUrl())
+                .requestInterceptor((request, body, execution) -> {
+                    ClientHttpResponse response = execution.execute(request, body);
+                    checkAppUsage(response.getHeaders());
+                    return response;
+                })
                 .build();
     }
 
@@ -38,13 +46,10 @@ class InstagramGraphClient {
 
     <T> T get(URI uri, Class<T> responseType) {
         try {
-            ResponseEntity<T> response = restClient.get()
+            return restClient.get() 
                     .uri(uri)
                     .retrieve()
-                    .toEntity(responseType);
-
-            checkAppUsage(response.getHeaders());
-            return response.getBody();
+                    .body(responseType);
 
         } catch (RestClientResponseException e) {
             throw parseError(e);
@@ -134,17 +139,30 @@ class InstagramGraphClient {
 
     private InstagramApiException parseError(RestClientResponseException e) {
         try {
-            InstagramErrorResponse body =
-                    e.getResponseBodyAs(InstagramErrorResponse.class);
-            if (body != null && body.getError() != null) {
-                return new InstagramApiException(body.getError());
+            String body = e.getResponseBodyAsString();
+            log.error("Body: {}",body);
+            if (StringUtils.hasText(body)) {
+                InstagramErrorResponse error = USAGE_PARSER.readValue(body, InstagramErrorResponse.class);
+                log.error("Bład: {}", error);
+                if(error.getError() != null) {
+                    InstagramApiException apiException = new InstagramApiException(error.getError());
+                    if (apiException.isTokenExpired()) {
+                        throw new InstagramTokenExpiredException("unknown");
+                    }
+                    return apiException;
+                }
+                
             }
+        } catch (InstagramTokenExpiredException e2) {
+            throw e2;
+        } catch (InstagramApiException e2) {
+            throw e2;
         } catch (Exception parseEx) {
-            log.warn("Nie można sparsować błędu Instagram API: {}", e.getResponseBodyAsString());
+            log.warn("Nie można sparsować błędu: {}", e.getResponseBodyAsString());
         }
         // fallback — nieznany błąd
         InstagramErrorResponse.ErrorDetail fallback =
-                new InstagramErrorResponse.ErrorDetail();
+            new InstagramErrorResponse.ErrorDetail();
         fallback.setCode(e.getStatusCode().value());
         fallback.setMessage(e.getMessage());
         fallback.setType("UnknownError");
