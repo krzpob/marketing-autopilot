@@ -1,6 +1,5 @@
 package pl.autopilot.datacollector.infrastructure.instagram.client;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.absent;
 import static com.github.tomakehurst.wiremock.client.WireMock.equalTo;
 import static com.github.tomakehurst.wiremock.client.WireMock.get;
@@ -20,7 +19,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
-import org.springframework.http.MediaType;
 import org.springframework.web.client.RestClient;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
@@ -199,6 +197,46 @@ class InstagramGraphClientTest {
                 .isInstanceOf(InstagramApiException.class)
                 .matches(e -> ((InstagramApiException) e).isTokenExpired());
     }
+
+    @Test
+        void shouldWarnWhenAppUsageApproachingLimit() {
+        // given
+        wireMock.stubFor(get(urlPathEqualTo("/me/media"))
+                .willReturn(okJson("""
+                        {"data":[],"paging":{}}
+                        """)
+                        .withHeader("X-App-Usage",
+                                "{\"call_count\":85,\"total_cputime\":20,\"total_time\":30}")));
+
+        // when — nie rzuca wyjątku, tylko loguje warning
+        List<?> result = graphClient.fetchAllPages(
+                URI.create("http://localhost:" + wireMock.port() + "/me/media"),
+                InstagramMediaResponse.class,
+                InstagramMediaResponse::getData,
+                r -> extractCursor(r)
+        );
+
+        // then
+        then(result).isEmpty();
+        }
+
+        @Test
+        void shouldThrowWhenAppUsageAtLimit() {
+        // given
+        wireMock.stubFor(get(urlPathEqualTo("/me/media"))
+                .willReturn(okJson("""
+                        {"data":[],"paging":{}}
+                        """)
+                        .withHeader("X-App-Usage",
+                                "{\"call_count\":100,\"total_cputime\":50,\"total_time\":50}")));
+
+        // when / then
+        thenThrownBy(() -> graphClient.get(
+                URI.create("http://localhost:" + wireMock.port() + "/me/media"),
+                InstagramMediaResponse.class))
+                .isInstanceOf(InstagramApiException.class)
+                .matches(e -> ((InstagramApiException) e).isRateLimited());
+        }
 
     // ── helper ────────────────────────────────────────────────────────────────
 
