@@ -78,7 +78,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: health,circuitbreakers
+        include: health,circuitbreakers,mappings
   health:
     circuitbreakers:
       enabled: true
