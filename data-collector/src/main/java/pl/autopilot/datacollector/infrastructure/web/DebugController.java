@@ -9,7 +9,9 @@ import org.springframework.web.server.ResponseStatusException;
 import pl.autopilot.datacollector.domain.model.AccessToken;
 import pl.autopilot.datacollector.domain.model.CollectedPost;
 import pl.autopilot.datacollector.domain.model.HashtagStats;
+import pl.autopilot.datacollector.domain.model.MonitoredProfile;
 import pl.autopilot.datacollector.domain.port.out.AccessTokenPort;
+import pl.autopilot.datacollector.domain.port.out.MonitoredProfilePort;
 import pl.autopilot.datacollector.infrastructure.instagram.client.InstagramApiClient;
 
 import java.time.Instant;
@@ -24,6 +26,7 @@ public class DebugController {
 
     private final AccessTokenPort    accessTokenPort;
     private final InstagramApiClient instagramApiClient;
+    private final MonitoredProfilePort monitoredProfilePort;
 
     // ── 1. Status tokenów ────────────────────────────────────────────────────
 
@@ -102,6 +105,26 @@ public class DebugController {
                 posts.stream().limit(5).map(PostSummaryDto::from).toList()
         );
     }
+
+    @PostMapping("/monitored-profiles")
+        public MonitoredProfile addMonitoredProfile(
+                @RequestParam String ownerIgId,
+                @RequestParam String competitorHandle) {
+
+                MonitoredProfile profile = MonitoredProfile.builder()
+                        .ownerIgId(ownerIgId)
+                        .competitorIgHandle(competitorHandle)
+                        .build();
+
+                monitoredProfilePort.save(profile);
+                log.info("[DEBUG] Dodano profil do obserwowania: {} → {}", ownerIgId, competitorHandle);
+        return profile;
+        }
+
+        @GetMapping("/monitored-profiles/{ownerIgId}")
+        public List<MonitoredProfile> listMonitoredProfiles(@PathVariable String ownerIgId) {
+        return monitoredProfilePort.findAllByOwnerIgId(ownerIgId);
+        }
 
     // ── DTOs ─────────────────────────────────────────────────────────────────
 

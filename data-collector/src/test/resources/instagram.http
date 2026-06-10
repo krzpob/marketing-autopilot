@@ -23,10 +23,20 @@ Accept: */*
 GET https://erupt-relenting-detoxify.ngrok-free.dev/debug/hashtag/sesjebuduarowe?ownerIgId=17841441888584276 HTTP/1.1 
 
 ###
-GET https://erupt-relenting-detoxify.ngrok-free.dev/debug/hashtag/sesjebuduarowe/top-media?ownerIgId=17841441888584276 HTTP/1.1
+GET https://erupt-relenting-detoxify.ngrok-free.dev/debug/hashtag/sesjebuduarowe/top-media?ownerIgId=    HTTP/1.1
 
 ###
 GET http://localhost:8083/debug/hashtag/sesjebuduarowe/top-media?ownerIgId=17841441888584276 HTTP/1.1
 
 ###
 GET http://erupt-relenting-detoxify.ngrok-free.dev/actuator/health HTTP/1.1
+
+###
+POST http://localhost:8083/debug/monitored-profiles?ownerIgId=17841441888584276&competitorHandlezieniuphoto HTTP/1.1
+
+###
+GET http://localhost:8083/debug/monitored-profiles/17841441888584276 HTTP/1.1
+
+###
+GET http://localhost:8083/actuator/mappings HTTP/1.1
+
