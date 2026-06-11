@@ -87,6 +87,14 @@ class InstagramGraphClient {
         return all;
     }
 
+    <T> T fetchPage(URI uri, Class<T> responseType) {
+        return get(uri, responseType);
+    }
+
+    URI nextPageUri(URI current, String afterCursor) {
+        return appendAfterCursor(current, afterCursor);
+    }
+
     // ── helpers ──────────────────────────────────────────────────────────────
 
     // ── rate limit ───────────────────────────────────────────────────────────
@@ -125,15 +133,6 @@ class InstagramGraphClient {
         detail.setMessage("Rate limit osiągnięty: " + usage.maxUsage() + "%");
         detail.setType("OAuthException");
         detail.setFbtraceId("rate-limit");
-        return detail;
-    }
-
-    private InstagramErrorResponse.ErrorDetail timeoutDetail(URI uri) {
-        InstagramErrorResponse.ErrorDetail detail = new InstagramErrorResponse.ErrorDetail();
-        detail.setCode(0);
-        detail.setMessage("Read timeout: " + uri.getPath());
-        detail.setType("NetworkError");
-        detail.setFbtraceId("unknown");
         return detail;
     }
 
