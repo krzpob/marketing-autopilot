@@ -1,15 +1,20 @@
 package pl.autopilot.datacollector.infrastructure.instagram.client;
 
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import pl.autopilot.datacollector.domain.model.AccessToken;
 import pl.autopilot.datacollector.domain.model.CollectedPost;
 import pl.autopilot.datacollector.domain.model.HashtagStats;
+import pl.autopilot.datacollector.infrastructure.instagram.InstagramUtils;
 import pl.autopilot.datacollector.infrastructure.instagram.mapper.InstagramMediaMapper;
 import pl.autopilot.datacollector.infrastructure.instagram.model.InstagramHashtagResponse;
 import pl.autopilot.datacollector.infrastructure.instagram.model.InstagramHashtagStatsResponse;
@@ -17,6 +22,8 @@ import pl.autopilot.datacollector.infrastructure.instagram.model.InstagramMediaR
 
 
 import java.net.URI;
+import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -39,6 +46,19 @@ public class InstagramApiClient {
     private final InstagramGraphClient    graphClient;
     private final InstagramApiProperties  properties;
     private final InstagramMediaMapper    mediaMapper;
+
+    @Data
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    static class BusinessDiscoveryResponse {
+        @JsonProperty("business_discovery")
+        private BusinessDiscovery businessDiscovery;
+
+        @Data
+        @JsonIgnoreProperties(ignoreUnknown = true)
+        static class BusinessDiscovery {
+                private InstagramMediaResponse media;
+        }
+    }
 
     // ── B2-06: GET /me/media ─────────────────────────────────────────────────
     @CircuitBreaker(name = INSTAGRAM_CB, fallbackMethod = "fetchOwnMediaFallback")
@@ -77,10 +97,65 @@ public class InstagramApiClient {
     }
     // ── B2-07 / B2-08 — stubs ───────────────────────────────────────────────
 
-    public InstagramMediaResponse fetchCompetitorMedia(String igUserId,
-                                                       String accessToken) {
-        // TODO: B2-07
-        return new InstagramMediaResponse();
+    private static final String COMPETITOR_MEDIA_FIELDS =
+        "business_discovery.as(%s){media{id,shortcode,media_type," +
+        "media_url,permalink,like_count,comments_count,timestamp}}";
+
+    @CircuitBreaker(name = INSTAGRAM_CB, fallbackMethod = "fetchCompetitorMediaFallback")
+    public List<CollectedPost> fetchCompetitorMedia(String competitorUsername,
+                                                    AccessToken token,
+                                                    Instant since) {
+        Objects.requireNonNull(token,              "AccessToken must not be null");
+        Objects.requireNonNull(competitorUsername, "competitorUsername must not be null");
+        Objects.requireNonNull(since,              "since must not be null");
+    
+        URI uri = UriComponentsBuilder
+            .fromUriString(properties.getGraphBaseUrl())
+            .path("/"+token.getOwnerIgId())
+            .queryParam("fields",       String.format(COMPETITOR_MEDIA_FIELDS, competitorUsername))
+            .queryParam("access_token", token.getToken())
+            .build(false)                          // encode=false — nie dotykaj jeszcze wartości
+            .encode()                              // teraz enkoduj całość łącznie z {} w fields
+            .toUri();
+    
+        List<CollectedPost> result = new ArrayList<>();
+
+        while (uri != null) {
+            BusinessDiscoveryResponse page =
+                    graphClient.fetchPage(uri, BusinessDiscoveryResponse.class);
+            InstagramMediaResponse media =
+                    page.getBusinessDiscovery() == null ? null
+                    : page.getBusinessDiscovery().getMedia();
+    
+            if (media == null || media.getData() == null) break;
+    
+            boolean reachedOld = false;
+            for (InstagramMediaResponse.MediaItem item : media.getData()) {
+            if (!InstagramUtils.parseTimestamp(item.getTimestamp()).isAfter(since)) {
+                    reachedOld = true;
+                    break;
+            }
+            result.add(mediaMapper.toDomain(item, competitorUsername, competitorUsername));
+            }
+    
+            String nextCursor = extractNextCursor(media);
+            uri = (reachedOld || nextCursor == null)
+                    ? null
+                    : graphClient.nextPageUri(uri, nextCursor);
+        }
+
+        log.info("Pobrano {} nowych postów konkurenta username={}, since={}",
+            result.size(), competitorUsername, since);
+        return result;
+    }
+
+    private List<CollectedPost> fetchCompetitorMediaFallback(String competitorUsername,
+                                                            AccessToken token,
+                                                            Instant since,
+                                                            Exception e) {
+        log.error("Circuit breaker: fetchCompetitorMedia niedostępne dla {}: {}",
+                competitorUsername, e.getMessage());
+        return List.of();
     }
 
     // ── B2-08: GET /ig_hashtag_search ────────────────────────────────────────

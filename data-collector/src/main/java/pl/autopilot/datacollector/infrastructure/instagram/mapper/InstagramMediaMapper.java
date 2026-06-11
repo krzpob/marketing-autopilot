@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import pl.autopilot.datacollector.domain.model.CollectedPost;
 import pl.autopilot.datacollector.domain.service.HashtagExtractor;
+import pl.autopilot.datacollector.infrastructure.instagram.InstagramUtils;
 import pl.autopilot.datacollector.infrastructure.instagram.model.InstagramMediaResponse;
 
 import java.time.Instant;
@@ -20,11 +21,6 @@ public class InstagramMediaMapper {
 
     private final HashtagExtractor hashtagExtractor;
 
-    private static final DateTimeFormatter INSTAGRAM_TIMESTAMP =
-        new DateTimeFormatterBuilder()
-                .appendPattern("yyyy-MM-dd'T'HH:mm:ss")
-                .appendOffset("+HHMM", "Z")   // obsługuje +0000 bez dwukropka
-                .toFormatter();
 
     public CollectedPost toDomain(InstagramMediaResponse.MediaItem item,
                                   String ownerIgId,
@@ -41,7 +37,7 @@ public class InstagramMediaMapper {
                 .permalink(item.getPermalink())
                 .likeCount(item.getLikeCount())
                 .commentsCount(item.getCommentsCount())
-                .publishedAt(parseTimestamp(item.getTimestamp()))
+                .publishedAt(InstagramUtils.parseTimestamp(item.getTimestamp()))
                 .build();
     }
 
@@ -56,13 +52,4 @@ public class InstagramMediaMapper {
         };
     }
 
-    private Instant parseTimestamp(String timestamp) {
-        if (timestamp == null) return Instant.now();
-        try {
-            return Instant.from(INSTAGRAM_TIMESTAMP.parse(timestamp));
-        } catch (DateTimeParseException e) {
-            log.warn("Nie można sparsować timestamp: {}", timestamp);
-            return Instant.now();
-        }
-    }
 }
