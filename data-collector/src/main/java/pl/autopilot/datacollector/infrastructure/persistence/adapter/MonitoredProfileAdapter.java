@@ -10,6 +10,7 @@ import pl.autopilot.datacollector.infrastructure.persistence.repository.Monitore
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.time.Instant;
 
 @Component
 @RequiredArgsConstructor
@@ -45,6 +46,20 @@ public class MonitoredProfileAdapter implements MonitoredProfilePort {
     @Override
     public void delete(UUID id) {
         repository.deleteById(id);
+    }
+
+    @Override
+    public List<MonitoredProfile> findAllActiveByCompetitorHandle(String competitorIgHandle) {
+        return repository.findAllByCompetitorIgHandleAndActiveTrue(competitorIgHandle)
+                .stream().map(this::toDomain).toList();
+    }
+
+    @Override
+    public void updateLastCollectedAt(UUID id, Instant lastCollectedAt) {
+        repository.findById(id).ifPresent(entity -> {
+            entity.setLastCollectedAt(lastCollectedAt);
+            repository.save(entity);
+        });
     }
 
     // ── mappery ──────────────────────────────────────────────────────────────

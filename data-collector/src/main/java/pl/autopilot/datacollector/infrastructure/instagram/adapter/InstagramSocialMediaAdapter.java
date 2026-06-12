@@ -11,6 +11,7 @@ import pl.autopilot.datacollector.domain.port.out.SocialMediaPort;
 import pl.autopilot.datacollector.infrastructure.instagram.client.InstagramApiClient;
 
 import java.util.List;
+import java.time.Instant;
 
 @Slf4j
 @Component("instagramSocialMediaAdapter")
@@ -26,16 +27,15 @@ public class InstagramSocialMediaAdapter implements SocialMediaPort {
 
     @Override
     public List<CollectedPost> fetchCompetitorPosts(String competitorUsername,
+                                                    Instant since,
                                                     AccessToken token) {
-        // TODO: B2-07
-        return List.of();
+        return apiClient.fetchCompetitorMedia(competitorUsername, token, since);
     }
 
     @Override
     public CompetitorProfile fetchCompetitorProfile(String competitorUsername,
                                                     AccessToken token) {
-        // TODO: B2-07
-        return null;
+        return CompetitorProfile.builder().username(competitorUsername).build();
     }
 
     @Override
