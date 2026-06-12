@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import pl.autopilot.datacollector.domain.model.*;
 import pl.autopilot.datacollector.domain.port.out.SocialMediaPort;
 
+import java.time.Instant;
 import java.util.List;
 
 @Slf4j
@@ -35,5 +36,11 @@ public class GoogleSocialMediaAdapter implements SocialMediaPort {
     public HashtagStats fetchHashtagStats(String hashtag, AccessToken token) {
         // TODO: B2-x
         return null;
+    }
+
+    @Override
+    public List<CollectedPost> fetchCompetitorPosts(String competitorUsername, Instant since, AccessToken token) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'fetchCompetitorPosts'");
     }
 }

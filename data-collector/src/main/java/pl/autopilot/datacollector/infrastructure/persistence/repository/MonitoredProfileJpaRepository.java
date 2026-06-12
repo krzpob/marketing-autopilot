@@ -16,4 +16,5 @@ public interface MonitoredProfileJpaRepository
 
     Optional<MonitoredProfileEntity> findByOwnerIgIdAndCompetitorIgHandle(
             String ownerIgId, String competitorIgHandle);
+    List<MonitoredProfileEntity> findAllByCompetitorIgHandleAndActiveTrue(String competitorIgHandle);
 }
