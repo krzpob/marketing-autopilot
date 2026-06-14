@@ -2,6 +2,7 @@ package pl.autopilot.datacollector.infrastructure.instagram;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.time.Instant;
@@ -51,5 +52,20 @@ class InstagramUtilsTest {
 
         // then
         then(result).isNotNull();
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "https://www.instagram.com/p/ABC123/,        ABC123",
+            "https://www.instagram.com/reel/XYZ789/,     XYZ789",
+            "https://www.instagram.com/p/ABC123,          ABC123",
+    })
+    void shouldExtractShortcodeFromPermalink(String permalink, String expected) {
+        then(InstagramUtils.extractShortcode(permalink.trim())).isEqualTo(expected);
+    }
+
+    @Test
+    void shouldReturnNullForNullPermalink() {
+        then(InstagramUtils.extractShortcode(null)).isNull();
     }
 }

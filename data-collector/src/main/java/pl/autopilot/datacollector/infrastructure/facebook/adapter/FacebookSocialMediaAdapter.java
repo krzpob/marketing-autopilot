@@ -15,6 +15,11 @@ import java.util.List;
 public class FacebookSocialMediaAdapter implements SocialMediaPort {
 
     @Override
+    public SocialMediaPlatform platform() {
+        return SocialMediaPlatform.FACEBOOK;
+    }
+
+    @Override
     public List<CollectedPost> fetchOwnPosts(AccessToken token) {
         // TODO: B2-x
         return List.of();

@@ -7,6 +7,7 @@ import pl.autopilot.datacollector.domain.model.AccessToken;
 import pl.autopilot.datacollector.domain.model.CollectedPost;
 import pl.autopilot.datacollector.domain.model.CompetitorProfile;
 import pl.autopilot.datacollector.domain.model.MonitoredProfile;
+import pl.autopilot.datacollector.domain.model.SocialMediaPlatform;
 import pl.autopilot.datacollector.domain.port.in.CollectCompetitorDataUseCase;
 import pl.autopilot.datacollector.domain.port.out.AccessTokenPort;
 import pl.autopilot.datacollector.domain.port.out.CompetitorEventPort;
@@ -17,11 +18,12 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
-@RequiredArgsConstructor
 public class CompetitorDataCollectionService implements CollectCompetitorDataUseCase {
 
     private static final int DEFAULT_LOOKBACK_DAYS = 30;
@@ -29,10 +31,23 @@ public class CompetitorDataCollectionService implements CollectCompetitorDataUse
     private final MonitoredProfilePort monitoredProfilePort;
     private final AccessTokenPort      accessTokenPort;
     private final CompetitorEventPort  competitorEventPort;
-    private final SocialMediaPort      socialMediaPort;
+    private final Map<SocialMediaPlatform, SocialMediaPort> socialMediaPorts;
+    
+    public CompetitorDataCollectionService(
+            MonitoredProfilePort monitoredProfilePort,
+            AccessTokenPort accessTokenPort,
+            CompetitorEventPort competitorEventPort,
+            List<SocialMediaPort> socialMediaPorts) {
+        this.monitoredProfilePort = monitoredProfilePort;
+        this.accessTokenPort      = accessTokenPort;
+        this.competitorEventPort  = competitorEventPort;
+        this.socialMediaPorts     = socialMediaPorts.stream()
+                .collect(Collectors.toMap(SocialMediaPort::platform, p -> p));
+    }
+
 
     @Override
-    public void collect(String competitorIgHandle) {
+    public void collect(String competitorIgHandle, SocialMediaPlatform platform) {
         List<MonitoredProfile> observers =
                 monitoredProfilePort.findAllActiveByCompetitorHandle(competitorIgHandle);
 
@@ -58,13 +73,14 @@ public class CompetitorDataCollectionService implements CollectCompetitorDataUse
         log.info("Zbieram posty handle={} tokenOwner={} since={}",
                 competitorIgHandle, token.getOwnerIgId(), since);
 
+        SocialMediaPort port = socialMediaPorts.get(platform);        
         List<CollectedPost> posts =
-                socialMediaPort.fetchCompetitorPosts(competitorIgHandle, since, token);
+                port.fetchCompetitorPosts(competitorIgHandle, since, token);
 
         if (posts.isEmpty()) {
             log.info("Brak nowych postów dla handle={}", competitorIgHandle);
         } else {
-            CompetitorProfile profile = buildProfile(competitorIgHandle);
+            CompetitorProfile profile = port.fetchCompetitorProfile(competitorIgHandle, token);
             posts.forEach(post -> competitorEventPort.publish(post, profile));
             log.info("Opublikowano {} eventów dla handle={}", posts.size(), competitorIgHandle);
         }
@@ -99,13 +115,4 @@ public class CompetitorDataCollectionService implements CollectCompetitorDataUse
                 : Instant.now().minus(DEFAULT_LOOKBACK_DAYS, ChronoUnit.DAYS);
     }
 
-    private CompetitorProfile buildProfile(String competitorIgHandle) {
-        return CompetitorProfile.builder()
-                .igId("")
-                .username(competitorIgHandle)
-                .followerCount(0)
-                .mediaCount(0)
-                .businessAccount(true)
-                .build();
-    }
 }

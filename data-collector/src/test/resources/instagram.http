@@ -32,7 +32,7 @@ GET http://localhost:8083/debug/hashtag/sesjebuduarowe/top-media?ownerIgId=17841
 GET http://erupt-relenting-detoxify.ngrok-free.dev/actuator/health HTTP/1.1
 
 ###
-POST http://localhost:8083/debug/monitored-profiles?ownerIgId=17841441888584276&competitorHandlezieniuphoto HTTP/1.1
+POST http://localhost:8083/debug/monitored-profiles?ownerIgId=17841441888584276&competitorHandle=zmyslowaty HTTP/1.1
 
 ###
 GET http://localhost:8083/debug/monitored-profiles/17841441888584276 HTTP/1.1
@@ -40,3 +40,11 @@ GET http://localhost:8083/debug/monitored-profiles/17841441888584276 HTTP/1.1
 ###
 GET http://localhost:8083/actuator/mappings HTTP/1.1
 
+###
+POST http://localhost:8083/collect/competitor HTTP/1.1
+Content-Type: application/json
+
+{
+    "competitorUsername": "zmyslowaty",
+    "platform": "INSTAGRAM"
+}

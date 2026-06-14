@@ -26,7 +26,9 @@ public class InstagramMediaMapper {
                                   String ownerIgId,
                                   String ownerUsername) {
         return CollectedPost.builder()
-                .shortcode(item.getShortcode())
+                .shortcode(item.getShortcode() != null
+                            ? item.getShortcode()
+                            : InstagramUtils.extractShortcode(item.getPermalink()))
                 .ownerIgId(ownerIgId)
                 .ownerUsername(ownerUsername)
                 .mediaType(mapMediaType(item.getMediaType()))

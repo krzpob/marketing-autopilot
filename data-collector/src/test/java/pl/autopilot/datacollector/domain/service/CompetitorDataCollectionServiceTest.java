@@ -3,22 +3,24 @@ package pl.autopilot.datacollector.domain.service;
 import org.assertj.core.api.BDDSoftAssertions;
 import org.assertj.core.api.junit.jupiter.InjectSoftAssertions;
 import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.BDDMockito;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import lombok.extern.slf4j.Slf4j;
 import pl.autopilot.datacollector.domain.model.AccessToken;
 import pl.autopilot.datacollector.domain.model.CollectedPost;
 import pl.autopilot.datacollector.domain.model.CompetitorProfile;
 import pl.autopilot.datacollector.domain.model.MonitoredProfile;
+import pl.autopilot.datacollector.domain.model.SocialMediaPlatform;
 import pl.autopilot.datacollector.domain.port.out.AccessTokenPort;
 import pl.autopilot.datacollector.domain.port.out.CompetitorEventPort;
 import pl.autopilot.datacollector.domain.port.out.MonitoredProfilePort;
 import pl.autopilot.datacollector.domain.port.out.SocialMediaPort;
-
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -29,7 +31,10 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.mockingDetails;
 
+@Slf4j
 @ExtendWith({MockitoExtension.class, SoftAssertionsExtension.class})
 class CompetitorDataCollectionServiceTest {
 
@@ -39,16 +44,32 @@ class CompetitorDataCollectionServiceTest {
     private AccessTokenPort      accessTokenPort;
     @Mock
     private CompetitorEventPort  competitorEventPort;
-    @Mock
-    private SocialMediaPort      socialMediaPort;
-
-    @InjectMocks
+    
+    private SocialMediaPort instagramSocialMediaAdapter;
+    
     private CompetitorDataCollectionService service;
 
     @InjectSoftAssertions
     private BDDSoftAssertions softly;
 
     private static final String HANDLE = "fotografik_waw";
+
+    @BeforeEach
+    void setUp() {
+
+        instagramSocialMediaAdapter = mock(SocialMediaPort.class);
+        given(instagramSocialMediaAdapter.platform()).willReturn(SocialMediaPlatform.INSTAGRAM);
+
+        SocialMediaPort facebookSocialMediaAdapter = mock(SocialMediaPort.class);
+        given(facebookSocialMediaAdapter.platform()).willReturn(SocialMediaPlatform.FACEBOOK);
+
+        service = new CompetitorDataCollectionService(
+                monitoredProfilePort,
+                accessTokenPort,
+                competitorEventPort,
+                List.of(instagramSocialMediaAdapter, facebookSocialMediaAdapter)
+        );
+    }
 
     // ── brak obserwujących ────────────────────────────────────────────────────
 
@@ -59,11 +80,12 @@ class CompetitorDataCollectionServiceTest {
                 .willReturn(List.of());
 
         // when
-        service.collect(HANDLE);
+        service.collect(HANDLE, SocialMediaPlatform.INSTAGRAM);
 
         // then
         BDDMockito.then(accessTokenPort).shouldHaveNoInteractions();
-        BDDMockito.then(socialMediaPort).shouldHaveNoInteractions();
+        BDDMockito.then(instagramSocialMediaAdapter).should().platform();
+        BDDMockito.then(instagramSocialMediaAdapter).shouldHaveNoMoreInteractions();
         BDDMockito.then(competitorEventPort).shouldHaveNoInteractions();
     }
 
@@ -78,10 +100,11 @@ class CompetitorDataCollectionServiceTest {
                 .willReturn(Optional.empty());
 
         // when
-        service.collect(HANDLE);
+        service.collect(HANDLE, SocialMediaPlatform.INSTAGRAM);
 
         // then
-        BDDMockito.then(socialMediaPort).shouldHaveNoInteractions();
+        BDDMockito.then(instagramSocialMediaAdapter).should().platform();
+        BDDMockito.then(instagramSocialMediaAdapter).shouldHaveNoMoreInteractions();
         BDDMockito.then(competitorEventPort).shouldHaveNoInteractions();
     }
 
@@ -100,11 +123,11 @@ class CompetitorDataCollectionServiceTest {
                 .willReturn(List.of(profileNewer, profileOlder));
         given(accessTokenPort.findByOwnerIgId("owner_oldest"))
                 .willReturn(Optional.of(aToken("owner_oldest")));
-        given(socialMediaPort.fetchCompetitorPosts(eq(HANDLE), any(), any()))
+        given(instagramSocialMediaAdapter.fetchCompetitorPosts(eq(HANDLE), any(), any()))
                 .willReturn(List.of());
 
         // when
-        service.collect(HANDLE);
+        service.collect(HANDLE, SocialMediaPlatform.INSTAGRAM);
 
         // then — token wybrany od owner_oldest
         BDDMockito.then(accessTokenPort).should()
@@ -124,11 +147,11 @@ class CompetitorDataCollectionServiceTest {
                 .willReturn(List.of(profileRecent, profileNull));
         given(accessTokenPort.findByOwnerIgId("owner_null"))
                 .willReturn(Optional.of(aToken("owner_null")));
-        given(socialMediaPort.fetchCompetitorPosts(eq(HANDLE), any(), any()))
+        given(instagramSocialMediaAdapter.fetchCompetitorPosts(eq(HANDLE), any(), any()))
                 .willReturn(List.of());
 
         // when
-        service.collect(HANDLE);
+        service.collect(HANDLE, SocialMediaPlatform.INSTAGRAM);
 
         // then
         BDDMockito.then(accessTokenPort).should().findByOwnerIgId("owner_null");
@@ -146,14 +169,14 @@ class CompetitorDataCollectionServiceTest {
                 .willReturn(List.of(profile));
         given(accessTokenPort.findByOwnerIgId("owner1"))
                 .willReturn(Optional.of(aToken("owner1")));
-        given(socialMediaPort.fetchCompetitorPosts(eq(HANDLE), eq(lastCollected), any()))
+        given(instagramSocialMediaAdapter.fetchCompetitorPosts(eq(HANDLE), eq(lastCollected), any()))
                 .willReturn(List.of());
 
         // when
-        service.collect(HANDLE);
+        service.collect(HANDLE, SocialMediaPlatform.INSTAGRAM);
 
         // then
-        BDDMockito.then(socialMediaPort).should()
+        BDDMockito.then(instagramSocialMediaAdapter).should()
                 .fetchCompetitorPosts(eq(HANDLE), eq(lastCollected), any());
     }
 
@@ -166,17 +189,17 @@ class CompetitorDataCollectionServiceTest {
                 .willReturn(List.of(profile));
         given(accessTokenPort.findByOwnerIgId("owner1"))
                 .willReturn(Optional.of(aToken("owner1")));
-        given(socialMediaPort.fetchCompetitorPosts(any(), any(), any()))
+        given(instagramSocialMediaAdapter.fetchCompetitorPosts(any(), any(), any()))
                 .willReturn(List.of());
 
         // when
         Instant before = Instant.now().minus(30, ChronoUnit.DAYS);
-        service.collect(HANDLE);
+        service.collect(HANDLE, SocialMediaPlatform.INSTAGRAM);
         Instant after  = Instant.now().minus(30, ChronoUnit.DAYS);
 
         // then — since mieści się w oknie 30 dni ± kilka ms
         ArgumentCaptor<Instant> sinceCaptor = ArgumentCaptor.forClass(Instant.class);
-        BDDMockito.then(socialMediaPort).should()
+        BDDMockito.then(instagramSocialMediaAdapter).should()
                 .fetchCompetitorPosts(eq(HANDLE), sinceCaptor.capture(), any());
         then(sinceCaptor.getValue())
                 .isAfterOrEqualTo(before)
@@ -191,22 +214,25 @@ class CompetitorDataCollectionServiceTest {
         MonitoredProfile profile = aProfile("owner1", Instant.parse("2024-05-01T00:00:00Z"));
         CollectedPost post1 = aPost("p1");
         CollectedPost post2 = aPost("p2");
+        CompetitorProfile competitorProfile = aCompetitorProfile();
 
         given(monitoredProfilePort.findAllActiveByCompetitorHandle(HANDLE))
                 .willReturn(List.of(profile));
         given(accessTokenPort.findByOwnerIgId("owner1"))
                 .willReturn(Optional.of(aToken("owner1")));
-        given(socialMediaPort.fetchCompetitorPosts(any(), any(), any()))
+        given(instagramSocialMediaAdapter.fetchCompetitorPosts(eq(HANDLE), any(), any()))
                 .willReturn(List.of(post1, post2));
+        given(instagramSocialMediaAdapter.fetchCompetitorProfile(eq(HANDLE), any()))
+                .willReturn(competitorProfile);
 
         // when
-        service.collect(HANDLE);
+        service.collect(HANDLE, SocialMediaPlatform.INSTAGRAM);
 
         // then
         BDDMockito.then(competitorEventPort).should()
-                .publish(eq(post1), any(CompetitorProfile.class));
+                .publish(eq(post1), eq(competitorProfile));
         BDDMockito.then(competitorEventPort).should()
-                .publish(eq(post2), any(CompetitorProfile.class));
+                .publish(eq(post2), eq(competitorProfile));
     }
 
     @Test
@@ -218,11 +244,11 @@ class CompetitorDataCollectionServiceTest {
                 .willReturn(List.of(profile));
         given(accessTokenPort.findByOwnerIgId("owner1"))
                 .willReturn(Optional.of(aToken("owner1")));
-        given(socialMediaPort.fetchCompetitorPosts(any(), any(), any()))
+        given(instagramSocialMediaAdapter.fetchCompetitorPosts(any(), any(), any()))
                 .willReturn(List.of());
 
         // when
-        service.collect(HANDLE);
+        service.collect(HANDLE, SocialMediaPlatform.INSTAGRAM);
 
         // then
         BDDMockito.then(competitorEventPort).shouldHaveNoInteractions();
@@ -241,12 +267,12 @@ class CompetitorDataCollectionServiceTest {
                 .willReturn(List.of(profile));
         given(accessTokenPort.findByOwnerIgId("owner1"))
                 .willReturn(Optional.of(aToken("owner1")));
-        given(socialMediaPort.fetchCompetitorPosts(any(), any(), any()))
+        given(instagramSocialMediaAdapter.fetchCompetitorPosts(any(), any(), any()))
                 .willReturn(List.of());
 
         // when
         Instant before = Instant.now();
-        service.collect(HANDLE);
+        service.collect(HANDLE, SocialMediaPlatform.INSTAGRAM);
         Instant after  = Instant.now();
 
         // then
@@ -268,11 +294,11 @@ class CompetitorDataCollectionServiceTest {
                 .willReturn(List.of(profile));
         given(accessTokenPort.findByOwnerIgId("owner1"))
                 .willReturn(Optional.of(aToken("owner1")));
-        given(socialMediaPort.fetchCompetitorPosts(any(), any(), any()))
+        given(instagramSocialMediaAdapter.fetchCompetitorPosts(any(), any(), any()))
                 .willReturn(List.of());
 
         // when
-        service.collect(HANDLE);
+        service.collect(HANDLE, SocialMediaPlatform.INSTAGRAM);
 
         // then — aktualizujemy zawsze, nawet gdy brak nowych postów
         BDDMockito.then(monitoredProfilePort).should()
@@ -313,6 +339,12 @@ class CompetitorDataCollectionServiceTest {
                 .ownerUsername(HANDLE)
                 .mediaType(CollectedPost.MediaType.IMAGE)
                 .publishedAt(Instant.now())
+                .build();
+    }
+
+    private CompetitorProfile aCompetitorProfile() {
+        return CompetitorProfile.builder()
+                .username(HANDLE)
                 .build();
     }
 }

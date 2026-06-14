@@ -4,11 +4,14 @@ import pl.autopilot.datacollector.domain.model.AccessToken;
 import pl.autopilot.datacollector.domain.model.CollectedPost;
 import pl.autopilot.datacollector.domain.model.CompetitorProfile;
 import pl.autopilot.datacollector.domain.model.HashtagStats;
+import pl.autopilot.datacollector.domain.model.SocialMediaPlatform;
 
 import java.util.List;
 import java.time.Instant;
 
 public interface SocialMediaPort {
+
+    SocialMediaPlatform platform();
 
     /** Własne posty użytkownika — GET /me/media */
     List<CollectedPost> fetchOwnPosts(AccessToken token);
