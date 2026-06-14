@@ -7,6 +7,7 @@ import pl.autopilot.datacollector.domain.model.AccessToken;
 import pl.autopilot.datacollector.domain.model.CompetitorProfile;
 import pl.autopilot.datacollector.domain.model.CollectedPost;
 import pl.autopilot.datacollector.domain.model.HashtagStats;
+import pl.autopilot.datacollector.domain.model.SocialMediaPlatform;
 import pl.autopilot.datacollector.domain.port.out.SocialMediaPort;
 import pl.autopilot.datacollector.infrastructure.instagram.client.InstagramApiClient;
 
@@ -19,6 +20,11 @@ import java.time.Instant;
 public class InstagramSocialMediaAdapter implements SocialMediaPort {
 
     private final InstagramApiClient apiClient;
+
+    @Override
+    public SocialMediaPlatform platform() {
+        return SocialMediaPlatform.INSTAGRAM;
+    }
 
     @Override
     public List<CollectedPost> fetchOwnPosts(AccessToken token) {

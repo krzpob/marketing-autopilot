@@ -20,7 +20,8 @@ public class SecurityConfig {
                     "/oauth/instagram/**",
                     "/meta/**",
                     "/actuator/**",
-                    "/debug/**"
+                    "/debug/**",
+                    "/collect/*"
                 )
             )
             .authorizeHttpRequests(auth -> auth

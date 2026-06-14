@@ -6,6 +6,7 @@ import org.assertj.core.api.junit.jupiter.InjectSoftAssertions;
 import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentMatcher;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 import pl.autopilot.datacollector.domain.model.HashtagStats;
@@ -13,6 +14,7 @@ import pl.autopilot.datacollector.infrastructure.instagram.model.InstagramHashta
 import pl.autopilot.datacollector.infrastructure.instagram.model.InstagramHashtagStatsResponse;
 import pl.autopilot.datacollector.infrastructure.instagram.model.InstagramMediaResponse;
 
+import java.net.URI;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -46,12 +48,12 @@ class InstagramApiClientFetchHashtagTest extends InstagramApiClientTestBase {
         statsResponse.setName("fotografia");
 
         given(graphClient.get(
-                argThat(uri -> uri != null && uri.toString().contains("ig_hashtag_search")),
+                argThat((URI uri) -> uri != null && uri.toString().contains("ig_hashtag_search")),
                 eq(InstagramHashtagResponse.class)))
                 .willReturn(hashtagResponse);
 
         given(graphClient.get(
-                argThat(uri -> uri != null && uri.toString().contains("ht_123")),
+                argThat((URI uri) -> uri != null && uri.toString().contains("ht_123")),
                 eq(InstagramHashtagStatsResponse.class)))
                 .willReturn(statsResponse);
 
@@ -72,7 +74,7 @@ class InstagramApiClientFetchHashtagTest extends InstagramApiClientTestBase {
         InstagramHashtagResponse emptyResponse = new InstagramHashtagResponse();
         emptyResponse.setData(List.of());
 
-        given(graphClient.get(any(), eq(InstagramHashtagResponse.class)))
+        given(graphClient.get(any(URI.class), eq(InstagramHashtagResponse.class)))
                 .willReturn(emptyResponse);
 
         // when
@@ -80,7 +82,7 @@ class InstagramApiClientFetchHashtagTest extends InstagramApiClientTestBase {
 
         // then
         BDDAssertions.then(result).isNull();
-        then(graphClient).should(times(1)).get(any(), any());
+        then(graphClient).should(times(1)).get(any(URI.class), any());
     }
 
     @Test
@@ -91,7 +93,7 @@ class InstagramApiClientFetchHashtagTest extends InstagramApiClientTestBase {
         InstagramHashtagResponse emptyResponse = new InstagramHashtagResponse();
         emptyResponse.setData(List.of());
 
-        given(graphClient.get(any(), eq(InstagramHashtagResponse.class)))
+        given(graphClient.get(any(URI.class), eq(InstagramHashtagResponse.class)))
                 .willReturn(emptyResponse);
 
         // when
@@ -100,7 +102,7 @@ class InstagramApiClientFetchHashtagTest extends InstagramApiClientTestBase {
 
         // then
         BDDAssertions.then(result).isEmpty();
-        then(graphClient).should(times(1)).get(any(), any());
+        then(graphClient).should(times(1)).get(any(URI.class), any());
     }
 
     @Test
@@ -118,11 +120,11 @@ class InstagramApiClientFetchHashtagTest extends InstagramApiClientTestBase {
         mediaResponse.setData(List.of(item));
 
         given(graphClient.get(
-                argThat(uri -> uri != null && uri.toString().contains("ig_hashtag_search")),
+                argThat((URI uri) -> uri != null && uri.toString().contains("ig_hashtag_search")),
                 eq(InstagramHashtagResponse.class)))
                 .willReturn(hashtagResponse);
         given(graphClient.get(
-                argThat(uri -> uri != null && uri.toString().contains("top_media")),
+                argThat((URI uri) -> uri != null && uri.toString().contains("top_media")),
                 eq(InstagramMediaResponse.class)))
                 .willReturn(mediaResponse);
         given(mediaMapper.toDomain(eq(item), eq("ht_456"), eq("fotografia")))

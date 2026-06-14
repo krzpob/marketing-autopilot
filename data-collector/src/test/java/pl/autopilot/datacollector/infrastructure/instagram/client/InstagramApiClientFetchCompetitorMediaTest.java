@@ -84,7 +84,7 @@ class InstagramApiClientFetchCompetitorMediaTest extends InstagramApiClientTestB
     void shouldStopPaginationWhenOldPostEncountered() {
         // given
         Instant since = Instant.parse("2024-06-01T00:00:00Z");
-        URI     page2 = URI.create(GRAPH_BASE + "/" + OWNER_IG_ID + "?after=cursor1");
+        String     page2 = GRAPH_BASE + "/" + OWNER_IG_ID + "?after=cursor1";
         givenGraphBaseUrl();
 
         given(graphClient.fetchPage(
@@ -93,7 +93,7 @@ class InstagramApiClientFetchCompetitorMediaTest extends InstagramApiClientTestB
                 .willReturn(aDiscoveryResponse(
                         List.of(aMediaItem("new", "2024-06-10T00:00:00+0000")),
                         "cursor1"));
-        given(graphClient.nextPageUri(any(), eq("cursor1"))).willReturn(page2);
+        given(graphClient.nextPageUrl(any(), eq("cursor1"))).willReturn(page2);
         given(graphClient.fetchPage(eq(page2), any()))
                 .willReturn(aDiscoveryResponse(
                         List.of(aMediaItem("old", "2024-05-20T00:00:00+0000")),

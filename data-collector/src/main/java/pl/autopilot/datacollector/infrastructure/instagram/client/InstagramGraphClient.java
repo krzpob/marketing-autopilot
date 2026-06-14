@@ -59,6 +59,21 @@ class InstagramGraphClient {
         }
     }
 
+    // get() przeciążone
+    <T> T get(String url, Class<T> responseType) {
+        try {
+            return restClient.get()
+                    .uri(url)
+                    .retrieve()
+                    .body(responseType);
+        } catch (RestClientResponseException e) {
+            throw parseError(e);
+        } catch (ResourceAccessException e) {
+            log.error("Timeout lub błąd sieci dla URL: {}", url);
+            throw new InstagramApiException(timeoutError(null));
+        }
+    }
+
     // ── Paginacja cursor-based ────────────────────────────────────────────────
 
     <T, R> List<R> fetchAllPages(
@@ -87,12 +102,19 @@ class InstagramGraphClient {
         return all;
     }
 
-    <T> T fetchPage(URI uri, Class<T> responseType) {
+    <T> T fetchPage(String uri, Class<T> responseType) {
         return get(uri, responseType);
     }
 
     URI nextPageUri(URI current, String afterCursor) {
         return appendAfterCursor(current, afterCursor);
+    }
+
+    String nextPageUrl(String current, String afterCursor){
+        if (current.contains("&after=")) {
+            return current.replaceAll("&after=[^&]*", "&after=" + afterCursor);
+        }
+        return current + "&after=" + afterCursor;
     }
 
     // ── helpers ──────────────────────────────────────────────────────────────

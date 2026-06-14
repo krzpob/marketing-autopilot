@@ -98,8 +98,8 @@ public class InstagramApiClient {
     // ── B2-07 / B2-08 — stubs ───────────────────────────────────────────────
 
     private static final String COMPETITOR_MEDIA_FIELDS =
-        "business_discovery.as(%s){media{id,shortcode,media_type," +
-        "media_url,permalink,like_count,comments_count,timestamp}}";
+        "business_discovery.username(%s){media{id,media_type," +
+        "media_url,caption,permalink,like_count,comments_count,timestamp}}";
 
     @CircuitBreaker(name = INSTAGRAM_CB, fallbackMethod = "fetchCompetitorMediaFallback")
     public List<CollectedPost> fetchCompetitorMedia(String competitorUsername,
@@ -109,17 +109,14 @@ public class InstagramApiClient {
         Objects.requireNonNull(competitorUsername, "competitorUsername must not be null");
         Objects.requireNonNull(since,              "since must not be null");
     
-        URI uri = UriComponentsBuilder
-            .fromUriString(properties.getGraphBaseUrl())
-            .path("/"+token.getOwnerIgId())
-            .queryParam("fields",       String.format(COMPETITOR_MEDIA_FIELDS, competitorUsername))
-            .queryParam("access_token", token.getToken())
-            .build(false)                          // encode=false — nie dotykaj jeszcze wartości
-            .encode()                              // teraz enkoduj całość łącznie z {} w fields
-            .toUri();
+        String uri = 
+        properties.getGraphBaseUrl()
+                + "/" + token.getOwnerIgId()
+                + "?fields=" + String.format(COMPETITOR_MEDIA_FIELDS, competitorUsername)
+                + "&access_token=" + token.getToken();
     
         List<CollectedPost> result = new ArrayList<>();
-
+        log.info("Business Discovery URI: {}", uri);                                                        
         while (uri != null) {
             BusinessDiscoveryResponse page =
                     graphClient.fetchPage(uri, BusinessDiscoveryResponse.class);
@@ -141,7 +138,7 @@ public class InstagramApiClient {
             String nextCursor = extractNextCursor(media);
             uri = (reachedOld || nextCursor == null)
                     ? null
-                    : graphClient.nextPageUri(uri, nextCursor);
+                    : graphClient.nextPageUrl(uri, nextCursor);
         }
 
         log.info("Pobrano {} nowych postów konkurenta username={}, since={}",

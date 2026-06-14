@@ -43,4 +43,9 @@ public class GoogleSocialMediaAdapter implements SocialMediaPort {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'fetchCompetitorPosts'");
     }
+
+    @Override
+    public SocialMediaPlatform platform() {
+        return SocialMediaPlatform.GOOGLE;
+    }
 }
