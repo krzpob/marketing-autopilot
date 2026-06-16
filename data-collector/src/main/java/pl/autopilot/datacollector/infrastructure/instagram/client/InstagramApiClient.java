@@ -3,8 +3,11 @@ package pl.autopilot.datacollector.infrastructure.instagram.client;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import org.checkerframework.checker.units.qual.t;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
+import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -13,13 +16,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import pl.autopilot.datacollector.domain.model.AccessToken;
 import pl.autopilot.datacollector.domain.model.CollectedPost;
+import pl.autopilot.datacollector.domain.model.CompetitorProfile;
 import pl.autopilot.datacollector.domain.model.HashtagStats;
 import pl.autopilot.datacollector.infrastructure.instagram.InstagramUtils;
 import pl.autopilot.datacollector.infrastructure.instagram.mapper.InstagramMediaMapper;
 import pl.autopilot.datacollector.infrastructure.instagram.model.InstagramHashtagResponse;
 import pl.autopilot.datacollector.infrastructure.instagram.model.InstagramHashtagStatsResponse;
 import pl.autopilot.datacollector.infrastructure.instagram.model.InstagramMediaResponse;
-
+import pl.autopilot.datacollector.infrastructure.instagram.model.InstagramProfileResponse;
 
 import java.net.URI;
 import java.time.Instant;
@@ -58,6 +62,13 @@ public class InstagramApiClient {
         static class BusinessDiscovery {
                 private InstagramMediaResponse media;
         }
+    }
+
+    @Data
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    static class BusinessDiscoveryProfile{
+        @JsonProperty("business_discovery")
+        InstagramProfileResponse businessDiscovery;
     }
 
     // ── B2-06: GET /me/media ─────────────────────────────────────────────────
@@ -114,9 +125,9 @@ public class InstagramApiClient {
                 + "/" + token.getOwnerIgId()
                 + "?fields=" + String.format(COMPETITOR_MEDIA_FIELDS, competitorUsername)
                 + "&access_token=" + token.getToken();
-    
+        log.info("Business Discovery URL: {}", uri);                                                        
         List<CollectedPost> result = new ArrayList<>();
-        log.info("Business Discovery URI: {}", uri);                                                        
+        
         while (uri != null) {
             BusinessDiscoveryResponse page =
                     graphClient.fetchPage(uri, BusinessDiscoveryResponse.class);
@@ -153,6 +164,36 @@ public class InstagramApiClient {
         log.error("Circuit breaker: fetchCompetitorMedia niedostępne dla {}: {}",
                 competitorUsername, e.getMessage());
         return List.of();
+    }
+
+    // -- B2-16a: fetch-competitor-profile
+
+    private static String COMPETITOR_FIELDS = "business_discovery.username(%s){followers_count,biography,media_count}";
+    
+    @CircuitBreaker(name = INSTAGRAM_CB, fallbackMethod = "fetchCompetitorProfileFallback")
+    public CompetitorProfile fetchCompetitorProfile(String competitorUsername, AccessToken token){
+        String url = properties.getGraphBaseUrl()
+        +"/"+token.getOwnerIgId()
+        +"?fields="+String.format(COMPETITOR_FIELDS,competitorUsername)
+        +"&access_token="+token.getToken();
+        
+        log.info("Profile Discovery URL: {}", url);                                                        
+        BusinessDiscoveryProfile response = graphClient.getRaw(url, BusinessDiscoveryProfile.class);
+        log.info("Pobrano profil {}", competitorUsername);
+        
+        return CompetitorProfile.builder()
+                .biography(response.getBusinessDiscovery().getBiography())
+                .followerCount(response.getBusinessDiscovery().getFollowersCount())
+                .mediaCount(response.getBusinessDiscovery().getMediaCount())
+                .lastCollectedAt(Instant.now())
+                .build();
+                
+    }
+
+    private CompetitorProfile fetchCompetitorProfileFallback(String competitorUsername, AccessToken token, Exception e){
+        log.error("Circuit breaker: fetchCompetitorProfile niedostępne dla {}: {}",
+                competitorUsername, e);
+        return CompetitorProfile.builder().lastCollectedAt(Instant.now()).build();        
     }
 
     // ── B2-08: GET /ig_hashtag_search ────────────────────────────────────────
