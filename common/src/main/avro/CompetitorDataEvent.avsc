@@ -4,8 +4,6 @@
   "name": "CompetitorDataEvent",
   "doc": "Emitowany przez data-collector po zebraniu danych posta z Instagram API.",
   "fields": [
-
-    // ── Metadane eventu ────────────────────────────────────────────
     {
       "name": "eventId",
       "type": "string",
@@ -33,8 +31,6 @@
       "default": null,
       "doc": "OpenTelemetry trace-id — łączy span data-collector → Kafka → competitor-agent."
     },
-
-    // ── Identyfikacja posta ────────────────────────────────────────
     {
       "name": "id",
       "type": "string",
@@ -54,19 +50,10 @@
       "name": "ownerUsername",
       "type": "string"
     },
-
-    // ── Typ contentu ───────────────────────────────────────────────
     {
       "name": "mediaType",
-      "type": {
-        "type": "enum",
-        "name": "MediaType",
-        "symbols": ["IMAGE", "VIDEO", "CAROUSEL_ALBUM", "REEL", "UNKNOWN"],
-        "doc": "UNKNOWN jako fallback gdy IG doda nowy typ — konsument nie wysypie się."
-      }
+      "type": "pl.autopilot.common.event.MediaType"
     },
-
-    // ── Treść ──────────────────────────────────────────────────────
     {
       "name": "caption",
       "type": ["null", "string"],
@@ -97,8 +84,6 @@
       "default": null,
       "doc": "Stały URL do posta — nie wygasa."
     },
-
-    // ── Metryki zaangażowania ──────────────────────────────────────
     {
       "name": "likeCount",
       "type": "long",
@@ -115,8 +100,6 @@
       "default": 0,
       "doc": "Dostępny tylko dla własnego konta przez Insights API. Dla konkurencji = 0."
     },
-
-    // ── Snapshot profilu w momencie pobrania ───────────────────────
     {
       "name": "ownerFollowerCount",
       "type": "long",
@@ -129,9 +112,6 @@
       "default": 0,
       "doc": "Łączna liczba postów konta — do analizy częstotliwości publikowania."
     },
-
-    // ── Timestampy jako epoch-millis ───────────────────────────────
-    // Avro timestamp-millis logicalType — Instant po stronie Java
     {
       "name": "publishedAt",
       "type": { "type": "long", "logicalType": "timestamp-millis" },
@@ -142,6 +122,5 @@
       "type": { "type": "long", "logicalType": "timestamp-millis" },
       "doc": "Czas pobrania przez data-collector. Różnica publishedAt/collectedAt = opóźnienie."
     }
-
   ]
 }

@@ -1,0 +1,7 @@
+{
+  "namespace": "pl.autopilot.common.event",
+  "type": "enum",
+  "name": "MediaType",
+  "doc": "UNKNOWN jako fallback gdy IG doda nowy typ.",
+  "symbols": ["IMAGE", "VIDEO", "CAROUSEL_ALBUM", "REEL", "UNKNOWN"]
+}

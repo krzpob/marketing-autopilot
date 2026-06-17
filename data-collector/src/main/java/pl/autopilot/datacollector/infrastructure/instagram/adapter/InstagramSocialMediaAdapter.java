@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import pl.autopilot.datacollector.domain.model.AccessToken;
 import pl.autopilot.datacollector.domain.model.CompetitorProfile;
+import pl.autopilot.datacollector.domain.model.HashtagData;
 import pl.autopilot.datacollector.domain.model.CollectedPost;
 import pl.autopilot.datacollector.domain.model.HashtagStats;
 import pl.autopilot.datacollector.domain.model.SocialMediaPlatform;
@@ -45,10 +46,10 @@ public class InstagramSocialMediaAdapter implements SocialMediaPort {
     }
 
     @Override
-    public HashtagStats fetchHashtagStats(String hashtag, AccessToken token) {
+    public HashtagData fetchHashtagData(String hashtag, AccessToken token) {
         HashtagStats stats   = apiClient.fetchHashtagStats(hashtag, token);
         List<CollectedPost> topMedia = apiClient.fetchHashtagTopMedia(hashtag, token);
         // top media dostępne przez osobne wywołanie — można je połączyć
-        return stats;
+        return new HashtagData(stats, topMedia);
     }
 }

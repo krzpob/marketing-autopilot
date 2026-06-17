@@ -29,6 +29,9 @@ spring:
         competitor-data-out-0:
           destination: competitor-data-events
           content-type: application/json   # TODO: B3 → application/*+avro
+        hashtag-data-out-0:
+          destination: hashtag-data-events
+          content-type: application/json
       kafka:
         binder:
           brokers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
