@@ -140,6 +140,7 @@ services:
       POSTGRES_USER:            ${POSTGRES_USER:-autopilot}
       POSTGRES_PASSWORD:        ${POSTGRES_PASSWORD:-autopilot}
       KAFKA_BOOTSTRAP_SERVERS:  kafka:9092
+      INSTAGRAM_TOKEN_REFRESH_CRON: ${INSTAGRAM_TOKEN_REFRESH_CRON}
 
 volumes:
   kafka_data:

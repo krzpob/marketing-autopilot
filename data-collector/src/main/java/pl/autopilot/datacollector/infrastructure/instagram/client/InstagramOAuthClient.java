@@ -113,10 +113,11 @@ public class InstagramOAuthClient {
 
         log.info("Token odświeżony dla: {}", longLived.getOwnerUsername());
 
-        return longLived.withRefreshed(
-                response.getAccessToken(),
-                Instant.now().plusSeconds(response.getExpiresIn())
-        );
+        return longLived.toBuilder()
+                .token(response.getAccessToken())
+                .expiresAt(Instant.now().plusSeconds(response.getExpiresIn()))
+                .refreshedAt(Instant.now())
+                .build();
     }
 
     // ── helpers ──────────────────────────────────────────────────────────────

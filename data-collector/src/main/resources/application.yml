@@ -47,6 +47,7 @@ instagram:
     auth-base-url:  https://www.facebook.com/dialog/oauth
     token-base-url: https://graph.facebook.com/v19.0/oauth/access_token
     scopes: instagram_basic,instagram_manage_insights,pages_show_list,pages_read_engagement
+    token-refresh-cron: ${INSTAGRAM_TOKEN_REFRESH_CRON:"0 0 3 * * *"}   # codziennie o 3:00 — nadpisz w env jeśli potrzeba
 
 facebook:
   api:
