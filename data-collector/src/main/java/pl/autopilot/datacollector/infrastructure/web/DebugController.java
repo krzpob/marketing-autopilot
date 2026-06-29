@@ -103,7 +103,7 @@ public class DebugController {
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "Brak tokenu dla: " + ownerIgId));
 
-        List<CollectedPost> posts = instagramApiClient.fetchHashtagTopMedia(hashtag, token);
+        List<CollectedPost> posts = instagramApiClient.fetchHashtagMedia(hashtag, token);
 
         return new CollectionResultDto(
                 ownerIgId,
@@ -186,6 +186,7 @@ public class DebugController {
             String permalink,
             long   likeCount,
             int    commentsCount,
+            String  caption,
             Instant publishedAt
     ) {
         static PostSummaryDto from(CollectedPost p) {
@@ -195,6 +196,7 @@ public class DebugController {
                     p.getPermalink(),
                     p.getLikeCount(),
                     p.getCommentsCount(),
+                    p.getCaption(),
                     p.getPublishedAt()
             );
         }

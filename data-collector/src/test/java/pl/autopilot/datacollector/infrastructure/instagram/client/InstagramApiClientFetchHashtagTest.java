@@ -86,7 +86,7 @@ class InstagramApiClientFetchHashtagTest extends InstagramApiClientTestBase {
     }
 
     @Test
-    void shouldReturnEmptyListWhenHashtagNotFoundForTopMedia() {
+    void shouldReturnEmptyListWhenHashtagNotFoundForRecentMedia() {
         // given
         givenGraphBaseUrl();
 
@@ -98,7 +98,7 @@ class InstagramApiClientFetchHashtagTest extends InstagramApiClientTestBase {
 
         // when
         List<pl.autopilot.datacollector.domain.model.CollectedPost> result =
-                apiClient.fetchHashtagTopMedia("nieistniejacy", aValidToken());
+                apiClient.fetchHashtagMedia("nieistniejacy", aValidToken());
 
         // then
         BDDAssertions.then(result).isEmpty();
@@ -106,7 +106,7 @@ class InstagramApiClientFetchHashtagTest extends InstagramApiClientTestBase {
     }
 
     @Test
-    void shouldReturnMappedPostsForHashtagTopMedia() {
+    void shouldReturnMappedPostsForHashtagRecentMedia() {
         // given
         givenGraphBaseUrl();
 
@@ -116,7 +116,7 @@ class InstagramApiClientFetchHashtagTest extends InstagramApiClientTestBase {
         hashtagResponse.setData(List.of(data));
 
         InstagramMediaResponse mediaResponse = new InstagramMediaResponse();
-        InstagramMediaResponse.MediaItem item = aMediaItem("topPost");
+        InstagramMediaResponse.MediaItem item = aMediaItem("recentPost");
         mediaResponse.setData(List.of(item));
 
         given(graphClient.get(
@@ -124,18 +124,18 @@ class InstagramApiClientFetchHashtagTest extends InstagramApiClientTestBase {
                 eq(InstagramHashtagResponse.class)))
                 .willReturn(hashtagResponse);
         given(graphClient.get(
-                argThat((URI uri) -> uri != null && uri.toString().contains("top_media")),
+                argThat((URI uri) -> uri != null && uri.toString().contains("recent_media")),
                 eq(InstagramMediaResponse.class)))
                 .willReturn(mediaResponse);
         given(mediaMapper.toDomain(eq(item), eq("ht_456"), eq("fotografia")))
-                .willReturn(aPost("topPost"));
+                .willReturn(aPost("recentPost"));
 
         // when
         List<pl.autopilot.datacollector.domain.model.CollectedPost> result =
-                apiClient.fetchHashtagTopMedia("fotografia", aValidToken());
+                apiClient.fetchHashtagMedia("fotografia", aValidToken());
 
         // then
         BDDAssertions.then(result).hasSize(1);
-        BDDAssertions.then(result.get(0).getShortcode()).isEqualTo("topPost");
+        BDDAssertions.then(result.get(0).getShortcode()).isEqualTo("recentPost");
     }
 }

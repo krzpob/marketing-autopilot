@@ -48,8 +48,8 @@ public class InstagramSocialMediaAdapter implements SocialMediaPort {
     @Override
     public HashtagData fetchHashtagData(String hashtag, AccessToken token) {
         HashtagStats stats   = apiClient.fetchHashtagStats(hashtag, token);
-        List<CollectedPost> topMedia = apiClient.fetchHashtagTopMedia(hashtag, token);
+        List<CollectedPost> media = apiClient.fetchHashtagMedia(hashtag, token);
         // top media dostępne przez osobne wywołanie — można je połączyć
-        return new HashtagData(stats, topMedia);
+        return new HashtagData(stats, media);
     }
 }
