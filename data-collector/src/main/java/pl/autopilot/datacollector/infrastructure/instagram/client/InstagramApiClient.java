@@ -38,7 +38,7 @@ public class InstagramApiClient {
 
     private static final String HASHTAG_FIELDS = "id,name";
 
-    private static final String HASHTAG_MEDIA_FIELDS = "id,media_type,permalink,like_count,comments_count,timestamp";
+    private static final String HASHTAG_MEDIA_FIELDS = "id,media_type,permalink,like_count,comments_count,caption,timestamp";
 
 
     private static final String INSTAGRAM_CB = "instagramApi"; 
@@ -213,7 +213,7 @@ public class InstagramApiClient {
     }
 
     @CircuitBreaker(name = INSTAGRAM_CB, fallbackMethod = "fetchHashtagTopMediaFallback")
-    public List<CollectedPost> fetchHashtagTopMedia(String hashtag, AccessToken token) {
+    public List<CollectedPost> fetchHashtagMedia(String hashtag, AccessToken token) {
         Objects.requireNonNull(token,   "AccessToken must not be null");
         Objects.requireNonNull(hashtag, "Hashtag must not be null");
 
@@ -225,10 +225,10 @@ public class InstagramApiClient {
 
         URI uri = UriComponentsBuilder
                 .fromUriString(properties.getGraphBaseUrl())
-                .path("/{hashtagId}/top_media")
+                .path("/{hashtagId}/recent_media")
                 .queryParam("fields",       HASHTAG_MEDIA_FIELDS)
                 .queryParam("user_id",      token.getOwnerIgId())
-                .queryParam("limit",    20)
+                // .queryParam("limit",    20)
                 .queryParam("access_token", token.getToken())
                 .buildAndExpand(igHashtagId)
                 .toUri();
@@ -240,7 +240,10 @@ public class InstagramApiClient {
         List<CollectedPost> posts = response.getData() == null
                 ? List.of()
                 : response.getData().stream()
-                        .map(item -> mediaMapper.toDomain(item, igHashtagId, hashtag))
+                        .peek(it->{
+                                log.info("Opis: {}", it.getCaption());
+                        })
+                        .map(item -> mediaMapper.toDomain(item, token.getOwnerIgId(), hashtag))
                         .toList();
 
         log.info("Pobrano {} top postów dla #{}", posts.size(), hashtag);

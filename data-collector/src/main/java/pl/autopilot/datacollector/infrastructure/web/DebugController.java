@@ -9,13 +9,19 @@ import org.springframework.web.server.ResponseStatusException;
 import pl.autopilot.datacollector.domain.model.AccessToken;
 import pl.autopilot.datacollector.domain.model.CollectedPost;
 import pl.autopilot.datacollector.domain.model.HashtagStats;
+import pl.autopilot.datacollector.domain.model.MonitoredHashtag;
 import pl.autopilot.datacollector.domain.model.MonitoredProfile;
 import pl.autopilot.datacollector.domain.port.out.AccessTokenPort;
+import pl.autopilot.datacollector.domain.port.out.MonitoredHashtagPort;
 import pl.autopilot.datacollector.domain.port.out.MonitoredProfilePort;
 import pl.autopilot.datacollector.infrastructure.instagram.client.InstagramApiClient;
+import pl.autopilot.datacollector.infrastructure.web.DebugController.CollectionResultDto;
+import pl.autopilot.datacollector.infrastructure.web.DebugController.PostSummaryDto;
+import pl.autopilot.datacollector.infrastructure.web.DebugController.TokenStatusDto;
 
 import java.time.Instant;
 import java.util.List;
+
 
 @Slf4j
 @RestController
@@ -27,6 +33,7 @@ public class DebugController {
     private final AccessTokenPort    accessTokenPort;
     private final InstagramApiClient instagramApiClient;
     private final MonitoredProfilePort monitoredProfilePort;
+    private final MonitoredHashtagPort monitoredHashtagPort;
 
     // ── 1. Status tokenów ────────────────────────────────────────────────────
 
@@ -96,7 +103,7 @@ public class DebugController {
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "Brak tokenu dla: " + ownerIgId));
 
-        List<CollectedPost> posts = instagramApiClient.fetchHashtagTopMedia(hashtag, token);
+        List<CollectedPost> posts = instagramApiClient.fetchHashtagMedia(hashtag, token);
 
         return new CollectionResultDto(
                 ownerIgId,
@@ -107,26 +114,44 @@ public class DebugController {
     }
 
     @PostMapping("/monitored-profiles")
-        public MonitoredProfile addMonitoredProfile(
-                @RequestParam String ownerIgId,
-                @RequestParam String competitorHandle) {
+    public MonitoredProfile addMonitoredProfile(
+            @RequestParam String ownerIgId,
+            @RequestParam String competitorHandle) {
 
-                MonitoredProfile profile = MonitoredProfile.builder()
-                        .ownerIgId(ownerIgId)
-                        .competitorIgHandle(competitorHandle)
-                        .build();
+            MonitoredProfile profile = MonitoredProfile.builder()
+                    .ownerIgId(ownerIgId)
+                    .competitorIgHandle(competitorHandle)
+                    .build();
 
-                monitoredProfilePort.save(profile);
-                log.info("[DEBUG] Dodano profil do obserwowania: {} → {}", ownerIgId, competitorHandle);
-        return profile;
-        }
+            monitoredProfilePort.save(profile);
+            log.info("[DEBUG] Dodano profil do obserwowania: {} → {}", ownerIgId, competitorHandle);
+    return profile;
+    }
 
-        @GetMapping("/monitored-profiles/{ownerIgId}")
-        public List<MonitoredProfile> listMonitoredProfiles(@PathVariable String ownerIgId) {
+    @GetMapping("/monitored-profiles/{ownerIgId}")
+    public List<MonitoredProfile> listMonitoredProfiles(@PathVariable String ownerIgId) {
         return monitoredProfilePort.findAllByOwnerIgId(ownerIgId);
-        }
+    }
+
+    @PostMapping("/monitored-hashtag")
+    public MonitoredHashtag postMethodName(@RequestBody MonitoredHashtagRequest request) {
+        MonitoredHashtag monitoredHashtag = MonitoredHashtag.builder()
+            .hashtag(request.hashtag)
+            .ownerIgId(request.ownerIgId)
+        .build();
+
+        monitoredHashtagPort.save(monitoredHashtag);
+        return monitoredHashtag;
+
+    }
+    
 
     // ── DTOs ─────────────────────────────────────────────────────────────────
+
+    record MonitoredHashtagRequest(
+        String ownerIgId,
+        String hashtag
+    ){}
 
     record TokenStatusDto(
             String ownerIgId,
@@ -161,6 +186,7 @@ public class DebugController {
             String permalink,
             long   likeCount,
             int    commentsCount,
+            String  caption,
             Instant publishedAt
     ) {
         static PostSummaryDto from(CollectedPost p) {
@@ -170,6 +196,7 @@ public class DebugController {
                     p.getPermalink(),
                     p.getLikeCount(),
                     p.getCommentsCount(),
+                    p.getCaption(),
                     p.getPublishedAt()
             );
         }

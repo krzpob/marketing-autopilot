@@ -1,0 +1,70 @@
+{
+  "namespace": "pl.autopilot.common.event",
+  "type": "record",
+  "name": "HashtagDataEvent",
+  "doc": "Emitowany po zebraniu top media dla hashtagu.",
+  "fields": [
+    {
+      "name": "eventId",
+      "type": "string",
+      "doc": "UUID eventu — idempotency key."
+    },
+    {
+      "name": "eventType",
+      "type": "string",
+      "default": "HASHTAG_TOP_MEDIA_COLLECTED"
+    },
+    {
+      "name": "schemaVersion",
+      "type": "string",
+      "default": "1.0"
+    },
+    {
+      "name": "source",
+      "type": "string",
+      "default": "data-collector"
+    },
+    {
+      "name": "collectedAt",
+      "type": { "type": "long", "logicalType": "timestamp-millis" }
+    },
+    {
+      "name": "ownerIgId",
+      "type": "string",
+      "doc": "IG ID użytkownika którego token był użyty do kolekcji."
+    },
+    {
+      "name": "hashtag",
+      "type": "string",
+      "doc": "Hashtag bez znaku #, np. fotografia."
+    },
+    {
+      "name": "igHashtagId",
+      "type": "string",
+      "doc": "Instagram wewnętrzne ID hashtagu."
+    },
+    {
+      "name": "topMedia",
+      "type": {
+        "type": "array",
+        "items": {
+          "type": "record",
+          "name": "HashtagMediaItem",
+          "fields": [
+            { "name": "id",            "type": "string" },
+            { "name": "mediaType",     "type": "pl.autopilot.common.event.MediaType" },
+            { "name": "permalink",     "type": ["null", "string"], "default": null },
+            { "name": "likeCount",     "type": "long",   "default": 0 },
+            { "name": "commentsCount", "type": "int",    "default": 0 },
+            { "name": "caption",       "type": ["null", "string"], "default": null },
+            {
+              "name": "publishedAt",
+              "type": { "type": "long", "logicalType": "timestamp-millis" }
+            }
+          ]
+        }
+      },
+      "default": []
+    }
+  ]
+}

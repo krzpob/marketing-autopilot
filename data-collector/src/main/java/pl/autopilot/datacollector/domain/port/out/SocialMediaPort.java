@@ -3,8 +3,9 @@ package pl.autopilot.datacollector.domain.port.out;
 import pl.autopilot.datacollector.domain.model.AccessToken;
 import pl.autopilot.datacollector.domain.model.CollectedPost;
 import pl.autopilot.datacollector.domain.model.CompetitorProfile;
-import pl.autopilot.datacollector.domain.model.HashtagStats;
+
 import pl.autopilot.datacollector.domain.model.SocialMediaPlatform;
+import pl.autopilot.datacollector.domain.model.HashtagData;
 
 import java.util.List;
 import java.time.Instant;
@@ -30,5 +31,5 @@ public interface SocialMediaPort {
     CompetitorProfile fetchCompetitorProfile(String competitorUsername, AccessToken token);
 
     /** Statystyki hashtagу — GET /ig_hashtag_search */
-    HashtagStats fetchHashtagStats(String hashtag, AccessToken token);
+    HashtagData fetchHashtagData(String hashtag, AccessToken token);
 }

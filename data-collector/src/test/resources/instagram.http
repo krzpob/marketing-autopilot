@@ -26,7 +26,7 @@ GET https://erupt-relenting-detoxify.ngrok-free.dev/debug/hashtag/sesjebuduarowe
 GET https://erupt-relenting-detoxify.ngrok-free.dev/debug/hashtag/sesjebuduarowe/top-media?ownerIgId=    HTTP/1.1
 
 ###
-GET http://localhost:8083/debug/hashtag/sesjebuduarowe/top-media?ownerIgId=17841441888584276 HTTP/1.1
+GET http://localhost:8083/debug/hashtag/fotografiabuduarowa/top-media?ownerIgId=17841441888584276 HTTP/1.1
 
 ###
 GET http://erupt-relenting-detoxify.ngrok-free.dev/actuator/health HTTP/1.1
@@ -47,4 +47,22 @@ Content-Type: application/json
 {
     "competitorUsername": "zmyslowaty",
     "platform": "INSTAGRAM"
+}
+
+###
+POST http://localhost:8083/debug/monitored-hashtag
+Content-Type: application/json
+
+{
+    "ownerIgId": 17841441888584276,
+    "hashtag": "sesjebuduarowe"
+}
+
+###
+POST http://localhost:8083/collect/hashtag HTTP/1.1
+Content-Type: application/json
+
+{
+    "platform": "INSTAGRAM",
+    "hashtag": "sesjebuduarowe"
 }
