@@ -3,7 +3,7 @@
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/marketing_autopilot
+    url: jdbc:postgresql://localhost2:5432/marketing_autopilot
     username: app
     password: devpassword       # wartość z .env dla Docker Compose
   jpa:

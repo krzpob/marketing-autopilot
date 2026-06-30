@@ -9,7 +9,7 @@ import java.util.UUID;
 
 @Getter
 @Builder(toBuilder = true)
-public class CollectedPost {
+public class    CollectedPost {
 
     @Builder.Default
     private final UUID id = UUID.randomUUID();

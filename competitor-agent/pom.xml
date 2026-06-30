@@ -45,6 +45,14 @@
 
     <!-- Kafka -->
     <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-stream</artifactId>
+      </dependency>
+    <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-stream-binder-kafka</artifactId>
+    </dependency>
+    <dependency>
       <groupId>org.springframework.kafka</groupId>
       <artifactId>spring-kafka</artifactId>
     </dependency>
@@ -57,11 +65,11 @@
     <!-- LangChain4j — OpenAI + core -->
     <dependency>
       <groupId>dev.langchain4j</groupId>
-      <artifactId>langchain4j-spring-boot-starter</artifactId>
+      <artifactId>langchain4j-spring-boot4-starter</artifactId>
     </dependency>
     <dependency>
       <groupId>dev.langchain4j</groupId>
-      <artifactId>langchain4j-open-ai-spring-boot-starter</artifactId>
+      <artifactId>langchain4j-open-ai-spring-boot4-starter</artifactId>
     </dependency>
     
     <!-- MapStruct -->
