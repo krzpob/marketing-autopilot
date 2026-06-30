@@ -212,7 +212,7 @@ public class InstagramApiClient {
         return response.getData().get(0).getId();
     }
 
-    @CircuitBreaker(name = INSTAGRAM_CB, fallbackMethod = "fetchHashtagTopMediaFallback")
+    @CircuitBreaker(name = INSTAGRAM_CB, fallbackMethod = "fetchHashtagMediaFallback")
     public List<CollectedPost> fetchHashtagMedia(String hashtag, AccessToken token) {
         Objects.requireNonNull(token,   "AccessToken must not be null");
         Objects.requireNonNull(hashtag, "Hashtag must not be null");
@@ -240,17 +240,14 @@ public class InstagramApiClient {
         List<CollectedPost> posts = response.getData() == null
                 ? List.of()
                 : response.getData().stream()
-                        .peek(it->{
-                                log.info("Opis: {}", it.getCaption());
-                        })
-                        .map(item -> mediaMapper.toDomain(item, token.getOwnerIgId(), hashtag))
+                        .map(item -> mediaMapper.toDomain(item, igHashtagId, hashtag))
                         .toList();
 
         log.info("Pobrano {} top postów dla #{}", posts.size(), hashtag);
         return posts;
     }
 
-    private List<CollectedPost> fetchHashtagTopMediaFallback(String hashtag,
+    private List<CollectedPost> fetchHashtagMediaFallback(String hashtag,
                                                               AccessToken token, Exception e) {
         log.error("Circuit breaker: fetchHashtagTopMedia niedostępne dla #{}: {}",
                 hashtag, e.getMessage());

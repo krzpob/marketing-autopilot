@@ -16,4 +16,6 @@ public class InstagramApiProperties {
     private String tokenBaseUrl  = "https://graph.facebook.com/v19.0/oauth/access_token";
     private String scopes        = "instagram_basic,instagram_manage_insights," +
                                    "pages_show_list,pages_read_engagement";
+    private String tokenRefreshCron = "0 0 3 * * *";
+
 }
