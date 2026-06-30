@@ -38,7 +38,7 @@ public class FacebookSocialMediaAdapter implements SocialMediaPort {
     }
 
     @Override
-    public HashtagStats fetchHashtagStats(String hashtag, AccessToken token) {
+    public HashtagData fetchHashtagData(String hashtag, AccessToken token) {
         // TODO: B2-x
         return null;
     }

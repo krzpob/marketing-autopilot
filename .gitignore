@@ -2,3 +2,4 @@
 *.env.local
 target/
 kafka.log
+.DS_STORE

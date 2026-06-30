@@ -1,0 +1,189 @@
+
+<style>
+.hdr{padding:10px 14px;display:flex;justify-content:space-between;align-items:center;border-bottom:0.5px solid rgba(0,0,0,.06)}
+.hd-gr{background:#F1EFE8;color:#444441}.hd-am{background:#FAEEDA;color:#633806}
+.hd-te{background:#E1F5EE;color:#085041}.hd-pu{background:#EEEDFE;color:#3C3489}
+.hd-co{background:#FAECE7;color:#712B13}.hd-bl{background:#E6F1FB;color:#0C447C}
+.hd-gn{background:#EAF3DE;color:#27500A}
+@media(prefers-color-scheme:dark){
+.hd-gr{background:#2C2C2A;color:#D3D1C7}.hd-am{background:#412402;color:#FAC775}
+.hd-te{background:#04342C;color:#9FE1CB}.hd-pu{background:#26215C;color:#CECBF6}
+.hd-co{background:#4A1B0C;color:#F5C4B3}.hd-bl{background:#042C53;color:#B5D4F4}
+.hd-gn{background:#173404;color:#C0DD97}}
+</style>
+
+<h2 class="sr-only">51 zadań Trello dla CompetitorAgent podzielonych na 8 bloków tematycznych</h2>
+
+<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;padding:1rem 0">
+
+<div style="background:var(--color-background-primary);border-radius:var(--border-radius-lg);border:0.5px solid var(--color-border-tertiary);overflow:hidden">
+  <div class="hdr hd-gr">
+    <span style="font-size:11px;font-weight:500;letter-spacing:.05em">BLOK 1 · INFRASTRUKTURA</span>
+    <span style="font-size:11px;opacity:.7">6 zadań · L</span>
+  </div>
+  <div style="padding:12px 14px 14px">
+    <p style="font-size:14px;font-weight:500;margin:0 0 10px;color:var(--color-text-primary)">Setup & projekt scaffold</p>
+    <ul style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px">
+      <li style="font-size:12px;color:var(--color-text-secondary);display:flex;gap:7px;align-items:flex-start;line-height:1.45"><i class="ti ti-circle" style="font-size:13px;flex-shrink:0;margin-top:1px" aria-hidden="true"></i>Maven multi-module: api-gateway, data-collector, competitor-agent, common</li>
+      <li style="font-size:12px;color:var(--color-text-secondary);display:flex;gap:7px;align-items:flex-start;line-height:1.45"><i class="ti ti-circle" style="font-size:13px;flex-shrink:0;margin-top:1px" aria-hidden="true"></i>Docker Compose: Kafka + Zookeeper, PG+pgvector, Redis, MongoDB</li>
+      <li style="font-size:12px;color:var(--color-text-secondary);display:flex;gap:7px;align-items:flex-start;line-height:1.45"><i class="ti ti-circle" style="font-size:13px;flex-shrink:0;margin-top:1px" aria-hidden="true"></i>Konfiguracja Kafka: topics, consumer groups, partycje, retention</li>
+      <li style="font-size:12px;color:var(--color-text-secondary);display:flex;gap:7px;align-items:flex-start;line-height:1.45"><i class="ti ti-circle" style="font-size:13px;flex-shrink:0;margin-top:1px" aria-hidden="true"></i>application.yml per środowisko (dev / staging / prod)</li>
+      <li style="font-size:12px;color:var(--color-text-secondary);display:flex;gap:7px;align-items:flex-start;line-height:1.45"><i class="ti ti-circle" style="font-size:13px;flex-shrink:0;margin-top:1px" aria-hidden="true"></i>Secret management: Vault / env vars dla kluczy API social media</li>
+      <li style="font-size:12px;color:var(--color-text-secondary);display:flex;gap:7px;align-items:flex-start;line-height:1.45"><i class="ti ti-circle" style="font-size:13px;flex-shrink:0;margin-top:1px" aria-hidden="true"></i>GitHub Actions: build + test + docker image pipeline</li>
+    </ul>
+    <button onclick="sendPrompt('Rozpisz szczegółowo Blok 1 Setup i Infrastruktura dla Marketing Autopilot — co dokładnie skonfigurować w Docker Compose i Maven?')" style="margin-top:12px;width:100%;font-size:12px;padding:7px 10px;border-radius:var(--border-radius-md);cursor:pointer;text-align:left;background:transparent">Rozpisz szczegółowo ↗</button>
+  </div>
+</div>
+
+<div style="background:var(--color-background-primary);border-radius:var(--border-radius-lg);border:0.5px solid var(--color-border-tertiary);overflow:hidden">
+  <div class="hdr hd-am">
+    <span style="font-size:11px;font-weight:500;letter-spacing:.05em">BLOK 2 · INTEGRACJA API</span>
+    <span style="font-size:11px;opacity:.7">7 zadań · L</span>
+  </div>
+  <div style="padding:12px 14px 14px">
+    <p style="font-size:14px;font-weight:500;margin:0 0 10px;color:var(--color-text-primary)">Instagram & Facebook API client</p>
+    <ul style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px">
+      <li style="font-size:12px;color:var(--color-text-secondary);display:flex;gap:7px;align-items:flex-start;line-height:1.45"><i class="ti ti-circle" style="font-size:13px;flex-shrink:0;margin-top:1px" aria-hidden="true"></i>Meta Developer Portal: rejestracja app + przejście App Review</li>
+      <li style="font-size:12px;color:var(--color-text-secondary);display:flex;gap:7px;align-items:flex-start;line-height:1.45"><i class="ti ti-circle" style="font-size:13px;flex-shrink:0;margin-top:1px" aria-hidden="true"></i>OAuth 2.0 flow: long-lived token (60 dni) + autoodnowienie</li>
+      <li style="font-size:12px;color:var(--color-text-secondary);display:flex;gap:7px;align-items:flex-start;line-height:1.45"><i class="ti ti-circle" style="font-size:13px;flex-shrink:0;margin-top:1px" aria-hidden="true"></i>InstagramApiClient (WebClient + retry + exponential backoff)</li>
+      <li style="font-size:12px;color:var(--color-text-secondary);display:flex;gap:7px;align-items:flex-start;line-height:1.45"><i class="ti ti-circle" style="font-size:13px;flex-shrink:0;margin-top:1px" aria-hidden="true"></i><code style="font-size:11px">GET /me/media</code> — pobieranie postów własnego konta</li>
+      <li style="font-size:12px;color:var(--color-text-secondary);display:flex;gap:7px;align-items:flex-start;line-height:1.45"><i class="ti ti-circle" style="font-size:13px;flex-shrink:0;margin-top:1px" aria-hidden="true"></i><code style="font-size:11px">GET /{user-id}/media</code> — Business Discovery API dla konkurencji</li>
+      <li style="font-size:12px;color:var(--color-text-secondary);display:flex;gap:7px;align-items:flex-start;line-height:1.45"><i class="ti ti-circle" style="font-size:13px;flex-shrink:0;margin-top:1px" aria-hidden="true"></i><code style="font-size:11px">GET /ig_hashtag_search</code> — trendy i zasięg hashtagów</li>
+      <li style="font-size:12px;color:var(--color-text-secondary);display:flex;gap:7px;align-items:flex-start;line-height:1.45"><i class="ti ti-circle" style="font-size:13px;flex-shrink:0;margin-top:1px" aria-hidden="true"></i>Rate limit handler: X-App-Usage header + jitter + kolejkowanie</li>
+    </ul>
+    <button onclick="sendPrompt('Rozpisz szczegółowo Blok 2 Instagram API Client — jak zaimplementować OAuth 2.0 flow i Business Discovery API w Spring Boot WebClient?')" style="margin-top:12px;width:100%;font-size:12px;padding:7px 10px;border-radius:var(--border-radius-md);cursor:pointer;text-align:left;background:transparent">Rozpisz szczegółowo ↗</button>
+  </div>
+</div>
+
+<div style="background:var(--color-background-primary);border-radius:var(--border-radius-lg);border:0.5px solid var(--color-border-tertiary);overflow:hidden">
+  <div class="hdr hd-te">
+    <span style="font-size:11px;font-weight:500;letter-spacing:.05em">BLOK 3 · DOMAIN MODEL</span>
+    <span style="font-size:11px;opacity:.7">6 zadań · M</span>
+  </div>
+  <div style="padding:12px 14px 14px">
+    <p style="font-size:14px;font-weight:500;margin:0 0 10px;color:var(--color-text-primary)">Encje, Flyway, repozytoria</p>
+    <ul style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px">
+      <li style="font-size:12px;color:var(--color-text-secondary);display:flex;gap:7px;align-items:flex-start;line-height:1.45"><i class="ti ti-circle" style="font-size:13px;flex-shrink:0;margin-top:1px" aria-hidden="true"></i><code style="font-size:11px">CompetitorProfile</code>: igId, username, followers, avgER, lastSync</li>
+      <li style="font-size:12px;color:var(--color-text-secondary);display:flex;gap:7px;align-items:flex-start;line-height:1.45"><i class="ti ti-circle" style="font-size:13px;flex-shrink:0;margin-top:1px" aria-hidden="true"></i><code style="font-size:11px">CompetitorPost</code>: shortcode, type, likes, comments, hashtags[]</li>
+      <li style="font-size:12px;color:var(--color-text-secondary);display:flex;gap:7px;align-items:flex-start;line-height:1.45"><i class="ti ti-circle" style="font-size:13px;flex-shrink:0;margin-top:1px" aria-hidden="true"></i><code style="font-size:11px">AnalysisResult</code>: profileId, analysisType, payload JSONB, createdAt</li>
+      <li style="font-size:12px;color:var(--color-text-secondary);display:flex;gap:7px;align-items:flex-start;line-height:1.45"><i class="ti ti-circle" style="font-size:13px;flex-shrink:0;margin-top:1px" aria-hidden="true"></i>Flyway: V1__init_schema.sql + V2__pgvector_extension.sql</li>
+      <li style="font-size:12px;color:var(--color-text-secondary);display:flex;gap:7px;align-items:flex-start;line-height:1.45"><i class="ti ti-circle" style="font-size:13px;flex-shrink:0;margin-top:1px" aria-hidden="true"></i>Spring Data JPA repositories + custom JPQL queries</li>
+      <li style="font-size:12px;color:var(--color-text-secondary);display:flex;gap:7px;align-items:flex-start;line-height:1.45"><i class="ti ti-circle" style="font-size:13px;flex-shrink:0;margin-top:1px" aria-hidden="true"></i>DTOs + MapStruct mappers (API response → domain model)</li>
+    </ul>
+    <button onclick="sendPrompt('Rozpisz szczegółowo Blok 3 Domain Model — podaj przykładowe klasy Java dla CompetitorProfile, CompetitorPost i AnalysisResult z adnotacjami JPA?')" style="margin-top:12px;width:100%;font-size:12px;padding:7px 10px;border-radius:var(--border-radius-md);cursor:pointer;text-align:left;background:transparent">Rozpisz szczegółowo ↗</button>
+  </div>
+</div>
+
+<div style="background:var(--color-background-primary);border-radius:var(--border-radius-lg);border:0.5px solid var(--color-border-tertiary);overflow:hidden">
+  <div class="hdr hd-pu">
+    <span style="font-size:11px;font-weight:500;letter-spacing:.05em">BLOK 4 · KAFKA PIPELINE</span>
+    <span style="font-size:11px;opacity:.7">7 zadań · M</span>
+  </div>
+  <div style="padding:12px 14px 14px">
+    <p style="font-size:14px;font-weight:500;margin:0 0 10px;color:var(--color-text-primary)">Producent, konsument, DLQ</p>
+    <ul style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px">
+      <li style="font-size:12px;color:var(--color-text-secondary);display:flex;gap:7px;align-items:flex-start;line-height:1.45"><i class="ti ti-circle" style="font-size:13px;flex-shrink:0;margin-top:1px" aria-hidden="true"></i>Topic <code style="font-size:11px">competitor.data.raw</code> — 3 partycje, retention 7 dni</li>
+      <li style="font-size:12px;color:var(--color-text-secondary);display:flex;gap:7px;align-items:flex-start;line-height:1.45"><i class="ti ti-circle" style="font-size:13px;flex-shrink:0;margin-top:1px" aria-hidden="true"></i>Topic <code style="font-size:11px">competitor.insights.created</code> — 3 partycje</li>
+      <li style="font-size:12px;color:var(--color-text-secondary);display:flex;gap:7px;align-items:flex-start;line-height:1.45"><i class="ti ti-circle" style="font-size:13px;flex-shrink:0;margin-top:1px" aria-hidden="true"></i>Topic <code style="font-size:11px">competitor.data.dlq</code> — Dead Letter Queue</li>
+      <li style="font-size:12px;color:var(--color-text-secondary);display:flex;gap:7px;align-items:flex-start;line-height:1.45"><i class="ti ti-circle" style="font-size:13px;flex-shrink:0;margin-top:1px" aria-hidden="true"></i><code style="font-size:11px">CompetitorDataProducer</code> w data-collector (Avro schema)</li>
+      <li style="font-size:12px;color:var(--color-text-secondary);display:flex;gap:7px;align-items:flex-start;line-height:1.45"><i class="ti ti-circle" style="font-size:13px;flex-shrink:0;margin-top:1px" aria-hidden="true"></i><code style="font-size:11px">CompetitorDataConsumer</code> w competitor-agent + deserializacja</li>
+      <li style="font-size:12px;color:var(--color-text-secondary);display:flex;gap:7px;align-items:flex-start;line-height:1.45"><i class="ti ti-circle" style="font-size:13px;flex-shrink:0;margin-top:1px" aria-hidden="true"></i><code style="font-size:11px">@Scheduled</code> cron co 6h — polling + publikacja do Kafki</li>
+      <li style="font-size:12px;color:var(--color-text-secondary);display:flex;gap:7px;align-items:flex-start;line-height:1.45"><i class="ti ti-circle" style="font-size:13px;flex-shrink:0;margin-top:1px" aria-hidden="true"></i>Error handler: retry 3× → DLQ + alert (Slack webhook)</li>
+    </ul>
+    <button onclick="sendPrompt('Rozpisz szczegółowo Blok 4 Kafka Pipeline — jak skonfigurować producenta i konsumenta w Spring Boot z Avro i obsługą DLQ?')" style="margin-top:12px;width:100%;font-size:12px;padding:7px 10px;border-radius:var(--border-radius-md);cursor:pointer;text-align:left;background:transparent">Rozpisz szczegółowo ↗</button>
+  </div>
+</div>
+
+<div style="background:var(--color-background-primary);border-radius:var(--border-radius-lg);border:0.5px solid var(--color-border-tertiary);overflow:hidden;border:1.5px solid var(--color-border-info)">
+  <div class="hdr hd-co" style="position:relative">
+    <span style="font-size:11px;font-weight:500;letter-spacing:.05em">BLOK 5 · AGENT CORE ★</span>
+    <span style="font-size:11px;opacity:.7">7 zadań · XL</span>
+  </div>
+  <div style="padding:12px 14px 14px">
+    <p style="font-size:14px;font-weight:500;margin:0 0 10px;color:var(--color-text-primary)">Competitor Agent — serce projektu</p>
+    <ul style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px">
+      <li style="font-size:12px;color:var(--color-text-secondary);display:flex;gap:7px;align-items:flex-start;line-height:1.45"><i class="ti ti-circle" style="font-size:13px;flex-shrink:0;margin-top:1px" aria-hidden="true"></i>LangChain4j + konfiguracja modelu LLM (OpenAI / Ollama lokalnie)</li>
+      <li style="font-size:12px;color:var(--color-text-secondary);display:flex;gap:7px;align-items:flex-start;line-height:1.45"><i class="ti ti-circle" style="font-size:13px;flex-shrink:0;margin-top:1px" aria-hidden="true"></i><code style="font-size:11px">CompetitorAnalysisService</code> (@AiService + @SystemMessage prompt)</li>
+      <li style="font-size:12px;color:var(--color-text-secondary);display:flex;gap:7px;align-items:flex-start;line-height:1.45"><i class="ti ti-circle" style="font-size:13px;flex-shrink:0;margin-top:1px" aria-hidden="true"></i>Prompt template: analiza ER, trendów, najlepszych treści wizualnych</li>
+      <li style="font-size:12px;color:var(--color-text-secondary);display:flex;gap:7px;align-items:flex-start;line-height:1.45"><i class="ti ti-circle" style="font-size:13px;flex-shrink:0;margin-top:1px" aria-hidden="true"></i><code style="font-size:11px">@Tool GetCompetitorPostsTool</code> — query do PostgreSQL per profil</li>
+      <li style="font-size:12px;color:var(--color-text-secondary);display:flex;gap:7px;align-items:flex-start;line-height:1.45"><i class="ti ti-circle" style="font-size:13px;flex-shrink:0;margin-top:1px" aria-hidden="true"></i><code style="font-size:11px">@Tool StoreInsightTool</code> — zapis AnalysisResult do bazy</li>
+      <li style="font-size:12px;color:var(--color-text-secondary);display:flex;gap:7px;align-items:flex-start;line-height:1.45"><i class="ti ti-circle" style="font-size:13px;flex-shrink:0;margin-top:1px" aria-hidden="true"></i><code style="font-size:11px">@Tool GetHashtagTrendsTool</code> — top hashtagi z 30 dni</li>
+      <li style="font-size:12px;color:var(--color-text-secondary);display:flex;gap:7px;align-items:flex-start;line-height:1.45"><i class="ti ti-circle" style="font-size:13px;flex-shrink:0;margin-top:1px" aria-hidden="true"></i><code style="font-size:11px">CompetitorAgentOrchestrator</code> — koordynacja narzędzi + fallback</li>
+    </ul>
+    <button onclick="sendPrompt('Rozpisz szczegółowo Blok 5 Competitor Agent Core — podaj przykładowy kod Java dla CompetitorAnalysisService z LangChain4j AiServices i @Tool metodami?')" style="margin-top:12px;width:100%;font-size:12px;padding:7px 10px;border-radius:var(--border-radius-md);cursor:pointer;text-align:left;background:transparent">Rozpisz szczegółowo ↗</button>
+  </div>
+</div>
+
+<div style="background:var(--color-background-primary);border-radius:var(--border-radius-lg);border:0.5px solid var(--color-border-tertiary);overflow:hidden">
+  <div class="hdr hd-co">
+    <span style="font-size:11px;font-weight:500;letter-spacing:.05em">BLOK 6 · ANALYSIS ENGINE</span>
+    <span style="font-size:11px;opacity:.7">6 zadań · M</span>
+  </div>
+  <div style="padding:12px 14px 14px">
+    <p style="font-size:14px;font-weight:500;margin:0 0 10px;color:var(--color-text-primary)">Kalkulatory i klasyfikatory</p>
+    <ul style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px">
+      <li style="font-size:12px;color:var(--color-text-secondary);display:flex;gap:7px;align-items:flex-start;line-height:1.45"><i class="ti ti-circle" style="font-size:13px;flex-shrink:0;margin-top:1px" aria-hidden="true"></i><code style="font-size:11px">EngagementRateCalculator</code>: (likes+comments) / followers × 100</li>
+      <li style="font-size:12px;color:var(--color-text-secondary);display:flex;gap:7px;align-items:flex-start;line-height:1.45"><i class="ti ti-circle" style="font-size:13px;flex-shrink:0;margin-top:1px" aria-hidden="true"></i><code style="font-size:11px">PostingPatternAnalyzer</code>: dni tygodnia, godziny, częstotliwość</li>
+      <li style="font-size:12px;color:var(--color-text-secondary);display:flex;gap:7px;align-items:flex-start;line-height:1.45"><i class="ti ti-circle" style="font-size:13px;flex-shrink:0;margin-top:1px" aria-hidden="true"></i><code style="font-size:11px">HashtagExtractor</code>: parse caption, ranking po zasięgu IG</li>
+      <li style="font-size:12px;color:var(--color-text-secondary);display:flex;gap:7px;align-items:flex-start;line-height:1.45"><i class="ti ti-circle" style="font-size:13px;flex-shrink:0;margin-top:1px" aria-hidden="true"></i><code style="font-size:11px">ContentTypeClassifier</code>: IMAGE / VIDEO / CAROUSEL breakdown %</li>
+      <li style="font-size:12px;color:var(--color-text-secondary);display:flex;gap:7px;align-items:flex-start;line-height:1.45"><i class="ti ti-circle" style="font-size:13px;flex-shrink:0;margin-top:1px" aria-hidden="true"></i><code style="font-size:11px">BestTimeToPostCalculator</code>: histogram ER per godzina dnia</li>
+      <li style="font-size:12px;color:var(--color-text-secondary);display:flex;gap:7px;align-items:flex-start;line-height:1.45"><i class="ti ti-circle" style="font-size:13px;flex-shrink:0;margin-top:1px" aria-hidden="true"></i><code style="font-size:11px">CompetitorRankingService</code>: ranking po ER, wzroście, aktywności</li>
+    </ul>
+    <button onclick="sendPrompt('Rozpisz szczegółowo Blok 6 Analysis Engine — podaj przykładowy kod dla EngagementRateCalculator i PostingPatternAnalyzer?')" style="margin-top:12px;width:100%;font-size:12px;padding:7px 10px;border-radius:var(--border-radius-md);cursor:pointer;text-align:left;background:transparent">Rozpisz szczegółowo ↗</button>
+  </div>
+</div>
+
+<div style="background:var(--color-background-primary);border-radius:var(--border-radius-lg);border:0.5px solid var(--color-border-tertiary);overflow:hidden">
+  <div class="hdr hd-bl">
+    <span style="font-size:11px;font-weight:500;letter-spacing:.05em">BLOK 7 · EMBEDDINGS</span>
+    <span style="font-size:11px;opacity:.7">5 zadań · M</span>
+  </div>
+  <div style="padding:12px 14px 14px">
+    <p style="font-size:14px;font-weight:500;margin:0 0 10px;color:var(--color-text-primary)">pgvector & similarity search</p>
+    <ul style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px">
+      <li style="font-size:12px;color:var(--color-text-secondary);display:flex;gap:7px;align-items:flex-start;line-height:1.45"><i class="ti ti-circle" style="font-size:13px;flex-shrink:0;margin-top:1px" aria-hidden="true"></i>pgvector: <code style="font-size:11px">CREATE EXTENSION</code> + HNSW index na kolumnie embedding</li>
+      <li style="font-size:12px;color:var(--color-text-secondary);display:flex;gap:7px;align-items:flex-start;line-height:1.45"><i class="ti ti-circle" style="font-size:13px;flex-shrink:0;margin-top:1px" aria-hidden="true"></i><code style="font-size:11px">EmbeddingService</code> (Spring AI): caption + hashtagi → wektor</li>
+      <li style="font-size:12px;color:var(--color-text-secondary);display:flex;gap:7px;align-items:flex-start;line-height:1.45"><i class="ti ti-circle" style="font-size:13px;flex-shrink:0;margin-top:1px" aria-hidden="true"></i><code style="font-size:11px">CompetitorPostVectorRepository</code>: save + cosine similarity query</li>
+      <li style="font-size:12px;color:var(--color-text-secondary);display:flex;gap:7px;align-items:flex-start;line-height:1.45"><i class="ti ti-circle" style="font-size:13px;flex-shrink:0;margin-top:1px" aria-hidden="true"></i>Similarity search: posty podobne do portfolio fotografa (RAG)</li>
+      <li style="font-size:12px;color:var(--color-text-secondary);display:flex;gap:7px;align-items:flex-start;line-height:1.45"><i class="ti ti-circle" style="font-size:13px;flex-shrink:0;margin-top:1px" aria-hidden="true"></i>Spring Batch job: wektoryzacja historycznych postów w tle</li>
+    </ul>
+    <button onclick="sendPrompt('Rozpisz szczegółowo Blok 7 pgvector i embeddings — jak skonfigurować pgvector z HNSW indexem i Spring AI EmbeddingService w Spring Boot?')" style="margin-top:12px;width:100%;font-size:12px;padding:7px 10px;border-radius:var(--border-radius-md);cursor:pointer;text-align:left;background:transparent">Rozpisz szczegółowo ↗</button>
+  </div>
+</div>
+
+<div style="background:var(--color-background-primary);border-radius:var(--border-radius-lg);border:0.5px solid var(--color-border-tertiary);overflow:hidden">
+  <div class="hdr hd-gn">
+    <span style="font-size:11px;font-weight:500;letter-spacing:.05em">BLOK 8 · TESTY & OBSERVABILITY</span>
+    <span style="font-size:11px;opacity:.7">7 zadań · L</span>
+  </div>
+  <div style="padding:12px 14px 14px">
+    <p style="font-size:14px;font-weight:500;margin:0 0 10px;color:var(--color-text-primary)">Testcontainers, WireMock, Micrometer</p>
+    <ul style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px">
+      <li style="font-size:12px;color:var(--color-text-secondary);display:flex;gap:7px;align-items:flex-start;line-height:1.45"><i class="ti ti-circle" style="font-size:13px;flex-shrink:0;margin-top:1px" aria-hidden="true"></i>Testcontainers: PostgreSQL+pgvector, Kafka, Redis (testy IT)</li>
+      <li style="font-size:12px;color:var(--color-text-secondary);display:flex;gap:7px;align-items:flex-start;line-height:1.45"><i class="ti ti-circle" style="font-size:13px;flex-shrink:0;margin-top:1px" aria-hidden="true"></i>WireMock: stub Instagram Graph API + symulacja rate limitów</li>
+      <li style="font-size:12px;color:var(--color-text-secondary);display:flex;gap:7px;align-items:flex-start;line-height:1.45"><i class="ti ti-circle" style="font-size:13px;flex-shrink:0;margin-top:1px" aria-hidden="true"></i>Unit testy: kalkulatory + analyzery (JUnit 5 + AssertJ)</li>
+      <li style="font-size:12px;color:var(--color-text-secondary);display:flex;gap:7px;align-items:flex-start;line-height:1.45"><i class="ti ti-circle" style="font-size:13px;flex-shrink:0;margin-top:1px" aria-hidden="true"></i>Spring AI test: <code style="font-size:11px">MockChatModel</code> dla deterministycznych testów agenta</li>
+      <li style="font-size:12px;color:var(--color-text-secondary);display:flex;gap:7px;align-items:flex-start;line-height:1.45"><i class="ti ti-circle" style="font-size:13px;flex-shrink:0;margin-top:1px" aria-hidden="true"></i>Micrometer: <code style="font-size:11px">analysis.duration</code>, <code style="font-size:11px">api.calls</code>, <code style="font-size:11px">kafka.lag</code></li>
+      <li style="font-size:12px;color:var(--color-text-secondary);display:flex;gap:7px;align-items:flex-start;line-height:1.45"><i class="ti ti-circle" style="font-size:13px;flex-shrink:0;margin-top:1px" aria-hidden="true"></i>OpenTelemetry tracing: Data Collector → Kafka → Competitor Agent</li>
+      <li style="font-size:12px;color:var(--color-text-secondary);display:flex;gap:7px;align-items:flex-start;line-height:1.45"><i class="ti ti-circle" style="font-size:13px;flex-shrink:0;margin-top:1px" aria-hidden="true"></i>Logback JSON: structured logging — decision log + tool call log</li>
+    </ul>
+    <button onclick="sendPrompt('Rozpisz szczegółowo Blok 8 Testy i Observability — jak skonfigurować Testcontainers z pgvector i WireMock dla Instagram API w Spring Boot?')" style="margin-top:12px;width:100%;font-size:12px;padding:7px 10px;border-radius:var(--border-radius-md);cursor:pointer;text-align:left;background:transparent">Rozpisz szczegółowo ↗</button>
+  </div>
+</div>
+
+</div>
+
+<div style="display:flex;gap:12px;margin-top:4px;flex-wrap:wrap">
+  <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:10px 14px;flex:1;min-width:180px">
+    <p style="font-size:11px;color:var(--color-text-tertiary);margin:0 0 4px;font-weight:500">ŁĄCZNIE ZADAŃ</p>
+    <p style="font-size:22px;font-weight:500;margin:0;color:var(--color-text-primary)">51</p>
+  </div>
+  <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:10px 14px;flex:1;min-width:180px">
+    <p style="font-size:11px;color:var(--color-text-tertiary);margin:0 0 4px;font-weight:500">REKOMENDOWANA KOLEJNOŚĆ</p>
+    <p style="font-size:13px;font-weight:500;margin:0;color:var(--color-text-primary)">1 → 2 → 3+4 równolegle → 5+6 równolegle → 7 → 8</p>
+  </div>
+  <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:10px 14px;flex:1;min-width:180px">
+    <p style="font-size:11px;color:var(--color-text-tertiary);margin:0 0 4px;font-weight:500">KRYTYCZNA ŚCIEŻKA</p>
+    <p style="font-size:13px;font-weight:500;margin:0;color:var(--color-text-primary)">Blok 2 (Meta App Review może trwać 2–4 tygodnie)</p>
+  </div>
+</div>

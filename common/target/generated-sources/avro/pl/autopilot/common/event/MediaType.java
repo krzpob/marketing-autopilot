@@ -4,11 +4,11 @@
  * DO NOT EDIT DIRECTLY
  */
 package pl.autopilot.common.event;
-/** UNKNOWN jako fallback gdy IG doda nowy typ — konsument nie wysypie się. */
+/** UNKNOWN jako fallback gdy IG doda nowy typ. */
 @org.apache.avro.specific.AvroGenerated
 public enum MediaType implements org.apache.avro.generic.GenericEnumSymbol<MediaType> {
   IMAGE, VIDEO, CAROUSEL_ALBUM, REEL, UNKNOWN  ;
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"enum\",\"name\":\"MediaType\",\"namespace\":\"pl.autopilot.common.event\",\"doc\":\"UNKNOWN jako fallback gdy IG doda nowy typ — konsument nie wysypie się.\",\"symbols\":[\"IMAGE\",\"VIDEO\",\"CAROUSEL_ALBUM\",\"REEL\",\"UNKNOWN\"]}");
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"enum\",\"name\":\"MediaType\",\"namespace\":\"pl.autopilot.common.event\",\"doc\":\"UNKNOWN jako fallback gdy IG doda nowy typ.\",\"symbols\":[\"IMAGE\",\"VIDEO\",\"CAROUSEL_ALBUM\",\"REEL\",\"UNKNOWN\"]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   @Override
