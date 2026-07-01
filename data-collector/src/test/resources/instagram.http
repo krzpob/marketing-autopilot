@@ -41,6 +41,7 @@ GET http://localhost:8083/debug/monitored-profiles/17841441888584276 HTTP/1.1
 GET http://localhost:8083/actuator/mappings HTTP/1.1
 
 ###
+<<<<<<< Updated upstream
 POST http://localhost:8083/collect/competitor HTTP/1.1
 Content-Type: application/json
 
@@ -66,3 +67,12 @@ Content-Type: application/json
     "platform": "INSTAGRAM",
     "hashtag": "sesjebuduarowe"
 }
+=======
+POST http://localhost:8083/collect/competitor/17841441888584276  HTTP/1.1
+Content-Type: application/json
+User-Agent: Java/17.0.2
+
+{
+    compettitor-name: "zieniuphoto",
+}
+>>>>>>> Stashed changes

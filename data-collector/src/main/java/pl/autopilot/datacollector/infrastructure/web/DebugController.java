@@ -115,17 +115,17 @@ public class DebugController {
 
     @PostMapping("/monitored-profiles")
     public MonitoredProfile addMonitoredProfile(
-            @RequestParam String ownerIgId,
-            @RequestParam String competitorHandle) {
+        @RequestParam String ownerIgId,
+        @RequestParam String competitorHandle) {
 
-            MonitoredProfile profile = MonitoredProfile.builder()
-                    .ownerIgId(ownerIgId)
-                    .competitorIgHandle(competitorHandle)
-                    .build();
+        MonitoredProfile profile = MonitoredProfile.builder()
+            .ownerIgId(ownerIgId)
+            .competitorIgHandle(competitorHandle)
+            .build();
 
-            monitoredProfilePort.save(profile);
-            log.info("[DEBUG] Dodano profil do obserwowania: {} → {}", ownerIgId, competitorHandle);
-    return profile;
+        monitoredProfilePort.save(profile);
+        log.info("[DEBUG] Dodano profil do obserwowania: {} → {}", ownerIgId, competitorHandle);
+        return profile;
     }
 
     @GetMapping("/monitored-profiles/{ownerIgId}")
