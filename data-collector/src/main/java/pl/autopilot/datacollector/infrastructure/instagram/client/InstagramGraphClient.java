@@ -11,6 +11,7 @@ import org.springframework.web.client.ResourceAccessException;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestClientResponseException;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -74,6 +75,58 @@ class InstagramGraphClient {
         }
     }
 
+    <T> T getRaw(String url, Class<T> responseType) {
+        try {
+            java.net.URL netUrl = new java.net.URL(url);
+            java.net.HttpURLConnection conn =
+                    (java.net.HttpURLConnection) netUrl.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Accept", "application/json");
+            conn.setConnectTimeout(5000);
+            conn.setReadTimeout(10000);
+
+            int status = conn.getResponseCode();
+
+            org.springframework.http.HttpHeaders headers =
+                new org.springframework.http.HttpHeaders();
+            
+            conn.getHeaderFields().forEach((k, v) -> {
+                if (k != null) headers.addAll(k, v);
+            });
+
+        
+            checkAppUsage(headers);
+
+
+            java.io.InputStream stream = status >= 400
+                    ? conn.getErrorStream()
+                    : conn.getInputStream();
+
+            String body = new String(stream.readAllBytes(),
+                    java.nio.charset.StandardCharsets.UTF_8);
+
+            if (status >= 400) {
+                // reużyj istniejącego parsera błędów
+                InstagramErrorResponse error =
+                        USAGE_PARSER.readValue(body, InstagramErrorResponse.class);
+                if (error.getError() != null) {
+                    InstagramApiException ex = new InstagramApiException(error.getError());
+                    if (ex.isTokenExpired()) throw new InstagramTokenExpiredException("unknown");
+                    throw ex;
+                }
+            }
+
+            return USAGE_PARSER.readValue(body, responseType);
+
+        } catch (InstagramTokenExpiredException | InstagramApiException e) {
+            throw e;
+        } catch (Exception e) {
+            log.error("Błąd getRaw dla URL: {}", url, e);
+            throw new InstagramApiException(timeoutError(null));
+        }
+    }
+    
+ 
     // ── Paginacja cursor-based ────────────────────────────────────────────────
 
     <T, R> List<R> fetchAllPages(

@@ -42,7 +42,7 @@ public class InstagramSocialMediaAdapter implements SocialMediaPort {
     @Override
     public CompetitorProfile fetchCompetitorProfile(String competitorUsername,
                                                     AccessToken token) {
-        return CompetitorProfile.builder().username(competitorUsername).build();
+        return apiClient.fetchCompetitorProfile(competitorUsername, token);
     }
 
     @Override

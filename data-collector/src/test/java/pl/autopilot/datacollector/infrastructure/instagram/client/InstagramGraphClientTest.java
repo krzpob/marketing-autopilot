@@ -24,6 +24,7 @@ import org.springframework.web.client.RestClient;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
 
+import kotlin.time.Clock.System;
 import pl.autopilot.datacollector.infrastructure.instagram.model.InstagramMediaResponse;
 
 class InstagramGraphClientTest {
@@ -176,8 +177,8 @@ class InstagramGraphClientTest {
     }
 
     @Test
-        void shouldThrowWithExpiredTokenCode() {
-        // given
+    void shouldThrowWithExpiredTokenCode() {
+    // given
         wireMock.stubFor(get(urlPathEqualTo("/me/media"))
                 .willReturn(jsonResponse("""
                         {
@@ -195,11 +196,11 @@ class InstagramGraphClientTest {
                         URI.create("http://localhost:" + wireMock.port() + "/me/media"),
                         InstagramMediaResponse.class))
                 .isInstanceOf(InstagramTokenExpiredException.class);
-        }
+    }
 
     @Test
-        void shouldWarnWhenAppUsageApproachingLimit() {
-        // given
+    void shouldWarnWhenAppUsageApproachingLimit() {
+    // given
         wireMock.stubFor(get(urlPathEqualTo("/me/media"))
                 .willReturn(okJson("""
                         {"data":[],"paging":{}}
@@ -217,11 +218,11 @@ class InstagramGraphClientTest {
 
         // then
         then(result).isEmpty();
-        }
+    }
 
-        @Test
-        void shouldThrowWhenAppUsageAtLimit() {
-        // given
+    @Test
+    void shouldThrowWhenAppUsageAtLimit() {
+    // given
         wireMock.stubFor(get(urlPathEqualTo("/me/media"))
                 .willReturn(okJson("""
                         {"data":[],"paging":{}}
@@ -235,7 +236,116 @@ class InstagramGraphClientTest {
                 InstagramMediaResponse.class))
                 .isInstanceOf(InstagramApiException.class)
                 .matches(e -> ((InstagramApiException) e).isRateLimited());
-        }
+    }
+
+    @Test
+    void shouldReturnParsedResponseForRawUrl() {
+        // given — URL z klamrami jak Business Discovery API
+        wireMock.stubFor(get(urlPathEqualTo("/17841441888584276"))
+                .willReturn(okJson("""
+                        {
+                        "business_discovery": {
+                            "followers_count": 1500,
+                            "biography": "Bio fotografa",
+                            "media_count": 42
+                        },
+                        "id": "17841441888584276"
+                        }
+                        """)));
+
+        String url = "http://localhost:" + wireMock.port()
+                + "/17841441888584276"
+                + "?fields=business_discovery.username(zmyslowaty){followers_count,biography,media_count}"
+                + "&access_token=test-token";
+
+        // when
+        RawTestResponse result = graphClient.getRaw(url, RawTestResponse.class);
+
+        // then
+        then(result).isNotNull();
+        then(result.getId()).isEqualTo("17841441888584276");
+    }
+
+    @Test
+    void shouldThrowInstagramApiExceptionOnErrorResponseInRaw() {
+        // given
+        wireMock.stubFor(get(urlPathEqualTo("/17841441888584276"))
+                .willReturn(jsonResponse("""
+                        {
+                        "error": {
+                            "message": "Invalid parameter",
+                            "type": "OAuthException",
+                            "code": 100,
+                            "fbtrace_id": "trace123"
+                        }
+                        }
+                        """, 400)));
+
+        String url = "http://localhost:" + wireMock.port()
+                + "/17841441888584276"
+                + "?fields=business_discovery.username(zmyslowaty){followers_count}"
+                + "&access_token=test-token";
+
+        // when / then
+        thenThrownBy(() -> graphClient.getRaw(url, RawTestResponse.class))
+                .isInstanceOf(InstagramApiException.class)
+                .hasMessageContaining("100")
+                .hasMessageContaining("Invalid parameter");
+    }
+
+    @Test
+    void shouldThrowInstagramTokenExpiredExceptionOnCode190InRaw() {
+        // given
+        wireMock.stubFor(get(urlPathEqualTo("/17841441888584276"))
+                .willReturn(jsonResponse("""
+                        {
+                        "error": {
+                            "message": "Error validating access token",
+                            "type": "OAuthException",
+                            "code": 190,
+                            "fbtrace_id": "trace456"
+                        }
+                        }
+                        """, 401)));
+
+        String url = "http://localhost:" + wireMock.port()
+                + "/17841441888584276"
+                + "?fields=business_discovery.username(zmyslowaty){followers_count}"
+                + "&access_token=test-token";
+
+        // when / then
+        thenThrownBy(() -> graphClient.getRaw(url, RawTestResponse.class))
+                .isInstanceOf(InstagramTokenExpiredException.class);
+    }
+
+    @Test
+    void shouldThrowWhenAppUsageAtLimitInRaw() {
+        // given
+        wireMock.stubFor(get(urlPathEqualTo("/17841441888584276"))
+                .willReturn(okJson("""
+                        {"id":"17841441888584276"}
+                        """)
+                        .withHeader("X-App-Usage",
+                                "{\"call_count\":100,\"total_cputime\":50,\"total_time\":50}")));
+                        
+        String url = "http://localhost:" + wireMock.port()
+                + "/17841441888584276"
+                + "?fields=business_discovery.username(zmyslowaty){followers_count}"
+                + "&access_token=test-token";
+
+        // when / then
+        thenThrownBy(() -> graphClient.getRaw(url, RawTestResponse.class))
+                .isInstanceOf(InstagramApiException.class)
+                .matches(e -> ((InstagramApiException) e).isRateLimited());
+    }
+
+    // ── helper record dla getRaw testów ──────────────────────────────────────
+
+    @lombok.Data
+    @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
+    static class RawTestResponse {
+        private String id;
+    }
 
     // ── helper ────────────────────────────────────────────────────────────────
 
