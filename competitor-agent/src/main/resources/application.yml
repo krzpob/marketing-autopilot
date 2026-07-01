@@ -4,7 +4,7 @@ spring:
 
   # ── DataSource ─────────────────────────────────────────────────
   datasource:
-    url: jdbc:postgresql://${POSTGRES_HOST:?}:${POSTGRES_PORT:-5432}/${POSTGRES_DB:?}
+    url: ${POSTGRES_URL:jdbc:postgresql://localhost:5432/autopilot}?currentSchema=competitor
     username: ${POSTGRES_USER:?}
     password: ${POSTGRES_PASSWORD:?}
     hikari:
@@ -40,26 +40,45 @@ spring:
     out-of-order: false
 
   # ── Kafka ──────────────────────────────────────────────────────
-  kafka:
-    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:?}
-    consumer:
-      group-id: competitor-agent-group
-      auto-offset-reset: earliest
-      enable-auto-commit: false       # ręczne potwierdzenie po przetworzeniu
-      max-poll-records: 10
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
-      properties:
-        schema.registry.url: ${SCHEMA_REGISTRY_URL:?}
-        specific.avro.reader: true
-    producer:
-      key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
-      properties:
-        schema.registry.url: ${SCHEMA_REGISTRY_URL:?}
-      acks: all                       # pełna gwarancja dostarczenia
-      retries: 3
-
+  # kafka:
+  #   bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:?}
+  #   consumer:
+  #     group-id: competitor-agent-group
+  #     auto-offset-reset: earliest
+  #     enable-auto-commit: false       # ręczne potwierdzenie po przetworzeniu
+  #     max-poll-records: 10
+  #     key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+  #     value-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+  #     properties:
+  #       schema.registry.url: ${SCHEMA_REGISTRY_URL:?}
+  #       specific.avro.reader: true
+  #   producer:
+  #     key-serializer: org.apache.kafka.common.serialization.StringSerializer
+  #     value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+  #     properties:
+  #       schema.registry.url: ${SCHEMA_REGISTRY_URL:?}
+  #     acks: all                       # pełna gwarancja dostarczenia
+  #     retries: 3
+  cloud:
+    function:
+      definition: competitorData; hashtagData
+    stream:
+      bindings:
+        competitorData-in-0:
+          destination: competitor-data-events
+          content-type: application/json   # TODO: B3 → application/*+avro
+          group: competitor-agent-group
+          consumer:
+            maxAttempts: 3
+        hashtagData-in-0:
+          destination: hashtag-data-events
+          content-type: application/json
+          group: competitor-agent-group        
+          consumer:            
+            maxAttempts: 3
+      kafka:
+        binder:
+          brokers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
   # ── MongoDB (pamięć agentów) ────────────────────────────────────
   data:
     mongodb:
@@ -119,11 +138,6 @@ resilience4j:
 
 # ── Własna konfiguracja ─────────────────────────────────────────────
 app:
-  kafka:
-    topics:
-      competitor-data-raw: competitor.data.raw
-      competitor-insights: competitor.insights.created
-      dlq: competitor.data.dlq
   agent:
     analysis-batch-size: 50           # ile postów analizujemy na raz
     max-competitors-per-profile: 10

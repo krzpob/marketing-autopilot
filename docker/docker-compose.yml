@@ -141,6 +141,20 @@ services:
       POSTGRES_PASSWORD:        ${POSTGRES_PASSWORD:-autopilot}
       KAFKA_BOOTSTRAP_SERVERS:  kafka:9092
       INSTAGRAM_TOKEN_REFRESH_CRON: ${INSTAGRAM_TOKEN_REFRESH_CRON}
+  competitor-agent:
+    container_name: autopilot-competitor-agent
+    image: competitor-agent:latest
+    ports:
+      - "8084:8084"
+    depends_on:
+      - kafka
+      - postgres
+    environment:
+      POSTGRES_URL:             jdbc:postgresql://autopilot-postgres:5432/marketing_autopilot
+      POSTGRES_USER:            ${POSTGRES_USER:-autopilot}
+      POSTGRES_PASSWORD:        ${POSTGRES_PASSWORD:-autopilot}
+      KAFKA_BOOTSTRAP_SERVERS:  kafka:9092
+      OPENAI_API_KEY:           ${OPENAI_API_KEY:?err_openai_api_key_required} 
 
 volumes:
   kafka_data:
