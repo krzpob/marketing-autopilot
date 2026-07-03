@@ -5,7 +5,7 @@ import pl.autopilot.competitoragent.infrastructure.persistence.entity.AnalysisRe
 import java.util.List;
 import java.util.UUID;
 
-interface AnalysisResultJpaRepository extends JpaRepository<AnalysisResultEntity, UUID> {
+public interface AnalysisResultJpaRepository extends JpaRepository<AnalysisResultEntity, UUID> {
     List<AnalysisResultEntity> findByCompetitorUsernameOrderByAnalyzedAtDesc(
             String competitorUsername);
     boolean existsByTriggerEventId(String triggerEventId);

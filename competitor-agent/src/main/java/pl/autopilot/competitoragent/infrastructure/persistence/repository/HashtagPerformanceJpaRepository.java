@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-interface HashtagPerformanceJpaRepository extends JpaRepository<HashtagPerformanceEntity, UUID> {
+public interface HashtagPerformanceJpaRepository extends JpaRepository<HashtagPerformanceEntity, UUID> {
     Optional<HashtagPerformanceEntity> findTopByHashtagOrderByCollectedAtDesc(String hashtag);
     List<HashtagPerformanceEntity> findByHashtagOrderByCollectedAtDesc(String hashtag);
 }

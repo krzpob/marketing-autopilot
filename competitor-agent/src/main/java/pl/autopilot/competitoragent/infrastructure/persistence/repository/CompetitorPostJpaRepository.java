@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-interface CompetitorPostJpaRepository extends JpaRepository<CompetitorPostEntity, UUID> {
+public interface CompetitorPostJpaRepository extends JpaRepository<CompetitorPostEntity, UUID> {
     Optional<CompetitorPostEntity> findByIgMediaId(String igMediaId);
     List<CompetitorPostEntity> findTop30ByCompetitorUsernameOrderByPublishedAtDesc(
             String competitorUsername);

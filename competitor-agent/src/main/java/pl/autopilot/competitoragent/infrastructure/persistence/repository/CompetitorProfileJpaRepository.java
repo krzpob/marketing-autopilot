@@ -5,6 +5,6 @@ import pl.autopilot.competitoragent.infrastructure.persistence.entity.Competitor
 import java.util.Optional;
 import java.util.UUID;
 
-interface CompetitorProfileJpaRepository extends JpaRepository<CompetitorProfileEntity, UUID> {
+public interface CompetitorProfileJpaRepository extends JpaRepository<CompetitorProfileEntity, UUID> {
     Optional<CompetitorProfileEntity> findByUsername(String username);
 }
