@@ -119,6 +119,27 @@ services:
       interval: 15s
       timeout: 10s
       retries: 5
+  schema-registry:
+    image: confluentinc/cp-schema-registry:8.2.2
+    container_name: autopilot-schema-registry
+    hostname: schema-registry
+    depends_on:
+      kafka:
+        condition: service_healthy
+    ports:
+      - "8081:8081"
+    environment:
+      SCHEMA_REGISTRY_HOST_NAME: schema-registry
+      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: PLAINTEXT://kafka:9092
+      SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:8081
+      SCHEMA_REGISTRY_KAFKASTORE_TOPIC: _schemas
+      SCHEMA_REGISTRY_KAFKASTORE_TOPIC_REPLICATION_FACTOR: 1
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8081/subjects"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
   data-collector:
     container_name: autopilot-data-collector
     image: data-collector:latest
@@ -141,20 +162,23 @@ services:
       POSTGRES_PASSWORD:        ${POSTGRES_PASSWORD:-autopilot}
       KAFKA_BOOTSTRAP_SERVERS:  kafka:9092
       INSTAGRAM_TOKEN_REFRESH_CRON: ${INSTAGRAM_TOKEN_REFRESH_CRON}
-  competitor-agent:
-    container_name: autopilot-competitor-agent
-    image: competitor-agent:latest
-    ports:
-      - "8084:8084"
-    depends_on:
-      - kafka
-      - postgres
-    environment:
-      POSTGRES_URL:             jdbc:postgresql://autopilot-postgres:5432/marketing_autopilot
-      POSTGRES_USER:            ${POSTGRES_USER:-autopilot}
-      POSTGRES_PASSWORD:        ${POSTGRES_PASSWORD:-autopilot}
-      KAFKA_BOOTSTRAP_SERVERS:  kafka:9092
-      OPENAI_API_KEY:           ${OPENAI_API_KEY:?err_openai_api_key_required} 
+      SCHEMA_REGISTRY_URL:      ${SCHEMA_REGISTRY_URL:-http://schema-registry:8081}
+  
+  # competitor-agent:
+  #   container_name: autopilot-competitor-agent
+  #   image: competitor-agent:latest
+  #   ports:
+  #     - "8084:8084"
+  #   depends_on:
+  #     - kafka
+  #     - postgres
+  #   environment:
+  #     POSTGRES_URL:             jdbc:postgresql://autopilot-postgres:5432/marketing_autopilot
+  #     POSTGRES_USER:            ${POSTGRES_USER:-autopilot}
+  #     POSTGRES_PASSWORD:        ${POSTGRES_PASSWORD:-autopilot}
+  #     KAFKA_BOOTSTRAP_SERVERS:  kafka:9092
+  #.    SCHEMA_REGISTRY_URL:      ${SCHEMA_REGISTRY_URL:-http://schema-registry:8081}
+  #     OPENAI_API_KEY:           ${OPENAI_API_KEY:?err_openai_api_key_required} 
 
 volumes:
   kafka_data:

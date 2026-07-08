@@ -30,8 +30,8 @@
     <langchain4j.version>1.17.0</langchain4j.version>
     <mapstruct.version>1.6.3</mapstruct.version>
     <testcontainers.version>2.0.5</testcontainers.version>
-    <avro.version>1.11.4</avro.version>
-    <confluent.version>7.7.0</confluent.version>
+    <avro.version>1.12.1</avro.version>
+    <confluent.version>8.2.2</confluent.version>
     <!-- maven-compiler-plugin odziedziczy java.version z parent -->
   </properties>
 
@@ -174,6 +174,33 @@
               <removeUnusedImports/>
             </java>
           </configuration>
+        </plugin>
+
+        <!-- Generowanie dokumentacji HTML z AsciiDoc -->
+        <plugin>
+          <groupId>org.asciidoctor</groupId>
+          <artifactId>asciidoctor-maven-plugin</artifactId>
+          <version>2.5.4</version>
+          <executions>
+            <execution>
+              <id>generate-html-docs</id>
+              <phase>prepare-package</phase>
+              <goals>
+                <goal>process-asciidoc</goal>
+              </goals>
+              <configuration>
+                <sourceDirectory>${project.basedir}/docs</sourceDirectory>
+                <outputDirectory>${project.build.directory}/generated-docs</outputDirectory>
+                <attributes>
+                  <commonApplicationDir>${maven.multiModuleProjectDirectory}/common/src/main/java/pl/autopilot/common/</commonApplicationDir>
+                  <apiGatewayApplicationDir>${maven.multiModuleProjectDirectory}/api-gateway/src/main/java/pl/autopilot/apigateway/</apiGatewayApplicationDir>
+                  <dataCollectorApplicationDir>${maven.multiModuleProjectDirectory}/data-collector/src/main/java/pl/autopilot/datacollector/</dataCollectorApplicationDir>
+                  <competitorAgentApplicationDir>${maven.multiModuleProjectDirectory}/competitor-agent/src/main/java/pl/autopilot/competitoragent/</competitorAgentApplicationDir>
+                </attributes>
+                <backend>html</backend>
+              </configuration>
+            </execution>
+          </executions>
         </plugin>
 
       </plugins>

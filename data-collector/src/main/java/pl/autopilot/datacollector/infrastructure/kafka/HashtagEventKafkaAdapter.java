@@ -4,6 +4,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.stereotype.Component;
+import pl.autopilot.common.event.HashtagDataEvent;
+import pl.autopilot.common.event.HashtagMediaItem;
+import pl.autopilot.common.event.MediaType;
 import pl.autopilot.datacollector.domain.model.CollectedPost;
 import pl.autopilot.datacollector.domain.model.HashtagStats;
 import pl.autopilot.datacollector.domain.port.out.HashtagEventPort;
@@ -21,8 +24,8 @@ public class HashtagEventKafkaAdapter implements HashtagEventPort {
 
     @Override
     public void publish(HashtagStats stats, List<CollectedPost> topMedia, String ownerIgId) {
-        HashtagDataEventDto dto = toDto(stats, topMedia, ownerIgId);
-        boolean sent = streamBridge.send("hashtag-data-out-0", dto);
+        HashtagDataEvent event = toEvent(stats, topMedia, ownerIgId);
+        boolean sent = streamBridge.send("hashtag-data-out-0", event);
         if (sent) {
             log.debug("Event hashtag opublikowany dla #{}", stats.getHashtag());
         } else {
@@ -30,55 +33,32 @@ public class HashtagEventKafkaAdapter implements HashtagEventPort {
         }
     }
 
-    private HashtagDataEventDto toDto(HashtagStats stats,
-                                       List<CollectedPost> topMedia,
-                                       String ownerIgId) {
-        return new HashtagDataEventDto(
-                UUID.randomUUID().toString(),
-                "HASHTAG_TOP_MEDIA_COLLECTED",
-                "1.0",
-                "data-collector",
-                Instant.now().toEpochMilli(),
-                ownerIgId,
-                stats.getHashtag(),
-                stats.getIgHashtagId(),
-                topMedia.stream().map(this::toMediaItem).toList()
-        );
+    private HashtagDataEvent toEvent(HashtagStats stats,
+                                      List<CollectedPost> topMedia,
+                                      String ownerIgId) {
+        return HashtagDataEvent.newBuilder()
+                .setEventId(UUID.randomUUID().toString())
+                .setEventType("HASHTAG_TOP_MEDIA_COLLECTED")
+                .setSchemaVersion("1.0")
+                .setSource("data-collector")
+                .setCollectedAt(Instant.now())
+                .setOwnerIgId(ownerIgId)
+                .setHashtag(stats.getHashtag())
+                .setIgHashtagId(stats.getIgHashtagId())
+                .setTopMedia(topMedia.stream().map(this::toMediaItem).toList())
+                .build();
     }
 
-    private HashtagMediaItemDto toMediaItem(CollectedPost post) {
-        return new HashtagMediaItemDto(
-                post.getId().toString(),
-                post.getMediaType().name(),
-                post.getPermalink(),
-                post.getLikeCount(),
-                post.getCommentsCount(),
-                post.getCaption(),
-                post.getPublishedAt().toEpochMilli()
-        );
+    private HashtagMediaItem toMediaItem(CollectedPost post) {
+        return HashtagMediaItem.newBuilder()
+                .setId(post.getId().toString())
+                .setMediaType(MediaType.valueOf(post.getMediaType().name()))
+                .setPermalink(post.getPermalink())
+                .setLikeCount(post.getLikeCount())
+                .setCommentsCount(post.getCommentsCount())
+                .setCaption(post.getCaption())
+                .setPublishedAt(post.getPublishedAt())
+                .setHashtags(post.getHashtags())
+                .build();
     }
-
-    // ── DTOs ─────────────────────────────────────────────────────────────────
-
-    record HashtagDataEventDto(
-            String eventId,
-            String eventType,
-            String schemaVersion,
-            String source,
-            long collectedAt,
-            String ownerIgId,
-            String hashtag,
-            String igHashtagId,
-            List<HashtagMediaItemDto> topMedia
-    ) {}
-
-    record HashtagMediaItemDto(
-            String id,
-            String mediaType,
-            String permalink,
-            long likeCount,
-            int commentsCount,
-            String caption,
-            long publishedAt
-    ) {}
 }

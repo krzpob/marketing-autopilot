@@ -61,24 +61,67 @@ spring:
   #     retries: 3
   cloud:
     function:
-      definition: competitorData; hashtagData
+      definition: competitorData;hashtagData
     stream:
       bindings:
         competitorData-in-0:
           destination: competitor-data-events
-          content-type: application/json   # TODO: B3 → application/*+avro
+          content-type: application/*+avro
           group: competitor-agent-group
           consumer:
             maxAttempts: 3
+            useNativeDecoding: true
         hashtagData-in-0:
           destination: hashtag-data-events
-          content-type: application/json
+          content-type: application/*+avro
           group: competitor-agent-group        
           consumer:            
             maxAttempts: 3
+            useNativeDecoding: true
+        monitoredProfile-in-0:
+          destination: monitored-profile-events
+          content-type: application/*+avro
+          group: competitor-agent-group
+          consumer:
+            maxAttempts: 3
+            useNativeDecoding: true
+        monitoredHashtag-in-0:
+          destination: monitored-hashtag-events
+          content-type: application/*+avro
+          group: competitor-agent-group
+          consumer:
+            maxAttempts: 3
+            useNativeDecoding: true
       kafka:
         binder:
           brokers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+          configuration:
+            schema.registry.url: ${SCHEMA_REGISTRY_URL:http://localhost:8081}
+        bindings:
+          competitorData-in-0:
+            consumer:
+              configuration:
+                key.deserializer: org.apache.kafka.common.serialization.StringDeserializer
+                value.deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+                specific.avro.reader: true
+          hashtagData-in-0:
+            consumer:
+              configuration:
+                key.deserializer: org.apache.kafka.common.serialization.StringDeserializer
+                value.deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+                specific.avro.reader: true
+          monitoredHashtag-in-0:
+            consumer:
+              configuration:
+                key.deserializer: org.apache.kafka.common.serialization.StringDeserializer
+                value.deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+                specific.avro.reader: true
+          monitoredProfile-in-0:
+            consumer:
+              configuration:
+                key.deserializer: org.apache.kafka.common.serialization.StringDeserializer
+                value.deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+                specific.avro.reader: true
   # ── MongoDB (pamięć agentów) ────────────────────────────────────
   data:
     mongodb:
@@ -141,3 +184,9 @@ app:
   agent:
     analysis-batch-size: 50           # ile postów analizujemy na raz
     max-competitors-per-profile: 10
+logging:
+  level:
+    pl.autopilot: DEBUG
+    org.springframework.kafka: INFO
+    dev.langchain4j: DEBUG      # widać tool-call flow agenta
+    org.hibernate.SQL: INFO

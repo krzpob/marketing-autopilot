@@ -14,11 +14,9 @@ import pl.autopilot.datacollector.domain.model.MonitoredProfile;
 import pl.autopilot.datacollector.domain.port.out.AccessTokenPort;
 import pl.autopilot.datacollector.domain.port.out.MonitoredHashtagPort;
 import pl.autopilot.datacollector.domain.port.out.MonitoredProfilePort;
+import pl.autopilot.datacollector.domain.service.ManageMonitoredHashtagService;
+import pl.autopilot.datacollector.domain.service.ManageMonitoredProfileService;
 import pl.autopilot.datacollector.infrastructure.instagram.client.InstagramApiClient;
-import pl.autopilot.datacollector.infrastructure.web.DebugController.CollectionResultDto;
-import pl.autopilot.datacollector.infrastructure.web.DebugController.PostSummaryDto;
-import pl.autopilot.datacollector.infrastructure.web.DebugController.TokenStatusDto;
-
 import java.time.Instant;
 import java.util.List;
 
@@ -32,8 +30,9 @@ public class DebugController {
 
     private final AccessTokenPort    accessTokenPort;
     private final InstagramApiClient instagramApiClient;
+    private final ManageMonitoredProfileService  manageMonitoredProfileService;
+    private final ManageMonitoredHashtagService  manageMonitoredHashtagService;
     private final MonitoredProfilePort monitoredProfilePort;
-    private final MonitoredHashtagPort monitoredHashtagPort;
 
     // ── 1. Status tokenów ────────────────────────────────────────────────────
 
@@ -118,14 +117,14 @@ public class DebugController {
         @RequestParam String ownerIgId,
         @RequestParam String competitorHandle) {
 
-        MonitoredProfile profile = MonitoredProfile.builder()
-            .ownerIgId(ownerIgId)
-            .competitorIgHandle(competitorHandle)
-            .build();
+        return manageMonitoredProfileService.addProfile(ownerIgId, competitorHandle);
+    }
 
-        monitoredProfilePort.save(profile);
-        log.info("[DEBUG] Dodano profil do obserwowania: {} → {}", ownerIgId, competitorHandle);
-        return profile;
+    @DeleteMapping("/monitored-profiles")
+    public void deactivateMonitoredProfile(
+            @RequestParam String ownerIgId,
+            @RequestParam String competitorHandle) {
+        manageMonitoredProfileService.deactivateProfile(ownerIgId, competitorHandle);
     }
 
     @GetMapping("/monitored-profiles/{ownerIgId}")
@@ -134,17 +133,14 @@ public class DebugController {
     }
 
     @PostMapping("/monitored-hashtag")
-    public MonitoredHashtag postMethodName(@RequestBody MonitoredHashtagRequest request) {
-        MonitoredHashtag monitoredHashtag = MonitoredHashtag.builder()
-            .hashtag(request.hashtag)
-            .ownerIgId(request.ownerIgId)
-        .build();
-
-        monitoredHashtagPort.save(monitoredHashtag);
-        return monitoredHashtag;
-
+    public MonitoredHashtag addMonitoredHashtag(@RequestBody MonitoredHashtagRequest request) {
+       return manageMonitoredHashtagService.addHashtag(request.ownerIgId(), request.hashtag());
     }
     
+    @DeleteMapping("/monitored-hashtag")
+    public void deactivateMonitoredHashtag(@RequestBody MonitoredHashtagRequest request) {
+        manageMonitoredHashtagService.deactivateHashtag(request.ownerIgId, request.hashtag);
+    }
 
     // ── DTOs ─────────────────────────────────────────────────────────────────
 

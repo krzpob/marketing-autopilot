@@ -1,0 +1,29 @@
+{
+  "namespace": "pl.autopilot.common.event",
+  "type": "record",
+  "name": "MonitoredProfileEvent",
+  "doc": "Emitowany przez data-collector przy zmianie obserwowanego profilu konkurenta.",
+  "fields": [
+    {
+      "name": "changeType",
+      "type": "pl.autopilot.common.event.ChangeType"
+    },
+    {
+      "name": "ownerIgId",
+      "type": "string",
+      "doc": "Instagram ID fotografa — klucz partycji."
+    },
+    {
+      "name": "competitorIgHandle",
+      "type": "string"
+    },
+    {
+      "name": "active",
+      "type": "boolean"
+    },
+    {
+      "name": "occurredAt",
+      "type": { "type": "long", "logicalType": "timestamp-millis" }
+    }
+  ]
+}
