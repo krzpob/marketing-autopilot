@@ -60,7 +60,8 @@ public class CompetitorPostEntity {
 
     @Column(name = "embedding", columnDefinition = "vector(1536)")
     @JdbcTypeCode(SqlTypes.VECTOR)
-    private float[] embedding;
+    @Array(length = 1536)
+    private float[] embedding = new float[1536];
 
     @Column(name = "published_at", nullable = false)
     private Instant publishedAt;

@@ -55,7 +55,12 @@ class FlywayMigrationTest {
                     "competitor_profiles",
                     "engagement_analyses",
                     "hashtag_performances",
-                    "analysis_results"
+                    "analysis_results",
+                    "posting_hour_stats",
+                    "hashtag_collected_posts",
+                    "monitored_hashtag_projection",
+                    "monitored_profile_projection",
+                    "post_niche_relevance"
             );
         }
     }

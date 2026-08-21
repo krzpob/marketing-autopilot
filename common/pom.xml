@@ -32,7 +32,7 @@
       <plugin>
         <groupId>org.apache.avro</groupId>
         <artifactId>avro-maven-plugin</artifactId>
-        <version>1.11.4</version>
+        <version>${avro.version}</version>
         <executions>
           <execution>
             <phase>generate-sources</phase>
@@ -45,6 +45,7 @@
               <stringType>String</stringType>
               <imports>
                 <import>${project.basedir}/src/main/avro/MediaType.avsc</import>
+                <import>${project.basedir}/src/main/avro/ChangeType.avsc</import>
               </imports>
               <enableDecimalLogicalType>true</enableDecimalLogicalType>
             </configuration>

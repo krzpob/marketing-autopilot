@@ -3,9 +3,9 @@
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost2:5432/marketing_autopilot
+    url: jdbc:postgresql://localhost:5432/marketing_autopilot
     username: app
-    password: devpassword       # wartość z .env dla Docker Compose
+    password: $DATABASE_PASSWORD       # wartość z .env dla Docker Compose
   jpa:
     properties:
       hibernate:
@@ -16,7 +16,7 @@ spring:
     bootstrap-servers: localhost:9094   # port zewnętrzny z docker-compose.override.yml
   data:
     mongodb:
-      uri: mongodb://app:devpassword@localhost:27017/autopilot_agents?authSource=admin
+      uri: mongodb://app:$MONGODB_PASSWORD@localhost:27017/autopilot_agents?authSource=admin
 
 langchain4j:
   open-ai:

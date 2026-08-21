@@ -58,6 +58,14 @@
             { "name": "commentsCount", "type": "int",    "default": 0 },
             { "name": "caption",       "type": ["null", "string"], "default": null },
             {
+              "name": "hashtags",
+              "type": {
+                "type": "array",
+                "items": "string"
+              },
+              "default": []
+            },
+            {
               "name": "publishedAt",
               "type": { "type": "long", "logicalType": "timestamp-millis" }
             }

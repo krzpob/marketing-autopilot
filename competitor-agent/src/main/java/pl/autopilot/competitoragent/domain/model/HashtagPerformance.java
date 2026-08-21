@@ -18,8 +18,8 @@ public class HashtagPerformance {
 
     // ── metryki z HashtagDataEvent ────────────────────────────────────────────
     private final int  topMediaCount;       // ile postów w top/recent media
-    private final long avgLikeCount;        // średnia likes w zebranych postach
-    private final int  avgCommentsCount;    // średnia komentarzy
+    private final long avgLikeCount;        // Mediana like count z topMedia (mimo nazwy pola) — odporność na viral posty.
+    private final int  avgCommentsCount;    // Mediana comments count z topMedia (mimo nazwy pola) — odporność na viral posty.
 
     // ── trend ─────────────────────────────────────────────────────────────────
     private final TrendDirection trend;
@@ -32,12 +32,14 @@ public class HashtagPerformance {
     public enum TrendDirection {
         RISING,   // trendScore > +10%
         STABLE,   // trendScore ±10%
-        FALLING   // trendScore < -10%
+        FALLING;   // trendScore < -10%
+
+
+        public static TrendDirection classify(double trendScore) {
+            if (trendScore > 10)  return TrendDirection.RISING;
+            if (trendScore < -10) return TrendDirection.FALLING;
+            return TrendDirection.STABLE;
+        }
     }
 
-    public static TrendDirection classify(double trendScore) {
-        if (trendScore > 10)  return TrendDirection.RISING;
-        if (trendScore < -10) return TrendDirection.FALLING;
-        return TrendDirection.STABLE;
-    }
 }

@@ -28,13 +28,51 @@ spring:
       bindings:
         competitor-data-out-0:
           destination: competitor-data-events
-          content-type: application/json   # TODO: B3 → application/*+avro
+          content-type: application/*+avro
+          producer:
+            useNativeEncoding: true  
         hashtag-data-out-0:
           destination: hashtag-data-events
-          content-type: application/json
+          content-type: application/*+avro
+          producer:
+            useNativeEncoding: true  
+        monitored-profile-out-0:
+          destination: monitored-profile-events
+          content-type: application/*+avro
+          producer:
+            useNativeEncoding: true
+        monitored-hashtag-out-0:
+          destination: monitored-hashtag-events
+          content-type: application/*+avro
+          producer:
+            useNativeEncoding: true
       kafka:
         binder:
           brokers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+          configuration:
+            schema.registry.url: ${SCHEMA_REGISTRY_URL:http://localhost:8081}
+        bindings:
+          competitor-data-out-0:
+            producer:
+              configuration:      
+                key.serializer: org.apache.kafka.common.serialization.StringSerializer
+                value.serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+          hashtag-data-out-0:
+            producer:
+              configuration:
+                key.serializer: org.apache.kafka.common.serialization.StringSerializer
+                value.serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+          monitored-profile-out-0:
+            producer:
+              configuration:
+                key.serializer: org.apache.kafka.common.serialization.StringSerializer
+                value.serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+          monitored-hashtag-out-0:
+            producer:
+              configuration:
+                key.serializer: org.apache.kafka.common.serialization.StringSerializer
+                value.serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+              
   data:
     redis:
       host: ${REDIS_HOST:localhost}

@@ -1,0 +1,6 @@
+{
+  "namespace": "pl.autopilot.common.event",
+  "type": "enum",
+  "name": "ChangeType",
+  "symbols": ["ADDED", "REMOVED", "UPDATED"]
+}
