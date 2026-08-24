@@ -42,6 +42,12 @@ public class PostingHourStatsAdapter implements PostingHourStatsPort {
                 .stream().map(this::toDomain).toList();
     }
 
+    @Override
+    public List<PostingHourStats> findByUsernames(List<String> competitorUsernames) {
+        return repository.findByCompetitorUsernameIn(competitorUsernames)
+                .stream().map(this::toDomain).toList();
+    }
+
     // ── mappery ──────────────────────────────────────────────────────────────
 
     private PostingHourStatsEntity toEntity(PostingHourStats domain) {

@@ -15,4 +15,6 @@ public interface MonitoredProfileProjectionJpaRepository
 
     List<MonitoredProfileProjectionEntity> findAllByCompetitorIgHandleAndActiveTrue(
             String competitorIgHandle);
+
+    List<MonitoredProfileProjectionEntity> findAllByOwnerIgIdAndActiveTrue(String ownerIgId);
 }

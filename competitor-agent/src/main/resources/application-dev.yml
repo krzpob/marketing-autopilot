@@ -5,7 +5,7 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/marketing_autopilot
     username: app
-    password: $DATABASE_PASSWORD       # wartość z .env dla Docker Compose
+    password: ${POSTGRES_PASSWORD}       # wartość z .env dla Docker Compose
   jpa:
     properties:
       hibernate:

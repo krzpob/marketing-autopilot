@@ -17,4 +17,6 @@ public interface PostingHourStatsJpaRepository
 
     List<PostingHourStatsEntity> findByCompetitorUsernameAndMediaType(
             String competitorUsername, String mediaType);
+
+    List<PostingHourStatsEntity> findByCompetitorUsernameIn(List<String> competitorUsernames);
 }

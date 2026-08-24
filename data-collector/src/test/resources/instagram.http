@@ -32,7 +32,7 @@ GET http://localhost:8083/debug/hashtag/fotografiabuduarowa/top-media?ownerIgId=
 GET http://erupt-relenting-detoxify.ngrok-free.dev/actuator/health HTTP/1.1
 
 ###
-POST http://localhost:8083/debug/monitored-profiles?ownerIgId=17841441888584276&competitorHandle=sasserstillsboudoir HTTP/1.1
+POST http://localhost:8083/debug/monitored-profiles?ownerIgId=17841441888584276&competitorHandle=fotoszuflada HTTP/1.1
 
 ###
 GET http://localhost:8083/debug/monitored-profiles/17841441888584276 HTTP/1.1
@@ -55,7 +55,7 @@ Content-Type: application/json
 
 {
     "ownerIgId": 17841441888584276,
-    "hashtag": "sesjakobieca"
+    "hashtag": "sesjabuduarowa"
 }
 
 ###
@@ -64,7 +64,7 @@ Content-Type: application/json
 
 {
     "platform": "INSTAGRAM",
-    "hashtag": "sesjakobieca"
+    "hashtag": "sesjabuduarowa"
 }
 ###
 POST http://localhost:8083/collect/competitor/17841441888584276  HTTP/1.1
@@ -74,3 +74,6 @@ User-Agent: Java/17.0.2
 {
     compettitor-name: "fotoszuflada",
 }
+
+###
+GET http://localhost:8080/api/photographers/17841441888584276/posting-hours

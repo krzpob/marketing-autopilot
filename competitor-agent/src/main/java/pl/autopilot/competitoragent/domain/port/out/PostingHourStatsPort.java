@@ -16,4 +16,6 @@ public interface PostingHourStatsPort {
 
     List<PostingHourStats> findByUsernameAndMediaType(
             String competitorUsername, String mediaType);
+
+    List<PostingHourStats> findByUsernames(List<String> competitorUsernames);
 }
