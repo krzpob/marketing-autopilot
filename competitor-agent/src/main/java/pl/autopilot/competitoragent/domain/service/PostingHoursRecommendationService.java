@@ -1,6 +1,8 @@
 package pl.autopilot.competitoragent.domain.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.stereotype.Service;
 import pl.autopilot.competitoragent.domain.model.PostingHourRecommendation;
 import pl.autopilot.competitoragent.domain.model.PostingHourStats;
@@ -13,6 +15,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class PostingHoursRecommendationService {
 
@@ -26,13 +29,13 @@ public class PostingHoursRecommendationService {
 
         List<String> competitors =
                 monitoredProfileLookupPort.findActiveCompetitorsForOwner(ownerIgId);
-
+        log.info("Found {} active competitors for owner {}", competitors.size(), ownerIgId);                                                        
         if (competitors.isEmpty()) {
             return List.of();
         }
 
         List<PostingHourStats> stats = postingHourStatsPort.findByUsernames(competitors);
-
+        log.info("Found {} posting hour stats for {} competitors", stats.size(), competitors.size());
         Map<String, List<PostingHourStats>> byMediaType = stats.stream()
                 .filter(s -> mediaTypeFilter == null || s.getMediaType().equals(mediaTypeFilter))
                 .collect(Collectors.groupingBy(PostingHourStats::getMediaType));

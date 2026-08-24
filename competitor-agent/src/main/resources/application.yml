@@ -61,7 +61,7 @@ spring:
   #     retries: 3
   cloud:
     function:
-      definition: competitorData;hashtagData
+      definition: competitorData;hashtagData;monitoredProfile;monitoredHashtag
     stream:
       bindings:
         competitorData-in-0:
