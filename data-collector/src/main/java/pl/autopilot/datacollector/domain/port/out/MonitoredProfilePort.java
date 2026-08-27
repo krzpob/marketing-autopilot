@@ -1,6 +1,7 @@
 package pl.autopilot.datacollector.domain.port.out;
 
 import pl.autopilot.datacollector.domain.model.MonitoredProfile;
+import pl.autopilot.datacollector.domain.model.SocialMediaPlatform;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,8 +23,11 @@ public interface MonitoredProfilePort {
      * @param competitorIgHandle handle konkurenta (np. "zieniuphoto")
      * @return  Optional z profilem obserwowania, jeśli istnieje, lub pusty Optional, jeśli nie istnieje
      */
-    Optional<MonitoredProfile> findByOwnerIgIdAndHandle(String ownerIgId,
+    Optional<MonitoredProfile> findByOwnerIgIdAndPlatformAndHandle(String ownerIgId, SocialMediaPlatform platform,
                                                          String competitorIgHandle);
+
+    
+    List<MonitoredProfile> findAllByOwnerIgIdAndHandle(String ownerIgId, String competitorIgHandle);
 
     /** Wszystkie aktywne profile obserwujące dany handle — do rotacji tokenów *
      * @param competitorIgHandle handle konkurenta (np. "zieniuphoto")

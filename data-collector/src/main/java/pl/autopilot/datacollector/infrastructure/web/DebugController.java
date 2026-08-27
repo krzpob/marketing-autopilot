@@ -11,6 +11,7 @@ import pl.autopilot.datacollector.domain.model.CollectedPost;
 import pl.autopilot.datacollector.domain.model.HashtagStats;
 import pl.autopilot.datacollector.domain.model.MonitoredHashtag;
 import pl.autopilot.datacollector.domain.model.MonitoredProfile;
+import pl.autopilot.datacollector.domain.model.SocialMediaPlatform;
 import pl.autopilot.datacollector.domain.port.out.AccessTokenPort;
 import pl.autopilot.datacollector.domain.port.out.MonitoredHashtagPort;
 import pl.autopilot.datacollector.domain.port.out.MonitoredProfilePort;
@@ -117,14 +118,14 @@ public class DebugController {
         @RequestParam String ownerIgId,
         @RequestParam String competitorHandle) {
 
-        return manageMonitoredProfileService.addProfile(ownerIgId, competitorHandle);
+        return manageMonitoredProfileService.addProfile(ownerIgId, SocialMediaPlatform.INSTAGRAM, competitorHandle);
     }
 
     @DeleteMapping("/monitored-profiles")
     public void deactivateMonitoredProfile(
             @RequestParam String ownerIgId,
             @RequestParam String competitorHandle) {
-        manageMonitoredProfileService.deactivateProfile(ownerIgId, competitorHandle);
+        manageMonitoredProfileService.deactivateProfile(ownerIgId, SocialMediaPlatform.INSTAGRAM, competitorHandle);
     }
 
     @GetMapping("/monitored-profiles/{ownerIgId}")
@@ -134,12 +135,12 @@ public class DebugController {
 
     @PostMapping("/monitored-hashtag")
     public MonitoredHashtag addMonitoredHashtag(@RequestBody MonitoredHashtagRequest request) {
-       return manageMonitoredHashtagService.addHashtag(request.ownerIgId(), request.hashtag());
+       return manageMonitoredHashtagService.addHashtag(request.ownerIgId(), SocialMediaPlatform.INSTAGRAM, request.hashtag());
     }
     
     @DeleteMapping("/monitored-hashtag")
     public void deactivateMonitoredHashtag(@RequestBody MonitoredHashtagRequest request) {
-        manageMonitoredHashtagService.deactivateHashtag(request.ownerIgId, request.hashtag);
+        manageMonitoredHashtagService.deactivateHashtag(request.ownerIgId(), SocialMediaPlatform.INSTAGRAM, request.hashtag());
     }
 
     // ── DTOs ─────────────────────────────────────────────────────────────────

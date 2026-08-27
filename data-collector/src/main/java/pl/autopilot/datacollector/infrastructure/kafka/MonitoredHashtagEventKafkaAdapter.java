@@ -26,6 +26,7 @@ class MonitoredHashtagEventKafkaAdapter implements MonitoredHashtagEventPort {
                 .setHashtag(hashtag.getHashtag())
                 .setActive(hashtag.isActive())
                 .setOccurredAt(Instant.now())
+                .setPlatform(hashtag.getPlatform().name())
                 .build();
 
         boolean sent = streamBridge.send("monitored-hashtag-out-0", event);

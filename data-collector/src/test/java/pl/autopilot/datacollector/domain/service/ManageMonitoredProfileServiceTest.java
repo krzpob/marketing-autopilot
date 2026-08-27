@@ -9,6 +9,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import pl.autopilot.datacollector.domain.model.ChangeType;
 import pl.autopilot.datacollector.domain.model.MonitoredProfile;
+import pl.autopilot.datacollector.domain.model.SocialMediaPlatform;
 import pl.autopilot.datacollector.domain.port.out.MonitoredProfileEventPort;
 import pl.autopilot.datacollector.domain.port.out.MonitoredProfilePort;
 
@@ -39,11 +40,11 @@ class ManageMonitoredProfileServiceTest {
     @Test
     void shouldCreateNewProfileWhenNotExists() {
         // given
-        given(monitoredProfilePort.findByOwnerIgIdAndHandle(OWNER_IG_ID, HANDLE))
+        given(monitoredProfilePort.findByOwnerIgIdAndPlatformAndHandle(OWNER_IG_ID, SocialMediaPlatform.INSTAGRAM, HANDLE))
                 .willReturn(Optional.empty());
 
         // when
-        MonitoredProfile result = service.addProfile(OWNER_IG_ID, HANDLE);
+        MonitoredProfile result = service.addProfile(OWNER_IG_ID, SocialMediaPlatform.INSTAGRAM, HANDLE);
 
         // then
         then(result.getOwnerIgId()).isEqualTo(OWNER_IG_ID);
@@ -55,11 +56,11 @@ class ManageMonitoredProfileServiceTest {
     @Test
     void shouldPublishAddedEventForNewProfile() {
         // given
-        given(monitoredProfilePort.findByOwnerIgIdAndHandle(OWNER_IG_ID, HANDLE))
+        given(monitoredProfilePort.findByOwnerIgIdAndPlatformAndHandle(OWNER_IG_ID, SocialMediaPlatform.INSTAGRAM, HANDLE))
                 .willReturn(Optional.empty());
 
         // when
-        MonitoredProfile result = service.addProfile(OWNER_IG_ID, HANDLE);
+        MonitoredProfile result = service.addProfile(OWNER_IG_ID, SocialMediaPlatform.INSTAGRAM, HANDLE);
 
         // then
         BDDMockito.then(monitoredProfileEventPort).should()
@@ -78,11 +79,11 @@ class ManageMonitoredProfileServiceTest {
                 .active(false)
                 .build();
 
-        given(monitoredProfilePort.findByOwnerIgIdAndHandle(OWNER_IG_ID, HANDLE))
+        given(monitoredProfilePort.findByOwnerIgIdAndPlatformAndHandle(OWNER_IG_ID, SocialMediaPlatform.INSTAGRAM, HANDLE))
                 .willReturn(Optional.of(inactive));
 
         // when
-        MonitoredProfile result = service.addProfile(OWNER_IG_ID, HANDLE);
+        MonitoredProfile result = service.addProfile(OWNER_IG_ID, SocialMediaPlatform.INSTAGRAM, HANDLE);
 
         // then
         then(result.isActive()).isTrue();
@@ -103,11 +104,11 @@ class ManageMonitoredProfileServiceTest {
                 .active(true)
                 .build();
 
-        given(monitoredProfilePort.findByOwnerIgIdAndHandle(OWNER_IG_ID, HANDLE))
+        given(monitoredProfilePort.findByOwnerIgIdAndPlatformAndHandle(OWNER_IG_ID, SocialMediaPlatform.INSTAGRAM, HANDLE))
                 .willReturn(Optional.of(active));
 
         // when
-        service.deactivateProfile(OWNER_IG_ID, HANDLE);
+        service.deactivateProfile(OWNER_IG_ID, SocialMediaPlatform.INSTAGRAM, HANDLE);
 
         // then
         ArgumentCaptor<MonitoredProfile> captor =
@@ -122,11 +123,11 @@ class ManageMonitoredProfileServiceTest {
     @Test
     void shouldThrowWhenDeactivatingNonExistentProfile() {
         // given
-        given(monitoredProfilePort.findByOwnerIgIdAndHandle(OWNER_IG_ID, HANDLE))
+        given(monitoredProfilePort.findByOwnerIgIdAndPlatformAndHandle(OWNER_IG_ID, SocialMediaPlatform.INSTAGRAM, HANDLE))
                 .willReturn(Optional.empty());
 
         // when / then
-        thenThrownBy(() -> service.deactivateProfile(OWNER_IG_ID, HANDLE))
+        thenThrownBy(() -> service.deactivateProfile(OWNER_IG_ID, SocialMediaPlatform.INSTAGRAM, HANDLE))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining(OWNER_IG_ID)
                 .hasMessageContaining(HANDLE);
