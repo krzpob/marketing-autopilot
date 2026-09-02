@@ -14,12 +14,12 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
-import pl.autopilot.datacollector.domain.model.AccessToken;
 import pl.autopilot.datacollector.domain.model.CollectedPost;
 import pl.autopilot.datacollector.domain.model.CompetitorProfile;
 import pl.autopilot.datacollector.domain.model.HashtagStats;
 import pl.autopilot.datacollector.infrastructure.instagram.InstagramUtils;
 import pl.autopilot.datacollector.infrastructure.instagram.mapper.InstagramMediaMapper;
+import pl.autopilot.datacollector.domain.model.AccessToken;
 import pl.autopilot.datacollector.infrastructure.instagram.model.InstagramHashtagResponse;
 import pl.autopilot.datacollector.infrastructure.instagram.model.InstagramHashtagStatsResponse;
 import pl.autopilot.datacollector.infrastructure.instagram.model.InstagramMediaResponse;

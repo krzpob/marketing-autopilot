@@ -7,8 +7,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
-import pl.autopilot.datacollector.domain.model.AccessToken;
+
 import pl.autopilot.datacollector.domain.model.CollectedPost;
+import pl.autopilot.datacollector.domain.model.AccessToken;
 import pl.autopilot.datacollector.infrastructure.instagram.model.InstagramMediaResponse;
 
 import java.time.Instant;

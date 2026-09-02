@@ -6,9 +6,10 @@ import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import pl.autopilot.datacollector.domain.model.AccessToken;
+
 import pl.autopilot.datacollector.domain.port.out.AccessTokenPort;
 import pl.autopilot.datacollector.infrastructure.instagram.client.InstagramOAuthClient;
+import pl.autopilot.datacollector.domain.model.AccessToken;
 
 import java.time.Instant;
 import java.util.List;

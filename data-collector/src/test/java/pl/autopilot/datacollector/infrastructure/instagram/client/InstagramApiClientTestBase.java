@@ -3,9 +3,10 @@ package pl.autopilot.datacollector.infrastructure.instagram.client;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import pl.autopilot.datacollector.domain.model.AccessToken;
+
 import pl.autopilot.datacollector.domain.model.CollectedPost;
 import pl.autopilot.datacollector.infrastructure.instagram.mapper.InstagramMediaMapper;
+import pl.autopilot.datacollector.domain.model.AccessToken;
 import pl.autopilot.datacollector.infrastructure.instagram.model.InstagramErrorResponse;
 import pl.autopilot.datacollector.infrastructure.instagram.model.InstagramMediaResponse;
 

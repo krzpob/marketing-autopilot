@@ -10,7 +10,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.BDDMockito;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import pl.autopilot.datacollector.domain.model.AccessToken;
+
 import pl.autopilot.datacollector.domain.model.CollectedPost;
 import pl.autopilot.datacollector.domain.model.HashtagData;
 import pl.autopilot.datacollector.domain.model.HashtagStats;
@@ -20,6 +20,7 @@ import pl.autopilot.datacollector.domain.port.out.AccessTokenPort;
 import pl.autopilot.datacollector.domain.port.out.HashtagEventPort;
 import pl.autopilot.datacollector.domain.port.out.MonitoredHashtagPort;
 import pl.autopilot.datacollector.domain.port.out.SocialMediaPort;
+import pl.autopilot.datacollector.domain.model.AccessToken;
 
 import java.time.Instant;
 import java.util.List;

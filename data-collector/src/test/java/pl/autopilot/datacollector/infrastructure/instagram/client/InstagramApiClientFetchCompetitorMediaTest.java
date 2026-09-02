@@ -12,7 +12,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import pl.autopilot.datacollector.domain.model.CollectedPost;
 import pl.autopilot.datacollector.infrastructure.instagram.model.InstagramMediaResponse;
 
-import java.net.URI;
 import java.time.Instant;
 import java.util.List;
 
