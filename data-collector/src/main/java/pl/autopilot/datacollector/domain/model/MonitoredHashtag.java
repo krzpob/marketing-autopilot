@@ -18,6 +18,9 @@ public class MonitoredHashtag {
     private final String hashtag;
 
     @Default
+    private SocialMediaPlatform platform = SocialMediaPlatform.INSTAGRAM;
+
+    @Default
     private final boolean active = true;
 
     @Default

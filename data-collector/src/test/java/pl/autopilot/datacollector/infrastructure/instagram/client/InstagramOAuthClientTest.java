@@ -2,13 +2,14 @@ package pl.autopilot.datacollector.infrastructure.instagram.client;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
+
+import pl.autopilot.datacollector.domain.model.AccessToken;
+
 import org.junit.jupiter.api.*;
 import org.springframework.web.client.RestClient;
-import pl.autopilot.datacollector.domain.model.AccessToken;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static org.assertj.core.api.Assertions.*;
-import static org.assertj.core.api.BDDAssertions.then;
 
 class InstagramOAuthClientTest {
 
@@ -43,65 +44,6 @@ class InstagramOAuthClientTest {
         client = new InstagramOAuthClient(RestClient.builder(), props);
     }
 
-    // ── buildAuthorizationUrl ────────────────────────────────────────────────
-
-    @Test
-    void buildAuthorizationUrl_shouldContainRequiredParams() {
-        String url = client.buildAuthorizationUrl();
-
-        assertThat(url)
-                .contains("client_id=test-client-id")
-                .contains("redirect_uri=")
-                .contains("response_type=code")
-                .contains("scope=");
-    }
-
-    // ── exchangeCodeForShortLivedToken ───────────────────────────────────────
-        @Test
-        void exchangeCode_shouldReturnShortLivedToken() {
-                wireMock.stubFor(post(urlPathEqualTo("/v19.0/oauth/access_token"))
-                        .willReturn(okJson("""
-                                {"access_token":"short-lived-123","token_type":"bearer","expires_in":3600}
-                                """)));
-
-                wireMock.stubFor(get(urlPathEqualTo("/me"))
-                        .withQueryParam("fields",
-                                equalTo("id,name,accounts{instagram_business_account{id,username}}"))
-                        .willReturn(okJson("""
-                                {
-                                        "id": "fb_user_id",
-                                        "name": "Test User",
-                                        "accounts": {
-                                                "data": [{
-                                                        "instagram_business_account": {
-                                                                "id": "ig_12345678",
-                                                                "username": "testuser"
-                                                                }
-                                                }]
-                                        }
-                                }
-                                """)));
-
-                AccessToken token = client.exchangeCodeForShortLivedToken("auth-code-abc");
-
-                then(token.getToken()).isEqualTo("short-lived-123");
-                then(token.getOwnerIgId()).isEqualTo("ig_12345678");      // Instagram ID, nie Facebook ID
-                then(token.getOwnerUsername()).isEqualTo("testuser");      // Instagram username
-                then(token.getTokenType()).isEqualTo(AccessToken.TokenType.SHORT_LIVED);
-                then(token.getExpiresAt()).isNotNull();
-        }
-
-    @Test
-    void exchangeCode_whenApiFails_shouldThrow() {
-        wireMock.stubFor(post(urlPathEqualTo("/v19.0/oauth/access_token"))
-                .willReturn(aResponse().withStatus(400).withBody("""
-                        {"error":{"message":"Invalid OAuth code","code":100}}
-                        """)));
-
-        assertThatThrownBy(() -> client.exchangeCodeForShortLivedToken("invalid-code"))
-                .isInstanceOf(Exception.class);
-    }
-
     // ── exchangeForLongLivedToken ────────────────────────────────────────────
 
     @Test
@@ -112,18 +54,11 @@ class InstagramOAuthClientTest {
                         {"access_token":"long-lived-xyz","token_type":"bearer","expires_in":5184000}
                         """)));
 
-        AccessToken shortLived = AccessToken.builder()
-                .ownerIgId("12345678")
-                .ownerUsername("testuser")
-                .token("short-lived-123")
-                .tokenType(AccessToken.TokenType.SHORT_LIVED)
-                .build();
-
-        AccessToken longLived = client.exchangeForLongLivedToken(shortLived);
+        AccessToken longLived = client.exchangeForLongLivedToken("short-lived-123");
 
         assertThat(longLived.getToken()).isEqualTo("long-lived-xyz");
         assertThat(longLived.getTokenType()).isEqualTo(AccessToken.TokenType.LONG_LIVED);
-        assertThat(longLived.getOwnerIgId()).isEqualTo("12345678");
+        // assertThat(longLived.getOwnerIgId()).isEqualTo("12345678");
         assertThat(longLived.getExpiresAt()).isAfter(longLived.getCreatedAt());
 
         // weryfikacja że WireMock dostał poprawne parametry

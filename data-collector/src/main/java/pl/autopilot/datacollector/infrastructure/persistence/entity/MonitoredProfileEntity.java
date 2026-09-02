@@ -33,4 +33,7 @@ public class MonitoredProfileEntity {
 
     @Column(name = "last_collected_at")
     private Instant lastCollectedAt;
+
+    @Column(nullable = false)
+    private String platform;   // przechowywane jako String, mapowane z/na SocialMediaPlatform w adapterze
 }

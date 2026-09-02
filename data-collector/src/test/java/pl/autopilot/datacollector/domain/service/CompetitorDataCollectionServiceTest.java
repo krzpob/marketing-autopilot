@@ -32,7 +32,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.mockingDetails;
 
 @Slf4j
 @ExtendWith({MockitoExtension.class, SoftAssertionsExtension.class})

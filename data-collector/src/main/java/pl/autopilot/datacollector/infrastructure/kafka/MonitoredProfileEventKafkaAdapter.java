@@ -26,6 +26,7 @@ class MonitoredProfileEventKafkaAdapter implements MonitoredProfileEventPort {
                 .setCompetitorIgHandle(profile.getCompetitorIgHandle())
                 .setActive(profile.isActive())
                 .setOccurredAt(Instant.now())
+                .setPlatform(profile.getPlatform().name())
                 .build();
 
         boolean sent = streamBridge.send("monitored-profile-out-0", event);

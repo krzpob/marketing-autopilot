@@ -1,8 +1,9 @@
 package pl.autopilot.datacollector.domain.port.out;
 
-import pl.autopilot.datacollector.domain.model.AccessToken;
 import java.util.List;
 import java.util.Optional;
+
+import pl.autopilot.datacollector.domain.model.AccessToken;
 
 public interface AccessTokenPort {
     void save(AccessToken token);

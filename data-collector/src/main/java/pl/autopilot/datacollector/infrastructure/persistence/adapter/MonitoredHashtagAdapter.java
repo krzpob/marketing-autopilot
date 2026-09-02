@@ -3,6 +3,7 @@ package pl.autopilot.datacollector.infrastructure.persistence.adapter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import pl.autopilot.datacollector.domain.model.MonitoredHashtag;
+import pl.autopilot.datacollector.domain.model.SocialMediaPlatform;
 import pl.autopilot.datacollector.domain.port.out.MonitoredHashtagPort;
 import pl.autopilot.datacollector.infrastructure.persistence.entity.MonitoredHashtagEntity;
 import pl.autopilot.datacollector.infrastructure.persistence.repository.MonitoredHashtagJpaRepository;
@@ -24,6 +25,12 @@ public class MonitoredHashtagAdapter implements MonitoredHashtagPort {
     }
 
     @Override
+    public List<MonitoredHashtag> findAllByOwnerIgId(String ownerIgId) {
+        return repository.findAllByOwnerIgId(ownerIgId)
+                .stream().map(this::toDomain).toList();
+    }
+
+    @Override
     public List<MonitoredHashtag> findAllActive() {
         return repository.findAllByActiveTrue()
                 .stream().map(this::toDomain).toList();
@@ -36,9 +43,14 @@ public class MonitoredHashtagAdapter implements MonitoredHashtagPort {
     }
 
     @Override
-    public Optional<MonitoredHashtag> findByOwnerIgIdAndHashtag(String ownerIgId,
-                                                                  String hashtag) {
-        return repository.findByOwnerIgIdAndHashtag(ownerIgId, hashtag)
+    public List<MonitoredHashtag> findAllByOwnerIgIdAndHashtag(String ownerIgId, String hashtag) {
+        return repository.findAllByOwnerIgIdAndHashtag(ownerIgId, hashtag)
+                .stream().map(this::toDomain).toList();
+    }
+
+    @Override
+    public Optional<MonitoredHashtag> findByOwnerIgIdAndPlatformAndHashtag(String ownerIgId, SocialMediaPlatform platform, String hashtag) {
+        return repository.findByOwnerIgIdAndPlatformAndHashtag(ownerIgId, platform.name(), hashtag)
                 .map(this::toDomain);
     }
 
@@ -65,6 +77,7 @@ public class MonitoredHashtagAdapter implements MonitoredHashtagPort {
         entity.setActive(domain.isActive());
         entity.setCreatedAt(domain.getCreatedAt());
         entity.setLastCollectedAt(domain.getLastCollectedAt());
+        entity.setPlatform(domain.getPlatform().name());
         return entity;
     }
 
@@ -76,6 +89,7 @@ public class MonitoredHashtagAdapter implements MonitoredHashtagPort {
                 .active(entity.isActive())
                 .createdAt(entity.getCreatedAt())
                 .lastCollectedAt(entity.getLastCollectedAt())
+                .platform(SocialMediaPlatform.valueOf(entity.getPlatform()))
                 .build();
     }
 }

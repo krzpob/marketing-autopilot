@@ -6,17 +6,19 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-import pl.autopilot.datacollector.domain.model.AccessToken;
+
 import pl.autopilot.datacollector.domain.model.CollectedPost;
 import pl.autopilot.datacollector.domain.model.HashtagStats;
 import pl.autopilot.datacollector.domain.model.MonitoredHashtag;
 import pl.autopilot.datacollector.domain.model.MonitoredProfile;
+import pl.autopilot.datacollector.domain.model.SocialMediaPlatform;
 import pl.autopilot.datacollector.domain.port.out.AccessTokenPort;
-import pl.autopilot.datacollector.domain.port.out.MonitoredHashtagPort;
 import pl.autopilot.datacollector.domain.port.out.MonitoredProfilePort;
 import pl.autopilot.datacollector.domain.service.ManageMonitoredHashtagService;
 import pl.autopilot.datacollector.domain.service.ManageMonitoredProfileService;
 import pl.autopilot.datacollector.infrastructure.instagram.client.InstagramApiClient;
+import pl.autopilot.datacollector.domain.model.AccessToken;
+
 import java.time.Instant;
 import java.util.List;
 
@@ -36,20 +38,20 @@ public class DebugController {
 
     // ── 1. Status tokenów ────────────────────────────────────────────────────
 
-    @GetMapping("/tokens")
-    public List<TokenStatusDto> listTokens() {
-        return accessTokenPort.findAll().stream()
-                .map(TokenStatusDto::from)
-                .toList();
-    }
+    // @GetMapping("/tokens")
+    // public List<TokenStatusDto> listTokens() {
+    //     return accessTokenPort.findAll().stream()
+    //             .map(TokenStatusDto::from)
+    //             .toList();
+    // }
 
-    @GetMapping("/tokens/{ownerIgId}")
-    public TokenStatusDto getToken(@PathVariable String ownerIgId) {
-        return accessTokenPort.findByOwnerIgId(ownerIgId)
-                .map(TokenStatusDto::from)
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND, "Brak tokenu dla: " + ownerIgId));
-    }
+    // @GetMapping("/tokens/{ownerIgId}")
+    // public TokenStatusDto getToken(@PathVariable String ownerIgId) {
+    //     return accessTokenPort.findByOwnerIgId(ownerIgId)
+    //             .map(TokenStatusDto::from)
+    //             .orElseThrow(() -> new ResponseStatusException(
+    //                     HttpStatus.NOT_FOUND, "Brak tokenu dla: " + ownerIgId));
+    // }
 
     // ── 2. Kolekcja własnych postów ──────────────────────────────────────────
 
@@ -117,14 +119,14 @@ public class DebugController {
         @RequestParam String ownerIgId,
         @RequestParam String competitorHandle) {
 
-        return manageMonitoredProfileService.addProfile(ownerIgId, competitorHandle);
+        return manageMonitoredProfileService.addProfile(ownerIgId, SocialMediaPlatform.INSTAGRAM, competitorHandle);
     }
 
     @DeleteMapping("/monitored-profiles")
     public void deactivateMonitoredProfile(
             @RequestParam String ownerIgId,
             @RequestParam String competitorHandle) {
-        manageMonitoredProfileService.deactivateProfile(ownerIgId, competitorHandle);
+        manageMonitoredProfileService.deactivateProfile(ownerIgId, SocialMediaPlatform.INSTAGRAM, competitorHandle);
     }
 
     @GetMapping("/monitored-profiles/{ownerIgId}")
@@ -134,12 +136,12 @@ public class DebugController {
 
     @PostMapping("/monitored-hashtag")
     public MonitoredHashtag addMonitoredHashtag(@RequestBody MonitoredHashtagRequest request) {
-       return manageMonitoredHashtagService.addHashtag(request.ownerIgId(), request.hashtag());
+       return manageMonitoredHashtagService.addHashtag(request.ownerIgId(), SocialMediaPlatform.INSTAGRAM, request.hashtag());
     }
     
     @DeleteMapping("/monitored-hashtag")
     public void deactivateMonitoredHashtag(@RequestBody MonitoredHashtagRequest request) {
-        manageMonitoredHashtagService.deactivateHashtag(request.ownerIgId, request.hashtag);
+        manageMonitoredHashtagService.deactivateHashtag(request.ownerIgId(), SocialMediaPlatform.INSTAGRAM, request.hashtag());
     }
 
     // ── DTOs ─────────────────────────────────────────────────────────────────

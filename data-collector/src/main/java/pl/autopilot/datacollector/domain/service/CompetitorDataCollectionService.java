@@ -2,7 +2,7 @@ package pl.autopilot.datacollector.domain.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import pl.autopilot.datacollector.domain.model.AccessToken;
+
 import pl.autopilot.datacollector.domain.model.CollectedPost;
 import pl.autopilot.datacollector.domain.model.CompetitorProfile;
 import pl.autopilot.datacollector.domain.model.MonitoredProfile;
@@ -12,6 +12,7 @@ import pl.autopilot.datacollector.domain.port.out.AccessTokenPort;
 import pl.autopilot.datacollector.domain.port.out.CompetitorEventPort;
 import pl.autopilot.datacollector.domain.port.out.MonitoredProfilePort;
 import pl.autopilot.datacollector.domain.port.out.SocialMediaPort;
+import pl.autopilot.datacollector.domain.model.AccessToken;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;

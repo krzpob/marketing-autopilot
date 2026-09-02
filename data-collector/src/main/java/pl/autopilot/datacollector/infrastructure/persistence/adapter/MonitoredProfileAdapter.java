@@ -3,6 +3,7 @@ package pl.autopilot.datacollector.infrastructure.persistence.adapter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import pl.autopilot.datacollector.domain.model.MonitoredProfile;
+import pl.autopilot.datacollector.domain.model.SocialMediaPlatform;
 import pl.autopilot.datacollector.domain.port.out.MonitoredProfilePort;
 import pl.autopilot.datacollector.infrastructure.persistence.entity.MonitoredProfileEntity;
 import pl.autopilot.datacollector.infrastructure.persistence.repository.MonitoredProfileJpaRepository;
@@ -36,11 +37,18 @@ public class MonitoredProfileAdapter implements MonitoredProfilePort {
     }
 
     @Override
-    public Optional<MonitoredProfile> findByOwnerIgIdAndHandle(String ownerIgId,
-                                                                String competitorIgHandle) {
-        return repository
-                .findByOwnerIgIdAndCompetitorIgHandle(ownerIgId, competitorIgHandle)
+    public Optional<MonitoredProfile> findByOwnerIgIdAndPlatformAndHandle(
+            String ownerIgId, SocialMediaPlatform platform, String competitorIgHandle) {
+        return repository.findByOwnerIgIdAndPlatformAndCompetitorIgHandle(
+                        ownerIgId, platform.name(), competitorIgHandle)
                 .map(this::toDomain);
+    }
+
+    @Override
+    public List<MonitoredProfile> findAllByOwnerIgIdAndHandle(
+            String ownerIgId, String competitorIgHandle) {
+        return repository.findAllByOwnerIgIdAndCompetitorIgHandle(ownerIgId, competitorIgHandle)
+                .stream().map(this::toDomain).toList();
     }
 
     @Override
@@ -72,6 +80,7 @@ public class MonitoredProfileAdapter implements MonitoredProfilePort {
         entity.setActive(domain.isActive());
         entity.setCreatedAt(domain.getCreatedAt());
         entity.setLastCollectedAt(domain.getLastCollectedAt());
+        entity.setPlatform(domain.getPlatform().name()); // mapowanie SocialMediaPlatform na String
         return entity;
     }
 
@@ -83,6 +92,7 @@ public class MonitoredProfileAdapter implements MonitoredProfilePort {
                 .active(entity.isActive())
                 .createdAt(entity.getCreatedAt())
                 .lastCollectedAt(entity.getLastCollectedAt())
+                .platform(SocialMediaPlatform.valueOf(entity.getPlatform())) // mapowanie String na SocialMediaPlatform
                 .build();
     }
 }

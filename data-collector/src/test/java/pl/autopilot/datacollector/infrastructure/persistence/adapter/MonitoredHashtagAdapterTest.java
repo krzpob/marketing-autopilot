@@ -7,6 +7,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import pl.autopilot.datacollector.domain.model.MonitoredHashtag;
+import pl.autopilot.datacollector.domain.model.SocialMediaPlatform;
 import pl.autopilot.datacollector.infrastructure.persistence.entity.MonitoredHashtagEntity;
 import pl.autopilot.datacollector.infrastructure.persistence.repository.MonitoredHashtagJpaRepository;
 
@@ -93,31 +94,60 @@ class MonitoredHashtagAdapterTest {
         then(adapter.findAllActiveByHashtag("nieznany")).isEmpty();
     }
 
-    // ── findByOwnerIgIdAndHashtag ─────────────────────────────────────────────
+    // ── findByOwnerIgIdAndPlatformAndHashtag ─────────────────────────────────
 
     @Test
     void shouldReturnHashtagWhenFound() {
         // given
-        given(repository.findByOwnerIgIdAndHashtag("ig_123", "fotografia"))
+        given(repository.findByOwnerIgIdAndPlatformAndHashtag(
+                "ig_123", "INSTAGRAM", "fotografia"))
                 .willReturn(Optional.of(anEntity()));
 
         // when
-        Optional<MonitoredHashtag> result =
-                adapter.findByOwnerIgIdAndHashtag("ig_123", "fotografia");
+        Optional<MonitoredHashtag> result = adapter.findByOwnerIgIdAndPlatformAndHashtag(
+                "ig_123", SocialMediaPlatform.INSTAGRAM, "fotografia");
 
         // then
         then(result).isPresent();
         then(result.get().getHashtag()).isEqualTo("fotografia");
+        then(result.get().getPlatform()).isEqualTo(SocialMediaPlatform.INSTAGRAM);
     }
 
     @Test
     void shouldReturnEmptyWhenHashtagNotFound() {
         // given
-        given(repository.findByOwnerIgIdAndHashtag(any(), any()))
+        given(repository.findByOwnerIgIdAndPlatformAndHashtag(any(), any(), any()))
                 .willReturn(Optional.empty());
 
         // when / then
-        then(adapter.findByOwnerIgIdAndHashtag("ig_123", "nieznany")).isEmpty();
+        then(adapter.findByOwnerIgIdAndPlatformAndHashtag(
+                "ig_123", SocialMediaPlatform.INSTAGRAM, "nieznany")).isEmpty();
+    }
+
+    // ── findAllByOwnerIgIdAndHashtag — wszystkie platformy ───────────────────
+
+    @Test
+    void shouldReturnAllPlatformEntriesForHashtag() {
+        // given
+        given(repository.findAllByOwnerIgIdAndHashtag("ig_123", "fotografia"))
+                .willReturn(List.of(anEntity(), anEntity()));
+
+        // when
+        List<MonitoredHashtag> result =
+                adapter.findAllByOwnerIgIdAndHashtag("ig_123", "fotografia");
+
+        // then
+        then(result).hasSize(2);
+    }
+
+    @Test
+    void shouldReturnEmptyListWhenNoEntriesForHashtagOnAnyPlatform() {
+        // given
+        given(repository.findAllByOwnerIgIdAndHashtag("ig_123", "nieznany"))
+                .willReturn(List.of());
+
+        // when / then
+        then(adapter.findAllByOwnerIgIdAndHashtag("ig_123", "nieznany")).isEmpty();
     }
 
     // ── updateLastCollectedAt ─────────────────────────────────────────────────
@@ -179,22 +209,26 @@ class MonitoredHashtagAdapterTest {
         entity.setId(id);
         entity.setOwnerIgId("ig_123");
         entity.setHashtag("fotografia");
+        entity.setPlatform("INSTAGRAM");
         entity.setActive(true);
         entity.setCreatedAt(created);
         entity.setLastCollectedAt(lastCol);
 
-        given(repository.findByOwnerIgIdAndHashtag("ig_123", "fotografia"))
+        given(repository.findByOwnerIgIdAndPlatformAndHashtag(
+                "ig_123", "INSTAGRAM", "fotografia"))
                 .willReturn(Optional.of(entity));
 
         // when
         MonitoredHashtag result = adapter
-                .findByOwnerIgIdAndHashtag("ig_123", "fotografia")
+                .findByOwnerIgIdAndPlatformAndHashtag(
+                        "ig_123", SocialMediaPlatform.INSTAGRAM, "fotografia")
                 .orElseThrow();
 
         // then
         then(result.getId()).isEqualTo(id);
         then(result.getOwnerIgId()).isEqualTo("ig_123");
         then(result.getHashtag()).isEqualTo("fotografia");
+        then(result.getPlatform()).isEqualTo(SocialMediaPlatform.INSTAGRAM);
         then(result.isActive()).isTrue();
         then(result.getCreatedAt()).isEqualTo(created);
         then(result.getLastCollectedAt()).isEqualTo(lastCol);
@@ -206,6 +240,7 @@ class MonitoredHashtagAdapterTest {
         return MonitoredHashtag.builder()
                 .ownerIgId("ig_123")
                 .hashtag("fotografia")
+                .platform(SocialMediaPlatform.INSTAGRAM)
                 .build();
     }
 
@@ -218,6 +253,7 @@ class MonitoredHashtagAdapterTest {
         entity.setId(id);
         entity.setOwnerIgId("ig_123");
         entity.setHashtag("fotografia");
+        entity.setPlatform("INSTAGRAM");
         entity.setActive(true);
         entity.setCreatedAt(Instant.now().minusSeconds(3600));
         return entity;

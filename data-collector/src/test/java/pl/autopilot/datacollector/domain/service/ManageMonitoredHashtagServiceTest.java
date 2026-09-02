@@ -9,6 +9,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import pl.autopilot.datacollector.domain.model.ChangeType;
 import pl.autopilot.datacollector.domain.model.MonitoredHashtag;
+import pl.autopilot.datacollector.domain.model.SocialMediaPlatform;
 import pl.autopilot.datacollector.domain.port.out.MonitoredHashtagEventPort;
 import pl.autopilot.datacollector.domain.port.out.MonitoredHashtagPort;
 
@@ -38,11 +39,11 @@ class ManageMonitoredHashtagServiceTest {
     @Test
     void shouldCreateNewHashtagWhenNotExists() {
         // given
-        given(monitoredHashtagPort.findByOwnerIgIdAndHashtag(OWNER_IG_ID, HASHTAG))
+        given(monitoredHashtagPort.findByOwnerIgIdAndPlatformAndHashtag(OWNER_IG_ID, SocialMediaPlatform.INSTAGRAM, HASHTAG))
                 .willReturn(Optional.empty());
 
         // when
-        MonitoredHashtag result = service.addHashtag(OWNER_IG_ID, HASHTAG);
+        MonitoredHashtag result = service.addHashtag(OWNER_IG_ID, SocialMediaPlatform.INSTAGRAM, HASHTAG);
 
         // then
         then(result.getOwnerIgId()).isEqualTo(OWNER_IG_ID);
@@ -54,11 +55,11 @@ class ManageMonitoredHashtagServiceTest {
     @Test
     void shouldPublishAddedEventForNewHashtag() {
         // given
-        given(monitoredHashtagPort.findByOwnerIgIdAndHashtag(OWNER_IG_ID, HASHTAG))
+        given(monitoredHashtagPort.findByOwnerIgIdAndPlatformAndHashtag(OWNER_IG_ID, SocialMediaPlatform.INSTAGRAM, HASHTAG))
                 .willReturn(Optional.empty());
 
         // when
-        MonitoredHashtag result = service.addHashtag(OWNER_IG_ID, HASHTAG);
+        MonitoredHashtag result = service.addHashtag(OWNER_IG_ID, SocialMediaPlatform.INSTAGRAM, HASHTAG);
 
         // then
         BDDMockito.then(monitoredHashtagEventPort).should()
@@ -77,11 +78,11 @@ class ManageMonitoredHashtagServiceTest {
                 .active(false)
                 .build();
 
-        given(monitoredHashtagPort.findByOwnerIgIdAndHashtag(OWNER_IG_ID, HASHTAG))
+        given(monitoredHashtagPort.findByOwnerIgIdAndPlatformAndHashtag(OWNER_IG_ID, SocialMediaPlatform.INSTAGRAM, HASHTAG))
                 .willReturn(Optional.of(inactive));
 
         // when
-        MonitoredHashtag result = service.addHashtag(OWNER_IG_ID, HASHTAG);
+        MonitoredHashtag result = service.addHashtag(OWNER_IG_ID, SocialMediaPlatform.INSTAGRAM, HASHTAG);
 
         // then
         then(result.isActive()).isTrue();
@@ -102,11 +103,11 @@ class ManageMonitoredHashtagServiceTest {
                 .active(true)
                 .build();
 
-        given(monitoredHashtagPort.findByOwnerIgIdAndHashtag(OWNER_IG_ID, HASHTAG))
+        given(monitoredHashtagPort.findByOwnerIgIdAndPlatformAndHashtag(OWNER_IG_ID, SocialMediaPlatform.INSTAGRAM, HASHTAG))
                 .willReturn(Optional.of(active));
 
         // when
-        service.deactivateHashtag(OWNER_IG_ID, HASHTAG);
+        service.deactivateHashtag(OWNER_IG_ID, SocialMediaPlatform.INSTAGRAM, HASHTAG);
 
         // then
         ArgumentCaptor<MonitoredHashtag> captor =
@@ -121,11 +122,11 @@ class ManageMonitoredHashtagServiceTest {
     @Test
     void shouldThrowWhenDeactivatingNonExistentHashtag() {
         // given
-        given(monitoredHashtagPort.findByOwnerIgIdAndHashtag(OWNER_IG_ID, HASHTAG))
+        given(monitoredHashtagPort.findByOwnerIgIdAndPlatformAndHashtag(OWNER_IG_ID, SocialMediaPlatform.INSTAGRAM, HASHTAG))
                 .willReturn(Optional.empty());
 
         // when / then
-        thenThrownBy(() -> service.deactivateHashtag(OWNER_IG_ID, HASHTAG))
+        thenThrownBy(() -> service.deactivateHashtag(OWNER_IG_ID, SocialMediaPlatform.INSTAGRAM, HASHTAG))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining(OWNER_IG_ID)
                 .hasMessageContaining(HASHTAG);

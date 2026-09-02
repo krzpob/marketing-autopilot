@@ -16,6 +16,9 @@ public class MonitoredProfile {
     private String competitorIgHandle;
 
     @Default
+    private SocialMediaPlatform platform = SocialMediaPlatform.INSTAGRAM;
+
+    @Default
     private boolean active = true;
 
     @Builder.Default

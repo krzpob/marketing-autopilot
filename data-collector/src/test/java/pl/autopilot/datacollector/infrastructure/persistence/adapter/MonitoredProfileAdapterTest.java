@@ -7,6 +7,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import pl.autopilot.datacollector.domain.model.MonitoredProfile;
+import pl.autopilot.datacollector.domain.model.SocialMediaPlatform;
 import pl.autopilot.datacollector.infrastructure.persistence.entity.MonitoredProfileEntity;
 import pl.autopilot.datacollector.infrastructure.persistence.repository.MonitoredProfileJpaRepository;
 
@@ -84,31 +85,60 @@ class MonitoredProfileAdapterTest {
         BDDMockito.then(repository).should().findAllByActiveTrue();
     }
 
-    // ── findByOwnerIgIdAndHandle ─────────────────────────────────────────────
+    // ── findByOwnerIgIdAndPlatformAndHandle ──────────────────────────────────
 
     @Test
     void shouldReturnProfileWhenFound() {
         // given
-        given(repository.findByOwnerIgIdAndCompetitorIgHandle("ig_123", "rywal_pl"))
+        given(repository.findByOwnerIgIdAndPlatformAndCompetitorIgHandle(
+                "ig_123", "INSTAGRAM", "rywal_pl"))
                 .willReturn(Optional.of(anEntity()));
 
         // when
-        Optional<MonitoredProfile> result =
-                adapter.findByOwnerIgIdAndHandle("ig_123", "rywal_pl");
+        Optional<MonitoredProfile> result = adapter.findByOwnerIgIdAndPlatformAndHandle(
+                "ig_123", SocialMediaPlatform.INSTAGRAM, "rywal_pl");
 
         // then
         then(result).isPresent();
         then(result.get().getCompetitorIgHandle()).isEqualTo("rywal_pl");
+        then(result.get().getPlatform()).isEqualTo(SocialMediaPlatform.INSTAGRAM);
     }
 
     @Test
     void shouldReturnEmptyWhenProfileNotFound() {
         // given
-        given(repository.findByOwnerIgIdAndCompetitorIgHandle(any(), any()))
+        given(repository.findByOwnerIgIdAndPlatformAndCompetitorIgHandle(any(), any(), any()))
                 .willReturn(Optional.empty());
 
         // when / then
-        then(adapter.findByOwnerIgIdAndHandle("ig_123", "nieznany")).isEmpty();
+        then(adapter.findByOwnerIgIdAndPlatformAndHandle(
+                "ig_123", SocialMediaPlatform.INSTAGRAM, "nieznany")).isEmpty();
+    }
+
+    // ── findAllByOwnerIgIdAndHandle — wszystkie platformy ────────────────────
+
+    @Test
+    void shouldReturnAllPlatformEntriesForHandle() {
+        // given
+        given(repository.findAllByOwnerIgIdAndCompetitorIgHandle("ig_123", "rywal_pl"))
+                .willReturn(List.of(anEntity(), anEntity()));
+
+        // when
+        List<MonitoredProfile> result =
+                adapter.findAllByOwnerIgIdAndHandle("ig_123", "rywal_pl");
+
+        // then
+        then(result).hasSize(2);
+    }
+
+    @Test
+    void shouldReturnEmptyListWhenNoEntriesForHandleOnAnyPlatform() {
+        // given
+        given(repository.findAllByOwnerIgIdAndCompetitorIgHandle("ig_123", "nieznany"))
+                .willReturn(List.of());
+
+        // when / then
+        then(adapter.findAllByOwnerIgIdAndHandle("ig_123", "nieznany")).isEmpty();
     }
 
     // ── delete ───────────────────────────────────────────────────────────────
@@ -130,30 +160,34 @@ class MonitoredProfileAdapterTest {
     @Test
     void shouldPreserveAllFieldsInEntityToDomainMapping() {
         // given
-        UUID id        = UUID.randomUUID();
-        Instant created = Instant.now().minusSeconds(3600);
-        Instant lastCol = Instant.now().minusSeconds(600);
+        UUID    id        = UUID.randomUUID();
+        Instant created   = Instant.now().minusSeconds(3600);
+        Instant lastCol   = Instant.now().minusSeconds(600);
 
         MonitoredProfileEntity entity = new MonitoredProfileEntity();
         entity.setId(id);
         entity.setOwnerIgId("ig_123");
         entity.setCompetitorIgHandle("rywal_pl");
+        entity.setPlatform("INSTAGRAM");
         entity.setActive(true);
         entity.setCreatedAt(created);
         entity.setLastCollectedAt(lastCol);
 
-        given(repository.findByOwnerIgIdAndCompetitorIgHandle("ig_123", "rywal_pl"))
+        given(repository.findByOwnerIgIdAndPlatformAndCompetitorIgHandle(
+                "ig_123", "INSTAGRAM", "rywal_pl"))
                 .willReturn(Optional.of(entity));
 
         // when
         MonitoredProfile result = adapter
-                .findByOwnerIgIdAndHandle("ig_123", "rywal_pl")
+                .findByOwnerIgIdAndPlatformAndHandle(
+                        "ig_123", SocialMediaPlatform.INSTAGRAM, "rywal_pl")
                 .orElseThrow();
 
         // then
         then(result.getId()).isEqualTo(id);
         then(result.getOwnerIgId()).isEqualTo("ig_123");
         then(result.getCompetitorIgHandle()).isEqualTo("rywal_pl");
+        then(result.getPlatform()).isEqualTo(SocialMediaPlatform.INSTAGRAM);
         then(result.isActive()).isTrue();
         then(result.getCreatedAt()).isEqualTo(created);
         then(result.getLastCollectedAt()).isEqualTo(lastCol);
@@ -165,6 +199,7 @@ class MonitoredProfileAdapterTest {
         return MonitoredProfile.builder()
                 .ownerIgId("ig_123")
                 .competitorIgHandle("rywal_pl")
+                .platform(SocialMediaPlatform.INSTAGRAM)
                 .build();
     }
 
@@ -173,6 +208,7 @@ class MonitoredProfileAdapterTest {
         entity.setId(UUID.randomUUID());
         entity.setOwnerIgId("ig_123");
         entity.setCompetitorIgHandle("rywal_pl");
+        entity.setPlatform("INSTAGRAM");
         entity.setActive(true);
         entity.setCreatedAt(Instant.now().minusSeconds(3600));
         return entity;

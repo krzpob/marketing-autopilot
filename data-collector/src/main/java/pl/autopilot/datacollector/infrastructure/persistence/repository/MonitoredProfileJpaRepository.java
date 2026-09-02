@@ -14,7 +14,11 @@ public interface MonitoredProfileJpaRepository
 
     List<MonitoredProfileEntity> findAllByActiveTrue();
 
-    Optional<MonitoredProfileEntity> findByOwnerIgIdAndCompetitorIgHandle(
-            String ownerIgId, String competitorIgHandle);
     List<MonitoredProfileEntity> findAllByCompetitorIgHandleAndActiveTrue(String competitorIgHandle);
+
+    Optional<MonitoredProfileEntity> findByOwnerIgIdAndPlatformAndCompetitorIgHandle(
+        String ownerIgId, String platform, String competitorIgHandle);
+
+    List<MonitoredProfileEntity> findAllByOwnerIgIdAndCompetitorIgHandle(
+        String ownerIgId, String competitorIgHandle);
 }

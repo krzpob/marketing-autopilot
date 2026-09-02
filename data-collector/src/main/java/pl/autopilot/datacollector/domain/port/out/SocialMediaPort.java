@@ -1,10 +1,10 @@
 package pl.autopilot.datacollector.domain.port.out;
 
-import pl.autopilot.datacollector.domain.model.AccessToken;
 import pl.autopilot.datacollector.domain.model.CollectedPost;
 import pl.autopilot.datacollector.domain.model.CompetitorProfile;
 
 import pl.autopilot.datacollector.domain.model.SocialMediaPlatform;
+import pl.autopilot.datacollector.domain.model.AccessToken;
 import pl.autopilot.datacollector.domain.model.HashtagData;
 
 import java.util.List;
