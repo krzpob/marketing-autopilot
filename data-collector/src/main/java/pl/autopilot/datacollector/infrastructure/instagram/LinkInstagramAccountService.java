@@ -17,7 +17,7 @@ import pl.autopilot.datacollector.infrastructure.persistence.repository.AccessTo
 @Service
 @RequiredArgsConstructor
 @Slf4j
-class LinkInstagramAccountService {
+public class LinkInstagramAccountService {
 
     private final KeycloakBrokerClient keycloakBrokerClient;
     private final InstagramOAuthClient instagramOAuthClient;
@@ -36,12 +36,9 @@ class LinkInstagramAccountService {
             throw new InstagramBusinessAccountNotFoundException(ownerId);
         }
 
-        if (accessTokenJpaRepository.findByOwnerIgId(ownerIgId).isPresent()) {
-            log.info("Konto IG już połączone: ownerIgId={}", ownerIgId);
-            return;
-        }
+        AccessTokenEntity entity = accessTokenJpaRepository.findByOwnerIgId(ownerIgId)
+                .orElseGet(AccessTokenEntity::new);
 
-        AccessTokenEntity entity = new AccessTokenEntity();
         entity.setId(UUID.randomUUID());
         entity.setOwnerIgId(ownerIgId);
         entity.setOwnerUsername(ownerUsername);

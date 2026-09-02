@@ -1,6 +1,9 @@
 package pl.autopilot.datacollector.infrastructure.web;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import pl.autopilot.datacollector.domain.port.out.AccessTokenPort;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -8,8 +11,11 @@ import java.util.Map;
 
 @Slf4j
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/meta")
 public class MetaCallbackController {
+
+    private final AccessTokenPort accessTokenPort;
 
     /**
      * Wymagany przez Meta — endpoint do usuwania danych użytkownika.
@@ -23,7 +29,7 @@ public class MetaCallbackController {
         log.info("Otrzymano żądanie usunięcia danych od Meta: {}", payload);
 
         // TODO: implementacja faktycznego usunięcia danych użytkownika z bazy
-        // accessTokenPort.delete(userId);
+        //accessTokenPort.delete(userId);
 
         return ResponseEntity.ok(Map.of(
                 "url",        "https://krzpob.github.io/marketing-autopilot/deletion-status",
